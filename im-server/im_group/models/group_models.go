@@ -15,4 +15,5 @@ type GroupModel struct {
 	IsInvite             bool                        `gorm:"column:is_invite" json:"is_invite"`                         // 是否允许邀请好友加入
 	IsTemporarySession   bool                        `gorm:"column:is_temporary_session" json:"is_temporary_session"`   // 是否临时会话
 	IsProhibition        bool                        `gorm:"column:is_prohibition" json:"is_prohibition"`               // 是否开启全员禁言
+	Size                 int                         `gorm:"column:size" json:"size"`                                   // 群成员数量
 }

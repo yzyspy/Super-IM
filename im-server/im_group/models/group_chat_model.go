@@ -1,15 +1,13 @@
 package models
 
-import (
-	"../../common/models"
-	"../../common/models/ctype"
-)
+import "../../common/models"
+import "../../common/models/ctype"
 
-// 聊天记录表
-type ChatModel struct {
+// 群聊消息
+type GroupChatModel struct {
 	models.Model
 	SenderUserId uint             `gorm:"column:sender_user_id" json:"sender_user_id"` //发送用户ID
-	RecvUserId   uint             `gorm:"column:recv_user_id" json:"recv_user_id"`     //接收用户ID
+	GroupID      uint             `gorm:"column:group_id" json:"group_id"`             //群ID
 	MsgType      uint8            `gorm:"column:msg_type" json:"msg_type"`             //消息类型 1:文本 2:图片
 	MsgPreview   string           `gorm:"column:msg_preview" json:"msg_preview"`       //消息预览
 	Msg          ctype.Msg        `gorm:"column:msg" json:"msg"`                       //消息内容
