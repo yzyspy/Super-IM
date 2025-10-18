@@ -1,7 +1,9 @@
 package models
 
-import "../../common/models"
-import "../../common/models/ctype"
+import (
+	"im-server/common/models"
+	"im-server/common/models/ctype"
+)
 
 // 用户配置表
 type UserConfModel struct {

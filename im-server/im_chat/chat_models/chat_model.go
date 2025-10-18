@@ -1,8 +1,8 @@
 package models
 
 import (
-	"../../common/models"
-	"../../common/models/ctype"
+	"im-server/common/models"
+	"im-server/common/models/ctype"
 )
 
 // 聊天记录表

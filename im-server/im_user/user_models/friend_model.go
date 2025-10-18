@@ -1,6 +1,6 @@
 package models
 
-import "../../common/models"
+import "im-server/common/models"
 
 // 好友表
 type FriendModel struct {

@@ -1,6 +1,6 @@
 package models
 
-import "../../common/models"
+import "im-server/common/models"
 
 type UserModel struct {
 	models.Model
