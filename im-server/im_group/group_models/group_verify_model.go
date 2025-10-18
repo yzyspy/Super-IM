@@ -1,9 +1,7 @@
-package models
+package group_models
 
-import (
-	"../../common/models"
-	"../../common/models/ctype"
-)
+import "im-server/common/models/ctype"
+import "im-server/common/models"
 
 // 加群申请
 type GroupVerifyModel struct {

@@ -1,7 +1,9 @@
-package models
+package user_models
 
-import "../../common/models"
-import "../../common/models/ctype"
+import (
+	"im-server/common/models"
+	"im-server/common/models/ctype"
+)
 
 // 好友申请
 type FriendVerifyModel struct {

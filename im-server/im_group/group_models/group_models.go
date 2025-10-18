@@ -1,7 +1,4 @@
-package models
-
-import "../../common/models"
-import "../../common/models/ctype"
+package group_models
 
 type GroupModel struct {
 	models.Model

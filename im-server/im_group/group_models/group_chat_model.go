@@ -1,7 +1,4 @@
-package models
-
-import "../../common/models"
-import "../../common/models/ctype"
+package group_models
 
 // 群聊消息
 type GroupChatModel struct {
