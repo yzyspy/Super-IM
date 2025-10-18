@@ -2,6 +2,7 @@ package models
 
 import "../../common/models"
 
+// 用户配置表
 type UserConfModel struct {
 	models.Model
 	UserID               uint                  `gorm:"column:user_id" json:"user_id"`
@@ -13,6 +14,7 @@ type UserConfModel struct {
 	SearchUser           uint8                 `gorm:"column:search_user" json:"search_user"`                     //别人查找你的方式 0:不允许查找 1:允许通过用户ID查询 2:允许通过昵称查询
 	FriendVerification   uint8                 `gorm:"column:friend_verification" json:"friend_verification"`     //好友验证方式 0:不允许任何人添加 1:允许任何人添加 2：需要验证消息 3:需要回答问题 4:需要正确回答问题
 	VerificationQuestion *VerificationQuestion `gorm:"column:verification_question" json:"verification_question"` //验证问题
+	Online               bool                  `gorm:"column:online" json:"online"`                               //是否在线
 }
 
 type VerificationQuestion struct {
