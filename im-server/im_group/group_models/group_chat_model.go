@@ -1,5 +1,11 @@
 package group_models
 
+import (
+	"encoding/json"
+	"im-server/common/models"
+	"im-server/common/models/ctype"
+)
+
 // 群聊消息
 type GroupChatModel struct {
 	models.Model
@@ -9,4 +15,19 @@ type GroupChatModel struct {
 	MsgPreview   string           `gorm:"column:msg_preview" json:"msg_preview"`       //消息预览
 	Msg          ctype.Msg        `gorm:"column:msg" json:"msg"`                       //消息内容
 	SystemMsg    *ctype.SystemMsg `gorm:"column:system_msg" json:"system_msg"`         //系统消息
+}
+
+func (g GroupChatModel) toJson() (string, error) {
+	b, err := json.Marshal(g)
+	return string(b), err
+}
+
+// 这个地方要用指针 接受者
+func (g *GroupChatModel) parseObj(obj any) error {
+	return json.Unmarshal(obj.([]byte), g)
+}
+
+// 这个地方要用指针 接受者
+func (g *GroupChatModel) parseObj2(jsonStr string) error {
+	return json.Unmarshal([]byte(jsonStr), g)
 }

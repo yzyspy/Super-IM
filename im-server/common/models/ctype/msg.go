@@ -1,5 +1,7 @@
 package ctype
 
+import "time"
+
 type SystemMsg struct {
 	Type uint8 `gorm:"column:msg_type" json:"msg_type"` //违规类型
 }

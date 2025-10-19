@@ -1,5 +1,10 @@
 package group_models
 
+import (
+	"im-server/common/models"
+	"im-server/common/models/ctype"
+)
+
 type GroupModel struct {
 	models.Model
 	Title                string                      `gorm:"column:title" json:"title"`       //群名称

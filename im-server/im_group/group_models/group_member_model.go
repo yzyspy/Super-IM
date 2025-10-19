@@ -1,6 +1,6 @@
 package group_models
 
-import "../../common/models"
+import "im-server/common/models"
 
 type GroupMemberModel struct {
 	models.Model
