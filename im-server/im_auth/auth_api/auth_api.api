@@ -1,0 +1,53 @@
+// 格式化api文件 : goctl api format --dir test_api.api
+// 生成http代码
+// goctl api go -api auth_api.api -dir .
+type LoginRequest {
+	UserName string `json:"user_name"`
+	Password string `json:"password"`
+}
+
+type Response {
+	Code int    `json:"code"`
+	Msg  string `json:"msg"`
+	Data string `json:"data"`
+}
+
+type LoginInfo {
+	Token string `json:"token"`
+}
+
+type LoginResponse {
+	Code int       `json:"code"`
+	Msg  string    `json:"msg"`
+	Data LoginInfo `json:"data"`
+}
+
+type OpenLoginInfo {
+	Name string `json:"name"`
+	Icon string `json:"icon"`
+	Href string `json:"href"`
+}
+
+type OpenLoginResponse {
+	Code int             `json:"code"`
+	Msg  string          `json:"msg"`
+	Data []OpenLoginInfo `json:"data"`
+}
+
+service auth {
+	@handler login
+	post /api/auth/login (LoginRequest) returns (LoginResponse) // 登录接口
+
+	@handler authentication
+	post /api/auth/authentication returns (Response) //认证接口
+
+	@handler logout
+	post /api/auth/logout returns (Response) // 注销
+
+	@handler open_login_info
+	post /api/auth/open_login_info returns (OpenLoginResponse) // 第三方登录的信息
+
+	@handler open_login
+	post /api/auth/open_login returns (LoginResponse) // 第三方登录接口
+}
+

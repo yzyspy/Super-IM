@@ -14,6 +14,7 @@ var DB *gorm.DB
 func NewDB() {
 	dsn := "root:a12345678@tcp(127.0.0.1:3306)/my_qq?charset=utf8mb4&parseTime=True&loc=Local"
 	db, error := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+
 	//初始化sys_user表
 	db.AutoMigrate(
 		&user_models.UserModel{},         //用户表
