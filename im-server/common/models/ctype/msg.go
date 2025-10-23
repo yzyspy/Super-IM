@@ -1,9 +1,33 @@
 package ctype
 
-import "time"
+import (
+	"database/sql/driver"
+	"encoding/json"
+	"errors"
+	"time"
+)
 
 type SystemMsg struct {
 	Type uint8 `gorm:"column:msg_type" json:"msg_type"` //违规类型
+}
+
+// Value 实现 driver.Valuer 接口
+func (v SystemMsg) Value() (driver.Value, error) {
+	return json.Marshal(v)
+}
+
+// Scan 实现 sql.Scanner 接口
+func (v *SystemMsg) Scan(value interface{}) error {
+	bytes, ok := value.([]byte)
+	if !ok {
+		return errors.New("type assertion to []byte failed")
+	}
+	return json.Unmarshal(bytes, v)
+}
+
+// GormDataType 指定 GORM 数据类型
+func (SystemMsg) GormDataType() string {
+	return "json"
 }
 
 type Msg struct {
@@ -19,6 +43,25 @@ type Msg struct {
 	ReplyMsg     *ReplyMsg     `gorm:"column:reply_msg" json:"reply_msg"`           //回复消息
 	QuoteMsg     *QuoteMsg     `gorm:"column:quote_msg" json:"quote_msg"`           //引用消息
 	AtMsg        *AtMsg        `gorm:"column:at_msg" json:"at_msg"`                 //@消息
+}
+
+// Value 实现 driver.Valuer 接口
+func (v Msg) Value() (driver.Value, error) {
+	return json.Marshal(v)
+}
+
+// Scan 实现 sql.Scanner 接口
+func (v *Msg) Scan(value interface{}) error {
+	bytes, ok := value.([]byte)
+	if !ok {
+		return errors.New("type assertion to []byte failed")
+	}
+	return json.Unmarshal(bytes, v)
+}
+
+// GormDataType 指定 GORM 数据类型
+func (Msg) GormDataType() string {
+	return "json"
 }
 
 type ImageMsg struct {

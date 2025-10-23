@@ -1,7 +1,6 @@
 package group_models
 
 import (
-	"encoding/json"
 	"im-server/common/models"
 	"im-server/common/models/ctype"
 )
@@ -17,17 +16,17 @@ type GroupChatModel struct {
 	SystemMsg    *ctype.SystemMsg `gorm:"column:system_msg" json:"system_msg"`            //系统消息
 }
 
-func (g GroupChatModel) toJson() (string, error) {
-	b, err := json.Marshal(g)
-	return string(b), err
-}
-
-// 这个地方要用指针 接受者
-func (g *GroupChatModel) parseObj(obj any) error {
-	return json.Unmarshal(obj.([]byte), g)
-}
-
-// 这个地方要用指针 接受者
-func (g *GroupChatModel) parseObj2(jsonStr string) error {
-	return json.Unmarshal([]byte(jsonStr), g)
-}
+//func (g GroupChatModel) toJson() (string, error) {
+//	b, err := json.Marshal(g)
+//	return string(b), err
+//}
+//
+//// 这个地方要用指针 接受者
+//func (g *GroupChatModel) parseObj(obj any) error {
+//	return json.Unmarshal(obj.([]byte), g)
+//}
+//
+//// 这个地方要用指针 接受者
+//func (g *GroupChatModel) parseObj2(jsonStr string) error {
+//	return json.Unmarshal([]byte(jsonStr), g)
+//}

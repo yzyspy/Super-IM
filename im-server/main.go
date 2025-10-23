@@ -37,5 +37,5 @@ func NewDB() {
 }
 
 func main() {
-	// NewDB()
+	NewDB()
 }
