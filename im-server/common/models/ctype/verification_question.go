@@ -15,12 +15,15 @@ type VerificationQuestion struct {
 	Answer3   *string `gorm:"column:answer" json:"answer3"`     //验证问题的答案
 }
 
-// Value 实现 driver.Valuer 接口
+// Value 实现 driver.Valuer 接口, driver.Valuer 用于将自定义类型转换为数据库支持的类型（写入数据库）。
 func (v VerificationQuestion) Value() (driver.Value, error) {
 	return json.Marshal(v)
 }
 
-// Scan 实现 sql.Scanner 接口
+// Scan 实现 sql.Scanner 接口， 当从数据库读取数据时，GORM或标准库的database/sql会调用该类型的Scan()方法，
+// 将数据库返回的数据（可能是[]byte或string等）转换回自定义类型。
+//
+// 例如，如果数据库存储的是JSON字符串，你可以在Scan()方法中将其反序列化到自定义结构体。
 func (v *VerificationQuestion) Scan(value interface{}) error {
 	bytes, ok := value.([]byte)
 	if !ok {
