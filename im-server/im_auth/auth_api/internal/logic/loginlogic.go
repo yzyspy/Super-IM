@@ -5,8 +5,10 @@ package logic
 
 import (
 	"context"
-	"fmt"
 	"im-server/im_auth/auth_models"
+	"im-server/utils/jwt"
+	"im-server/utils/pwd"
+	"strconv"
 
 	"im-server/im_auth/auth_api/internal/svc"
 	"im-server/im_auth/auth_api/internal/types"
@@ -31,17 +33,31 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 func (l *LoginLogic) Login(req *types.LoginRequest) (resp *types.LoginResponse, err error) {
 	user_model := auth_models.UserModel{}
 	l.svcCtx.DB.Take(&user_model, "nickname = ?", req.UserName)
-
-	fmt.Printf("get user_model: %v\n", user_model)
-	// 校验用户密码是否正确
-
+	//用户不存在
+	if user_model.ID == 0 {
+		return &types.LoginResponse{
+			Code: 1,
+			Msg:  "user not exist, check your username",
+			Data: types.LoginInfo{},
+		}, nil
+	}
+	// 判断密码是否正确
+	is_pwd_right := pwd.CheckPwd(user_model.Pwd, req.Password)
+	if !is_pwd_right {
+		return &types.LoginResponse{
+			Code: 1,
+			Msg:  "password error, check your password",
+			Data: types.LoginInfo{},
+		}, nil
+	}
 	// 生成jwt token
+	token, _ := jwt.GenerateJWT(strconv.Itoa(int(user_model.ID)), user_model.Nickname)
 
 	return &types.LoginResponse{
 		Code: 0,
 		Msg:  "success",
 		Data: types.LoginInfo{
-			Token: "123456",
+			Token: token,
 		},
 	}, nil
 }

@@ -7,6 +7,12 @@ import (
 	"time"
 )
 
+const JWT_SECRET_KEY = "your-secret-key"
+
+const SIGNER = "your-app-name"
+
+var secretKey = []byte(JWT_SECRET_KEY)
+
 // 定义自定义声明结构体，可以包含标准声明和自定义字段
 type CustomClaims struct {
 	UserID   string `json:"user_id"`
@@ -15,7 +21,6 @@ type CustomClaims struct {
 }
 
 // 密钥，用于签名和验证 Token，请务必保密且足够复杂
-var secretKey = []byte("your-secret-key")
 
 // GenerateJWT 生成 JWT Token
 func GenerateJWT(userID, username string) (string, error) {
@@ -28,7 +33,7 @@ func GenerateJWT(userID, username string) (string, error) {
 		Username: username,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(), // 过期时间
-			Issuer:    "your-app-name",       // 签发者
+			Issuer:    SIGNER,                // 签发者
 			IssuedAt:  time.Now().Unix(),     // 签发时间
 		},
 	}

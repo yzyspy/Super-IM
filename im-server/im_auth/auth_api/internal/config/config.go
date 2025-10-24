@@ -5,17 +5,17 @@ package config
 
 import "github.com/zeromicro/go-zero/rest"
 
-type MySql struct {
-	DataSource string
-}
-type Config struct {
-	rest.RestConf
-	MySql
-}
-
+//type MySql struct {
+//	DataSource string
+//}
 //type Config struct {
 //	rest.RestConf
-//	MySql struct {
-//		DataSource string
-//	}
+//	MySql
 //}
+
+type Config struct {
+	rest.RestConf
+	MySql struct {
+		DataSource string
+	}
+}
