@@ -5,6 +5,8 @@ package logic
 
 import (
 	"context"
+	"fmt"
+	"im-server/im_auth/auth_models"
 
 	"im-server/im_auth/auth_api/internal/svc"
 	"im-server/im_auth/auth_api/internal/types"
@@ -27,7 +29,13 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 }
 
 func (l *LoginLogic) Login(req *types.LoginRequest) (resp *types.LoginResponse, err error) {
-	// todo: add your logic here and delete this line
+	user_model := auth_models.UserModel{}
+	l.svcCtx.DB.Take(&user_model, "nickname = ?", req.UserName)
+
+	fmt.Printf("get user_model: %v\n", user_model)
+	// 校验用户密码是否正确
+
+	// 生成jwt token
 
 	return &types.LoginResponse{
 		Code: 0,
