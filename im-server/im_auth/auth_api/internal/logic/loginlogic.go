@@ -9,6 +9,7 @@ import (
 	"im-server/utils/jwt"
 	"im-server/utils/pwd"
 	"strconv"
+	"time"
 
 	"im-server/im_auth/auth_api/internal/svc"
 	"im-server/im_auth/auth_api/internal/types"
@@ -31,6 +32,9 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 }
 
 func (l *LoginLogic) Login(req *types.LoginRequest) (resp *types.LoginResponse, err error) {
+
+	l.svcCtx.Redis.Set("yzy", "123", time.Duration(time.Duration.Seconds(60)))
+
 	user_model := auth_models.UserModel{}
 	l.svcCtx.DB.Take(&user_model, "nickname = ?", req.UserName)
 	//用户不存在

@@ -18,4 +18,10 @@ type Config struct {
 	MySql struct {
 		DataSource string
 	}
+
+	Redis struct {
+		Host     string
+		Port     int
+		Password string
+	}
 }

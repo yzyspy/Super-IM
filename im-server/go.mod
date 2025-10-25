@@ -3,6 +3,8 @@ module im-server
 go 1.24.4
 
 require (
+	github.com/golang-jwt/jwt/v4 v4.5.2
+	github.com/redis/go-redis v6.15.9+incompatible
 	github.com/zeromicro/go-zero v1.9.2
 	golang.org/x/crypto v0.33.0
 	gorm.io/driver/mysql v1.6.0
@@ -17,8 +19,8 @@ require (
 	github.com/fatih/color v1.18.0 // indirect
 	github.com/go-logr/logr v1.4.2 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
+	github.com/go-redis/redis v6.15.9+incompatible // indirect
 	github.com/go-sql-driver/mysql v1.9.3 // indirect
-	github.com/golang-jwt/jwt/v4 v4.5.2 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/grafana/pyroscope-go v1.2.7 // indirect
 	github.com/grafana/pyroscope-go/godeltaprof v0.1.9 // indirect
@@ -29,6 +31,7 @@ require (
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
+	github.com/onsi/ginkgo v1.16.5 // indirect
 	github.com/openzipkin/zipkin-go v0.4.3 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.2 // indirect
 	github.com/prometheus/client_golang v1.21.1 // indirect
