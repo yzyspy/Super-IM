@@ -5,6 +5,9 @@ package logic
 
 import (
 	"context"
+	"fmt"
+	"im-server/utils/jwt"
+	"time"
 
 	"im-server/im_auth/auth_api/internal/svc"
 	"im-server/im_auth/auth_api/internal/types"
@@ -26,8 +29,26 @@ func NewLogoutLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LogoutLogi
 	}
 }
 
-func (l *LogoutLogic) Logout() (resp *types.Response, err error) {
-	// todo: add your logic here and delete this line
+func (l *LogoutLogic) Logout(token string) (resp *types.Response, err error) {
+	if token == "" {
+		return &types.Response{
+			Code: 401,
+			Msg:  "token is required",
+		}, nil
+	}
+	payLoad, parseTokenError := jwt.ParseJWT(token)
+	if parseTokenError != nil {
+		return &types.Response{
+			Code: 401,
+			Msg:  "token invalid",
+		}, nil
+	}
+	expireTime := payLoad.ExpiresAt - time.Now().Unix()
+	key := fmt.Sprintf("logout_%d", payLoad.UserID)
+	l.svcCtx.Redis.SetNX(key, "1", time.Duration(expireTime)*time.Second)
 
-	return
+	return &types.Response{
+		Code: 200,
+		Msg:  "logout success",
+	}, nil
 }
