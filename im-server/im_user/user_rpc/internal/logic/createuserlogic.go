@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"fmt"
 
 	"im-server/im_user/user_rpc/internal/svc"
 	"im-server/im_user/user_rpc/types/user_rpc"
@@ -25,6 +26,6 @@ func NewCreateUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Create
 
 func (l *CreateUserLogic) CreateUser(in *user_rpc.UserCreateRequest) (*user_rpc.UserCreateResponse, error) {
 	// todo: add your logic here and delete this line
-
+	fmt.Println("CreateUserLogic yangzhongyu")
 	return &user_rpc.UserCreateResponse{}, nil
 }

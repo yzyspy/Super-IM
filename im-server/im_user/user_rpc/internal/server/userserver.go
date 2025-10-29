@@ -6,6 +6,7 @@ package server
 
 import (
 	"context"
+	"fmt"
 
 	"im-server/im_user/user_rpc/internal/logic"
 	"im-server/im_user/user_rpc/internal/svc"
@@ -25,5 +26,8 @@ func NewUserServer(svcCtx *svc.ServiceContext) *UserServer {
 
 func (s *UserServer) CreateUser(ctx context.Context, in *user_rpc.UserCreateRequest) (*user_rpc.UserCreateResponse, error) {
 	l := logic.NewCreateUserLogic(ctx, s.svcCtx)
+	fmt.Println("CreateUser success111", in)
+	l.Logger.Info("CreateUser success222", in)
+	fmt.Println("CreateUser success333", in)
 	return l.CreateUser(in)
 }
