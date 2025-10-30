@@ -6,6 +6,11 @@ type LoginRequest {
 	Password string `json:"password"`
 }
 
+type RegisterRequest {
+	UserName string `json:"user_name"`
+	Password string `json:"password"`
+}
+
 type Response {
 	Code int    `json:"code"`
 	Msg  string `json:"msg"`
@@ -43,6 +48,9 @@ service auth {
 
 	@handler logout
 	post /api/auth/logout returns (Response) // 注销
+
+	@handler register
+	post /api/auth/register (RegisterRequest) returns (Response) // 注册接口
 
 	@handler open_login_info
 	post /api/auth/open_login_info returns (OpenLoginResponse) // 第三方登录的信息

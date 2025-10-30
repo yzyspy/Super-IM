@@ -30,6 +30,11 @@ type OpenLoginResponse struct {
 	Data []OpenLoginInfo `json:"data"`
 }
 
+type RegisterRequest struct {
+	UserName string `json:"user_name"`
+	Password string `json:"password"`
+}
+
 type Response struct {
 	Code int    `json:"code"`
 	Msg  string `json:"msg"`

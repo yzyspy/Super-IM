@@ -5,8 +5,6 @@ package logic
 
 import (
 	"context"
-	"im-server/im_user/user_rpc/types/user_rpc"
-
 	"im-server/im_auth/auth_api/internal/svc"
 	"im-server/im_auth/auth_api/internal/types"
 
@@ -28,8 +26,5 @@ func NewOpen_loginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Open_l
 }
 
 func (l *Open_loginLogic) Open_login() (resp *types.LoginResponse, err error) {
-	l.svcCtx.UserRpc.CreateUser(l.ctx, &user_rpc.UserCreateRequest{NickName: "test", Password: "123456"})
-	return &types.LoginResponse{
-		Msg: "test",
-	}, nil
+	return
 }
