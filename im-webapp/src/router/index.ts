@@ -19,12 +19,12 @@ const router = createRouter({
             component: () => import('@/views/web/index.vue'),
             children: [
                 {
-                    path: '/contact',
+                    path: '',
                     name: 'contact',
                     component: () => import('@/views/web/contact/index.vue'),
                     children: [
                         {
-                            path: '/user_list',
+                            path: '',
                             name: 'user_list',
                             component: () => import('@/views/web/contact/user_list.vue')
                         },

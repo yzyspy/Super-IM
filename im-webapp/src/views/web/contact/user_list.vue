@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  user_list
+  <div><el-button type="danger">user_list</el-button></div>
 </template>
 
 <style scoped>
