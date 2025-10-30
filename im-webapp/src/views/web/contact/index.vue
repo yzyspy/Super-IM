@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <router-view></router-view>
+  contact
 </template>
 
 <style scoped>

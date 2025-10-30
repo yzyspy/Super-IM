@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <router-view></router-view>
+  user_list
 </template>
 
 <style scoped>

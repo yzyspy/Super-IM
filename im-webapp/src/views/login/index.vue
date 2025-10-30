@@ -1,8 +1,9 @@
 <script setup lang="ts">
+
 </script>
 
 <template>
-  <router-view></router-view>
+登录
 </template>
 
 <style scoped>

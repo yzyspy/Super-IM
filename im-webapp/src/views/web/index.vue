@@ -2,7 +2,8 @@
 </script>
 
 <template>
-  <router-view></router-view>
+  <div>test</div>
+  <div><el-button type="danger">test</el-button></div>
 </template>
 
 <style scoped>
