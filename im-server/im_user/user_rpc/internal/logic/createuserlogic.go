@@ -2,10 +2,10 @@ package logic
 
 import (
 	"context"
-	"fmt"
-
+	"im-server/im_user/user_models"
 	"im-server/im_user/user_rpc/internal/svc"
 	"im-server/im_user/user_rpc/types/user_rpc"
+	"im-server/utils/pwd"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -24,8 +24,15 @@ func NewCreateUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Create
 	}
 }
 
-func (l *CreateUserLogic) CreateUser(in *user_rpc.UserCreateRequest) (*user_rpc.UserCreateResponse, error) {
-	// todo: add your logic here and delete this line
-	fmt.Println("CreateUserLogic yangzhongyu")
-	return &user_rpc.UserCreateResponse{}, nil
+func (l *CreateUserLogic) CreateUser(req *user_rpc.UserCreateRequest) (*user_rpc.UserCreateResponse, error) {
+	hashPwd := pwd.HashPwd(req.Password)
+	user_model := user_models.UserModel{
+		Pwd:      hashPwd,
+		Nickname: req.NickName,
+	}
+	l.svcCtx.DB.Save(&user_model)
+	l.Logger.Infof("注册成功, user_id: %d", user_model.ID)
+	return &user_rpc.UserCreateResponse{
+		UserId: uint64(user_model.ID),
+	}, nil
 }

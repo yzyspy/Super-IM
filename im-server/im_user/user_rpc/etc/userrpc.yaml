@@ -1,5 +1,9 @@
 Name: userrpc.rpc
 ListenOn: 0.0.0.0:8080
+
+MySql:
+  DataSource: root:a12345678@tcp(127.0.0.1:3306)/my_qq?charset=utf8mb4&parseTime=True&loc=Local
+
 Etcd:
   Hosts:
   - 127.0.0.1:2379
