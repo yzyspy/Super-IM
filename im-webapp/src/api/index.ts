@@ -7,21 +7,21 @@ export const service = axios.create({
     timeout: 10000, // 超时时间
     headers: { 'Content-Type': 'application/json' } // 请求头
 })
-
+//
 service.interceptors.request.use(config => {
     // 添加token
-    //const token = useUserInfoStore().userInfo.token
-    const token : string = useUserInfoStore().getUserInfo.token
-    console.log("request interceptor token = " + token)
-    config.headers['token'] = token
+//    const token = useUserInfoStore().userInfo.token
+   const token : string = useUserInfoStore().getUserInfo.token
+   console.log("request interceptor token = " + token)
+   config.headers['token'] = token
     return config
 })
-
+//
 service.interceptors.response.use(response => {
     // 处理响应数据
     if (response.status !== 200) {
-        console.log('请求失败')
-        ElMessage.error(response.statusText)
+       console.log('请求失败')
+       ElMessage.error(response.statusText)
     }
     return response.data
 })

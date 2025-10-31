@@ -3,9 +3,13 @@
     <div class="content">
       <div class="banner">
       </div>
-      <input type="text" v-model="user_name" placeholder="用户名">
-      <input type="password" v-model="password" placeholder="密码">
-      <button @click="login">登录</button>
+      <el-input type="text" v-model="user_name" placeholder="用户名"/>
+      <el-input type="password" v-model="password" placeholder="密码"/>
+      <el-button type="primary" @click="login">登录</el-button>
+      <div class="bottom">
+        <router-link to="">忘记密码</router-link>
+        <router-link to="/register">注册账号</router-link>
+      </div>
     </div>
   </div>
 </template>
@@ -20,23 +24,29 @@
 import {service} from '@/api/index'; //如果是导出的时候是 export default service 不需要加大括号， 如果不是default 就需要加大括号
 import {useUserInfoStore} from '@/stores/index';
 
-import { ref } from 'vue'
+import {ref} from 'vue'
+import {ElMessage} from "element-plus";
 
 const user_name = ref('')
 const password = ref('')
 
 function login() {
-  console.log('login');
   service.request({
     method: 'post',
     url: '/api/auth/login',
     data: {
-      user_name: user_name,
-      password: password
+      user_name: user_name.value,
+      password: password.value
     }
   }).then((res: any) => {
-    console.log(res);
-   // useUserInfoStore().setToken(res.data.)
+    console.log(res)
+    if (res.code == 0) {
+      //保存token
+      useUserInfoStore().setToken(res.data.token)
+      ElMessage.info("登录成功")
+    } else {
+      ElMessage.info(res.msg)
+    }
   });
 }
 </script>
@@ -61,5 +71,8 @@ function login() {
 .banner {
   background: url('../../assets/qq.jpg') no-repeat center center;
   height: 100px;
+}
+.bottom {
+  display: flex;
 }
 </style>
