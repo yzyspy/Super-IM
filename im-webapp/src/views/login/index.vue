@@ -36,7 +36,7 @@ function login() {
     }
   }).then((res: any) => {
     console.log(res);
-  //  useUserInfoStore().setToken(res.data.)
+   // useUserInfoStore().setToken(res.data.)
   });
 }
 </script>

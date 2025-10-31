@@ -1,5 +1,6 @@
 import axios from 'axios'
 import {ElMessage} from "element-plus";
+import {useUserInfoStore} from "@/stores";
 
 export const service = axios.create({
     baseURL: 'http://localhost:8889', // 基础地址
@@ -9,7 +10,9 @@ export const service = axios.create({
 
 service.interceptors.request.use(config => {
     // 添加token
-    const token = useStore().userInfo.token
+    //const token = useUserInfoStore().userInfo.token
+    const token : string = useUserInfoStore().getUserInfo.token
+    console.log("request interceptor token = " + token)
     config.headers['token'] = token
     return config
 })
