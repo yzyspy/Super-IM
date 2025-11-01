@@ -24,11 +24,14 @@
 import {service} from '@/api/index'; //如果是导出的时候是 export default service 不需要加大括号， 如果不是default 就需要加大括号
 import {useUserInfoStore} from '@/stores/index';
 
+import {useRouter} from "vue-router";
+
 import {ref} from 'vue'
 import {ElMessage} from "element-plus";
 
 const user_name = ref('')
 const password = ref('')
+const router = useRouter()
 
 function login() {
   service.request({
@@ -39,11 +42,11 @@ function login() {
       password: password.value
     }
   }).then((res: any) => {
-    console.log(res)
     if (res.code == 0) {
       //保存token
       useUserInfoStore().setToken(res.data.token)
       ElMessage.info("登录成功")
+      router.replace("/")
     } else {
       ElMessage.info(res.msg)
     }
