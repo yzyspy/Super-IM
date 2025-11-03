@@ -1,13 +1,8 @@
-<script lang="ts">
-import {defineComponent} from 'vue'
-
-export default defineComponent({
-  name: "index"
-})
+<script setup lang="ts">
 </script>
 
 <template>
-
+notice
 </template>
 
 <style scoped>

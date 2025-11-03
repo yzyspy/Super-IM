@@ -20,7 +20,7 @@ function change(menu : string) {
         </div>
         <div class="fim_menu">
           <div clas="icon">
-            <svg-icon iconName="icon-chat" @click="change('info')"></svg-icon>
+            <svg-icon iconName="icon-chat1" @click="change('info')"></svg-icon>
           </div>
           <div clas="icon">
             <svg-icon iconName="icon-chat" @click="change('contact')"></svg-icon>
