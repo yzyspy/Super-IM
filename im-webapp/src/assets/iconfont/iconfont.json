@@ -1,0 +1,37 @@
+{
+  "id": "5055686",
+  "name": "聊天",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "7338226",
+      "name": "qq轻聊",
+      "font_class": "qqqingliao",
+      "unicode": "e634",
+      "unicode_decimal": 58932
+    },
+    {
+      "icon_id": "13644673",
+      "name": "菜单",
+      "font_class": "caidan",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
+    },
+    {
+      "icon_id": "525354",
+      "name": "chat",
+      "font_class": "chat",
+      "unicode": "e647",
+      "unicode_decimal": 58951
+    },
+    {
+      "icon_id": "16618014",
+      "name": "chat",
+      "font_class": "chat1",
+      "unicode": "e69d",
+      "unicode_decimal": 59037
+    }
+  ]
+}

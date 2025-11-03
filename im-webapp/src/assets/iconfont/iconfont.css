@@ -1,0 +1,33 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 5055686 */
+  /* Color fonts */
+  src: 
+       url('iconfont.woff2?t=1762153445451') format('woff2'),
+       url('iconfont.woff?t=1762153445451') format('woff'),
+       url('iconfont.ttf?t=1762153445451') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-qqqingliao:before {
+  content: "\e634";
+}
+
+.icon-caidan:before {
+  content: "\e60a";
+}
+
+.icon-chat:before {
+  content: "\e647";
+}
+
+.icon-chat1:before {
+  content: "\e69d";
+}
+
