@@ -1,5 +1,14 @@
 <script setup lang="ts">
 import SvgIcon from "@/components/SvgIcon.vue";
+import {useRouter} from "vue-router";
+
+const router = useRouter()
+
+
+function change(menu : string) {
+  router.push(menu)
+}
+
 </script>
 
 <template>
@@ -7,21 +16,20 @@ import SvgIcon from "@/components/SvgIcon.vue";
     <div class="fim_web">
       <div class="fim_slide">
         <div class="avatar">
-          <!--          <img src="../../assets/logo.svg" alt="Avatar">-->
-          <svg-icon iconName="icon-qqqingliao"></svg-icon>
+          <svg-icon iconName="icon-qqqingliao" @click="change('info')"></svg-icon>
         </div>
         <div class="fim_menu">
           <div clas="icon">
-            <svg-icon iconName="icon-chat"></svg-icon>
+            <svg-icon iconName="icon-chat" @click="change('info')"></svg-icon>
           </div>
           <div clas="icon">
-            <svg-icon iconName="icon-chat"></svg-icon>
+            <svg-icon iconName="icon-chat" @click="change('contact')"></svg-icon>
           </div>
           <div clas="icon">
-            <svg-icon iconName="icon-chat"></svg-icon>
+            <svg-icon iconName="icon-chat" @click="change('notice')"></svg-icon>
           </div>
           <div clas="icon">
-            <svg-icon iconName="icon-chat"></svg-icon>
+            <svg-icon iconName="icon-chat" @click="change('session')"></svg-icon>
           </div>
         </div>
       </div>
