@@ -30,7 +30,7 @@ func NewAuthenticationLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Au
 }
 
 func isWhiteList(requestUrl string) bool {
-	whiteList := []string{"/login", "/logout", "/authentication"}
+	whiteList := []string{"/login", "/register"}
 	for _, url := range whiteList {
 		if requestUrl == url {
 			return true
