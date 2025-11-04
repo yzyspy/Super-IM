@@ -16,14 +16,16 @@ func authenticationHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.AuthenticationRequest
 		if err := httpx.Parse(r, &req); err != nil {
-			httpx.ErrorCtx(r.Context(), w, err)
+			//httpx.ErrorCtx(r.Context(), w, err)
+			httpx.OkJsonCtx(r.Context(), w, types.Response{Code: 400, Msg: err.Error()})
 			return
 		}
 		//token := r.Header.Get("token")
 		l := logic.NewAuthenticationLogic(r.Context(), svcCtx)
 		resp, err := l.Authentication(&req)
 		if err != nil {
-			httpx.ErrorCtx(r.Context(), w, err)
+			//	httpx.ErrorCtx(r.Context(), w, err)
+			httpx.OkJsonCtx(r.Context(), w, types.Response{Code: 400, Msg: err.Error()})
 		} else {
 			httpx.OkJsonCtx(r.Context(), w, resp)
 		}
