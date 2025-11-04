@@ -1,6 +1,9 @@
 // 格式化api文件 : goctl api format --dir test_api.api
 // 生成http代码
 // goctl api go -api auth_api.api -dir .
+
+// goctl api go -api auth_api.api -dir . --home  ../../my_template/
+
 type LoginRequest {
 	UserName string `json:"user_name"`
 	Password string `json:"password"`

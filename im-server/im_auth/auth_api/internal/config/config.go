@@ -28,5 +28,10 @@ type Config struct {
 		Password string
 	}
 
+	Etcd struct {
+		Host string
+		Port int
+	}
+
 	UserRpc zrpc.RpcClientConf
 }

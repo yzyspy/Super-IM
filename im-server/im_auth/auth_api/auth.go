@@ -6,6 +6,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"im-server/core"
 
 	"im-server/im_auth/auth_api/internal/config"
 	"im-server/im_auth/auth_api/internal/handler"
@@ -28,6 +29,10 @@ func main() {
 
 	ctx := svc.NewServiceContext(c)
 	handler.RegisterHandlers(server, ctx)
+
+	// http服务地址注册到etcd，网关服务服务发现，从etcd获取具体到服务地址和端口
+	httpApiUrl := fmt.Sprintf("http://%s:%d", c.Host, c.Port)
+	core.PutKv(ctx.Etcd, "auth_api", httpApiUrl)
 
 	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
 	server.Start()

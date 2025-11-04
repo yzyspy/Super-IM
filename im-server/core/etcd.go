@@ -10,10 +10,11 @@ import (
 //go get go.etcd.io/etcd/client/v3
 
 // 127.0.0.1:2379
-func InitEtcd() clientv3.KV {
+func InitEtcd(host string, port int) *clientv3.KV {
 	// expect dial time-out on ipv4 blackhole
+	serverUrl := fmt.Sprintf("http://%s:%d", host, port)
 	cli, err := clientv3.New(clientv3.Config{
-		Endpoints:   []string{"http://127.0.0.1:2379"}, // etcd 服务器地址和端口
+		Endpoints:   []string{serverUrl}, // etcd 服务器地址和端口
 		DialTimeout: 2 * time.Second,
 	})
 
@@ -24,16 +25,16 @@ func InitEtcd() clientv3.KV {
 
 	kv := clientv3.NewKV(cli)
 
-	return kv
+	return &kv
 }
 
-func PutKv(kv clientv3.KV, key string, value string) {
-	kv.Put(context.TODO(), key, value)
+func PutKv(kv *clientv3.KV, key string, value string) {
+	(*kv).Put(context.TODO(), key, value)
 	fmt.Println("Put key-value pair to etcd successfully." + key + " : " + value)
 }
 
-func GetKv(kv clientv3.KV, key string) string {
-	resp, error := kv.Get(context.TODO(), key)
+func GetKv(kv *clientv3.KV, key string) string {
+	resp, error := (*kv).Get(context.TODO(), key)
 	if error != nil {
 		fmt.Println("Get key-value pair from etcd failed." + key)
 		return ""
