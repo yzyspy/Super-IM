@@ -6,9 +6,11 @@ package logic
 import (
 	"context"
 	"fmt"
+	"im-server/utils/jwt"
+	"strconv"
+
 	"im-server/im_auth/auth_api/internal/svc"
 	"im-server/im_auth/auth_api/internal/types"
-	"im-server/utils/jwt"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -27,9 +29,30 @@ func NewAuthenticationLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Au
 	}
 }
 
-func (l *AuthenticationLogic) Authentication(token string) (resp *types.Response, err error) {
+func isWhiteList(requestUrl string) bool {
+	whiteList := []string{"/login", "/logout", "/authentication"}
+	for _, url := range whiteList {
+		if requestUrl == url {
+			return true
+		}
+	}
+	return false
+}
+
+func (l *AuthenticationLogic) Authentication(req *types.AuthenticationRequest) (resp *types.AuthenticationResponse, err error) {
+	requestUrl := req.ValidPath
+	//判断请求url是否在认证白名单中，如果在白名单中，直接返回认证成功，不校验token
+	//login 、logout、authentication 这些认证接口是不需要登录的，直接返回认证成功
+	if isWhiteList(requestUrl) {
+		logx.Info("请求url在认证白名单中，直接返回认证成功", requestUrl)
+		return &types.AuthenticationResponse{
+			Code: 0,
+			Msg:  "认证成功",
+		}, nil
+	}
+	token := req.Token
 	if token == "" {
-		return &types.Response{
+		return &types.AuthenticationResponse{
 			Code: 401,
 			Msg:  "token is required",
 		}, nil
@@ -37,23 +60,25 @@ func (l *AuthenticationLogic) Authentication(token string) (resp *types.Response
 	//校验token是否已经过期
 	payLoad, parseError := jwt.ParseJWT(token)
 	if parseError != nil {
-		return &types.Response{
+		return &types.AuthenticationResponse{
 			Code: 401,
 			Msg:  "认证失败",
 		}, nil
 	}
 	//用户主动退出登录了
-	key := fmt.Sprintf("logout_%d", payLoad.UserID)
+	key := fmt.Sprintf("logout_%d", token)
 	val, err := l.svcCtx.Redis.Get(key).Result()
 	if err == nil && val == "1" {
-		return &types.Response{
+		return &types.AuthenticationResponse{
 			Code: 402,
 			Msg:  "用户已退出登录",
 		}, nil
 	}
-
-	return &types.Response{
-		Code: 0,
-		Msg:  "认证成功",
+	uid, _ := strconv.Atoi(payLoad.UserID)
+	return &types.AuthenticationResponse{
+		Code:   0,
+		Msg:    "认证成功",
+		UserId: uint(uid),
+		Role:   0,
 	}, nil
 }

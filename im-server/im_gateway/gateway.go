@@ -15,11 +15,12 @@ var serviceMap = map[string]string{
 
 // 定义处理函数
 func redirectHandler(w http.ResponseWriter, r *http.Request) {
+	//请求认证服务,认证通过直接转发请求到下游服务，认证不通过，直接返回需要登录
+
 	var newRequest *http.Request
 	if strings.Contains(r.URL.Path, "api/auth") {
 		// 处理api/auth请求
 		newRequest, _ = http.NewRequest(r.Method, serviceMap["auth"]+r.URL.Path, r.Body)
-		fmt.Println(newRequest.URL.String())
 	} else if strings.Contains(r.URL.Path, "api/user") {
 		// 处理api/user
 	}

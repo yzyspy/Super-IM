@@ -9,13 +9,19 @@ import (
 	"github.com/zeromicro/go-zero/rest/httpx"
 	"im-server/im_auth/auth_api/internal/logic"
 	"im-server/im_auth/auth_api/internal/svc"
+	"im-server/im_auth/auth_api/internal/types"
 )
 
 func authenticationHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		var req types.AuthenticationRequest
+		if err := httpx.Parse(r, &req); err != nil {
+			httpx.ErrorCtx(r.Context(), w, err)
+			return
+		}
+		//token := r.Header.Get("token")
 		l := logic.NewAuthenticationLogic(r.Context(), svcCtx)
-		token := r.Header.Get("token")
-		resp, err := l.Authentication(token)
+		resp, err := l.Authentication(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {

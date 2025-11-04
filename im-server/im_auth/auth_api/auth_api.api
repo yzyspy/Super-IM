@@ -39,12 +39,24 @@ type OpenLoginResponse {
 	Data []OpenLoginInfo `json:"data"`
 }
 
+type AuthenticationRequest {
+	Token     string `header:"Token,optional"` //放在header里面，可选
+	ValidPath string `header:"ValidPath,optional"` //请求url
+}
+
+type AuthenticationResponse {
+	Code   int    `json:"code"`
+	Msg    string `json:"msg"`
+	UserId uint   `json:"user_id"` //用户id
+	Role   uint   `json:"role"` //角色
+}
+
 service auth {
 	@handler login
 	post /api/auth/login (LoginRequest) returns (LoginResponse) // 登录接口
 
 	@handler authentication
-	post /api/auth/authentication returns (Response) //认证接口
+	post /api/auth/authentication (AuthenticationRequest) returns (AuthenticationResponse) //认证接口
 
 	@handler logout
 	post /api/auth/logout returns (Response) // 注销

@@ -44,7 +44,7 @@ func (l *LogoutLogic) Logout(token string) (resp *types.Response, err error) {
 		}, nil
 	}
 	expireTime := payLoad.ExpiresAt - time.Now().Unix()
-	key := fmt.Sprintf("logout_%d", payLoad.UserID)
+	key := fmt.Sprintf("logout_%d", token)
 	l.svcCtx.Redis.SetNX(key, "1", time.Duration(expireTime)*time.Second)
 
 	return &types.Response{

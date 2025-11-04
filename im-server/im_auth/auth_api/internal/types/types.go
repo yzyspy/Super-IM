@@ -3,6 +3,18 @@
 
 package types
 
+type AuthenticationRequest struct {
+	Token     string `header:"Token,optional"`     //放在header里面，可选
+	ValidPath string `header:"ValidPath,optional"` //请求url
+}
+
+type AuthenticationResponse struct {
+	Code   int    `json:"code"`
+	Msg    string `json:"msg"`
+	UserId uint   `json:"user_id"` //用户id
+	Role   uint   `json:"role"`    //角色
+}
+
 type LoginInfo struct {
 	Token string `json:"token"`
 }
