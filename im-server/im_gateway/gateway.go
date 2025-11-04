@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	clientv3 "go.etcd.io/etcd/client/v3"
+	"im-server/core"
 	"io"
 	"log"
 	"net/http"
@@ -16,6 +18,8 @@ var serviceMap = map[string]string{
 // 定义处理函数
 func redirectHandler(w http.ResponseWriter, r *http.Request) {
 	//请求认证服务,认证通过直接转发请求到下游服务，认证不通过，直接返回需要登录
+
+	authServerAddr := core.GetKv(etcd, "auth_api")
 
 	var newRequest *http.Request
 	if strings.Contains(r.URL.Path, "api/auth") {
@@ -35,9 +39,13 @@ func redirectHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
+var etcd *clientv3.KV
+
 func main() {
 	// 注册处理函数到特定路由
 	http.HandleFunc("/", redirectHandler)
+
+	etcd = core.InitEtcd("127.0.0.1", 2379)
 
 	// 启动服务器，监听8080端口
 	fmt.Println("Starting server at :8080")
