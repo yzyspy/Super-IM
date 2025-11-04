@@ -19,7 +19,8 @@ var serviceMap = map[string]string{
 func redirectHandler(w http.ResponseWriter, r *http.Request) {
 	//请求认证服务,认证通过直接转发请求到下游服务，认证不通过，直接返回需要登录
 	authServerAddr := core.GetKv(etcd, "auth_api")
-	authRequest, _ := http.NewRequest("POST", authServerAddr, nil)
+	authServerUrl := fmt.Sprintf("%s/api/auth/authentication", authServerAddr)
+	authRequest, _ := http.NewRequest("POST", authServerUrl, nil)
 	authResponse, authError := http.DefaultClient.Do(authRequest)
 	if authError != nil {
 		log.Printf("redirectHandler authError=%+v", authError)
@@ -27,7 +28,7 @@ func redirectHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	fmt.Printf("redirectHandler request=%+v  authResponse=%+v", r, authResponse)
-
+	// 认证通过，转发请求到下游服务
 	var newRequest *http.Request
 	if strings.Contains(r.URL.Path, "api/auth") {
 		// 处理api/auth请求
