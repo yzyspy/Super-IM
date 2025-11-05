@@ -10,16 +10,17 @@ import (
 	"strings"
 )
 
-var serviceMap = map[string]string{
-	"user": "http://localhost:9001", //user服务http服务端地址和端口
-	"auth": "http://localhost:9002", //auth服务http服务端地址和端口
-}
+//var serviceMap = map[string]string{
+//	"user": "http://localhost:9001", //user服务http服务端地址和端口
+//	"auth": "http://localhost:9002", //auth服务http服务端地址和端口
+//}
 
 // 定义处理函数
 func redirectHandler(w http.ResponseWriter, r *http.Request) {
 	//请求认证服务,认证通过直接转发请求到下游服务，认证不通过，直接返回需要登录
 	authServerAddr := core.GetKv(etcd, "auth_api")
 	authServerUrl := fmt.Sprintf("%s/api/auth/authentication", authServerAddr)
+	//请求认证服务,只需要传递url 和header(token在header里面)即可，body可以传 nil
 	authRequest, _ := http.NewRequest("POST", authServerUrl, nil)
 	authResponse, authError := http.DefaultClient.Do(authRequest)
 	if authError != nil {
@@ -27,12 +28,14 @@ func redirectHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, authError.Error(), http.StatusInternalServerError)
 		return
 	}
-	fmt.Printf("redirectHandler request=%+v  authResponse=%+v", r, authResponse)
+	fmt.Printf("redirectHandler 网关请求认证服务成功 request=%+v  authResponse=%+v", r, authResponse)
 	// 认证通过，转发请求到下游服务
 	var newRequest *http.Request
 	if strings.Contains(r.URL.Path, "api/auth") {
 		// 处理api/auth请求
-		newRequest, _ = http.NewRequest(r.Method, serviceMap["auth"]+r.URL.Path, r.Body)
+		url := authServerAddr + r.URL.Path
+		log.Printf("redirectHandler url=%s", url)
+		newRequest, _ = http.NewRequest(r.Method, url, r.Body)
 	} else if strings.Contains(r.URL.Path, "api/user") {
 		// 处理api/user
 	}
