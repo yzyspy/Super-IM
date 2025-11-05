@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	clientv3 "go.etcd.io/etcd/client/v3"
 	"im-server/core"
@@ -17,25 +18,34 @@ import (
 
 // 定义处理函数
 func redirectHandler(w http.ResponseWriter, r *http.Request) {
+	reqBody, _ := io.ReadAll(r.Body)
+
 	//请求认证服务,认证通过直接转发请求到下游服务，认证不通过，直接返回需要登录
 	authServerAddr := core.GetKv(etcd, "auth_api")
+
 	authServerUrl := fmt.Sprintf("%s/api/auth/authentication", authServerAddr)
-	//请求认证服务,只需要传递url 和header(token在header里面)即可，body可以传 nil
-	authRequest, _ := http.NewRequest("POST", authServerUrl, nil)
+
+	log.Printf("redirectHandler authServerUrl=%s", authServerUrl)
+
+	//请求认证服务
+	authRequest, _ := http.NewRequest("POST", authServerUrl, bytes.NewBuffer(reqBody))
+	authRequest.Header = r.Header
 	authResponse, authError := http.DefaultClient.Do(authRequest)
+	fmt.Printf("redirectHandler 网关请求认证服务成功 request=%+v  authResponse=%+v", r, authResponse)
 	if authError != nil {
 		log.Printf("redirectHandler authError=%+v", authError)
 		http.Error(w, authError.Error(), http.StatusInternalServerError)
 		return
 	}
-	fmt.Printf("redirectHandler 网关请求认证服务成功 request=%+v  authResponse=%+v", r, authResponse)
+
 	// 认证通过，转发请求到下游服务
 	var newRequest *http.Request
 	if strings.Contains(r.URL.Path, "api/auth") {
 		// 处理api/auth请求
 		url := authServerAddr + r.URL.Path
 		log.Printf("redirectHandler url=%s", url)
-		newRequest, _ = http.NewRequest(r.Method, url, r.Body)
+		newRequest, _ = http.NewRequest(r.Method, url, bytes.NewBuffer(reqBody))
+		newRequest.Header = r.Header
 	} else if strings.Contains(r.URL.Path, "api/user") {
 		// 处理api/user
 	}

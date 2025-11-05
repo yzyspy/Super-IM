@@ -14,12 +14,12 @@ const router = createRouter({
             component: () => import('@/views/register/index.vue')
         },
         {
-            path: '/',
+            path: '',
             name: 'web',
             component: () => import('@/views/web/index.vue'),
             children: [
                 {
-                    path: '',
+                    path: '/contact',
                     name: 'contact',
                     component: () => import('@/views/web/contact/index.vue'),
                     children: [
@@ -36,17 +36,17 @@ const router = createRouter({
                     ]
                 },
                 {
-                    path: 'info',
+                    path: '/info',
                     name: 'info',
                     component: () => import('@/views/web/info/index.vue')
                 },
                 {
-                    path: 'session',
+                    path: '/session',
                     name: 'session',
                     component: () => import('@/views/web/session/index.vue')
                 },
                 {
-                    path: 'notice',
+                    path: '/notice',
                     name: 'notice',
                     component: () => import('@/views/web/notice/index.vue')
                 }

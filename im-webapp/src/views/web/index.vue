@@ -6,7 +6,7 @@ const router = useRouter()
 
 
 function change(menu : string) {
-  router.push(menu)
+  router.push({ name: menu})
 }
 
 </script>
