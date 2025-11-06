@@ -4,6 +4,7 @@
 package handler
 
 import (
+	"github.com/zeromicro/go-zero/core/logx"
 	"net/http"
 
 	"github.com/zeromicro/go-zero/rest/httpx"
@@ -22,6 +23,8 @@ func authenticationHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 		//token := r.Header.Get("token")
 		l := logic.NewAuthenticationLogic(r.Context(), svcCtx)
+		clientIp := r.Header.Get("X-Forwarded-For")
+		logx.Info("authenticationHandler clientIp: %s", clientIp)
 		resp, err := l.Authentication(&req)
 		if err != nil {
 			//	httpx.ErrorCtx(r.Context(), w, err)

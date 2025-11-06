@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"im-server/utils/jwt"
 	"strconv"
+	"strings"
 
 	"im-server/im_auth/auth_api/internal/svc"
 	"im-server/im_auth/auth_api/internal/types"
@@ -32,7 +33,7 @@ func NewAuthenticationLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Au
 func isWhiteList(requestUrl string) bool {
 	whiteList := []string{"/login", "/register"}
 	for _, url := range whiteList {
-		if requestUrl == url {
+		if strings.Contains(requestUrl, url) {
 			return true
 		}
 	}
@@ -41,6 +42,8 @@ func isWhiteList(requestUrl string) bool {
 
 func (l *AuthenticationLogic) Authentication(req *types.AuthenticationRequest) (resp *types.AuthenticationResponse, err error) {
 	requestUrl := req.ValidPath
+	logx.Info("authenticationHandler Authentication %s", requestUrl)
+	logx.Info("authenticationHandler token %s", req.Token)
 	//判断请求url是否在认证白名单中，如果在白名单中，直接返回认证成功，不校验token
 	//login 、logout、authentication 这些认证接口是不需要登录的，直接返回认证成功
 	if isWhiteList(requestUrl) {

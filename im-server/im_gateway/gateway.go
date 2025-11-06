@@ -2,6 +2,8 @@ package main
 
 import (
 	"bytes"
+	"encoding/json"
+	"errors"
 	"fmt"
 	clientv3 "go.etcd.io/etcd/client/v3"
 	"im-server/core"
@@ -15,6 +17,11 @@ import (
 //	"user": "http://localhost:9001", //user服务http服务端地址和端口
 //	"auth": "http://localhost:9002", //auth服务http服务端地址和端口
 //}
+
+type AuthResponse struct {
+	Code int    `json:"code"`
+	Msg  string `json:"msg"`
+}
 
 // 定义处理函数
 func redirectHandler(w http.ResponseWriter, r *http.Request) {
@@ -30,11 +37,18 @@ func redirectHandler(w http.ResponseWriter, r *http.Request) {
 	//请求认证服务
 	authRequest, _ := http.NewRequest("POST", authServerUrl, bytes.NewBuffer(reqBody))
 	authRequest.Header = r.Header
+	authRequest.Header.Set("ValidPath", r.URL.Path)
+	authRequest.Header.Set("X-Forwarded-For", r.RemoteAddr)
 	authResponse, authError := http.DefaultClient.Do(authRequest)
-	fmt.Printf("redirectHandler 网关请求认证服务成功 request=%+v  authResponse=%+v", r, authResponse)
-	if authError != nil {
+
+	authResponseBytes, _ := io.ReadAll(authResponse.Body)
+	var authResponseObj AuthResponse
+	json.Unmarshal(authResponseBytes, &authResponseObj)
+
+	fmt.Printf("redirectHandler 网关请求认证服务成功 request=%+v  authResponseObj=%+v", r, authResponseObj)
+	if authResponseObj.Code != 0 {
 		log.Printf("redirectHandler authError=%+v", authError)
-		http.Error(w, authError.Error(), http.StatusInternalServerError)
+		http.Error(w, errors.New("token异常请重新登录").Error(), http.StatusUnauthorized)
 		return
 	}
 
