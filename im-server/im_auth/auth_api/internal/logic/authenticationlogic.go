@@ -42,8 +42,8 @@ func isWhiteList(requestUrl string) bool {
 
 func (l *AuthenticationLogic) Authentication(req *types.AuthenticationRequest) (resp *types.AuthenticationResponse, err error) {
 	requestUrl := req.ValidPath
-	logx.Info("authenticationHandler Authentication %s", requestUrl)
-	logx.Info("authenticationHandler token %s", req.Token)
+	fmt.Printf("authenticationHandler requestUrl %s\n", requestUrl)
+	fmt.Printf("authenticationHandler token %s\n", req.Token)
 	//判断请求url是否在认证白名单中，如果在白名单中，直接返回认证成功，不校验token
 	//login 、logout、authentication 这些认证接口是不需要登录的，直接返回认证成功
 	if isWhiteList(requestUrl) {
