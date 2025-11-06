@@ -69,8 +69,9 @@ func (l *AuthenticationLogic) Authentication(req *types.AuthenticationRequest) (
 		}, nil
 	}
 	//用户主动退出登录了
-	key := fmt.Sprintf("logout_%d", token)
+	key := fmt.Sprintf("logout_%s", token)
 	val, err := l.svcCtx.Redis.Get(key).Result()
+	fmt.Printf("authenticationHandler redis val %s\n", val)
 	if err == nil && val == "1" {
 		return &types.AuthenticationResponse{
 			Code: 402,

@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"encoding/json"
-	"errors"
 	"fmt"
 	clientv3 "go.etcd.io/etcd/client/v3"
 	"im-server/core"
@@ -48,7 +47,8 @@ func redirectHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Printf("redirectHandler 网关请求认证服务成功 request=%+v  authResponseObj=%+v", r, authResponseObj)
 	if authResponseObj.Code != 0 {
 		log.Printf("redirectHandler authError=%+v", authError)
-		http.Error(w, errors.New("token异常请重新登录").Error(), http.StatusUnauthorized)
+		io.Copy(w, bytes.NewBuffer(authResponseBytes))
+		//http.Error(w, errors.New("token异常请重新登录").Error(), http.StatusUnauthorized)
 		return
 	}
 
