@@ -20,6 +20,8 @@
     "@vitejs/plugin-vue": "^3.0.3",
     "@vue/tsconfig": "^0.1.3",
     "npm-run-all": "^4.1.5",
+    "sass": "^1.93.3",
+    "sass-loader": "^16.0.6",
     "typescript": "~4.7.4",
     "vite": "^3.0.9",
     "vue-tsc": "^0.40.7"

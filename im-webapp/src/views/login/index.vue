@@ -55,7 +55,9 @@ function login() {
 </script>
 
 
-<style scoped>
+<style scoped lang="scss">
+$color: #f0f0f0;
+
 .login-container {
   display: flex;
   align-items: center;
@@ -63,7 +65,7 @@ function login() {
 }
 
 .content {
-  background: #f0f0f0;
+  background: $color;
   width: 600px;
   height: 450px;
   margin: auto; /* 居中 */
