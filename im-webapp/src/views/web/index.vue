@@ -6,7 +6,8 @@ const router = useRouter()
 
 
 function change(menu : string) {
-  router.push({ name: menu})
+  //router.push({ name: menu})
+  router.push("/" + menu);
 }
 
 </script>

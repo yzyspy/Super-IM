@@ -29,7 +29,7 @@ const router = createRouter({
                             component: () => import('@/views/web/contact/user_list.vue')
                         },
                       {
-                        path: '/welcome',
+                        path: '/welcome',//加反斜杠是绝对路径，匹配的是http://localhost:5173/welcome，去掉反斜杠是相对路径，匹配的是http://localhost:5173/contact/welcome
                         name: 'welcome',
                         component: () => import('@/views/web/contact/welcome.vue')
                       }
