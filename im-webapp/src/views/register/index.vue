@@ -67,5 +67,6 @@ function register() {
 }
 .bottom {
   display: flex;
+  padding-left: 20px;
 }
 </style>

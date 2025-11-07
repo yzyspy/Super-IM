@@ -4,15 +4,23 @@
 
     </div>
     <div class="login_form">
-      <el-form>
-        <el-input type="text" v-model="user_name" placeholder="用户名"/>
-        <el-input type="password" v-model="password" placeholder="密码"/>
-        <el-button type="primary" @click="login">登录</el-button>
+      <el-form :model="form">
+        <el-form-item>
+          <el-input type="text" v-model="form.user_name" placeholder="用户名"/>
+        </el-form-item>
+        <el-form-item>
+          <el-input type="password" v-model="form.password" placeholder="密码"/>
+        </el-form-item>
+        <el-form-item>
+          <el-checkbox>记住密码</el-checkbox>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="login" style="width: 100%;">登录</el-button>
+        </el-form-item>
        </el-form>
     </div>
 
     <div class="bottom">
-      <router-link to="">忘记密码</router-link>
       <router-link to="/register">注册账号</router-link>
     </div>
   </div>
@@ -30,11 +38,14 @@ import {useUserInfoStore} from '@/stores/index';
 
 import {useRouter} from "vue-router";
 
-import {ref} from 'vue'
+import {reactive, ref} from 'vue'
 import {ElMessage} from "element-plus";
 
-const user_name = ref('')
-const password = ref('')
+
+const form = reactive({
+  user_name: '',
+  password: ''
+})
 const router = useRouter()
 
 function login() {
@@ -42,8 +53,8 @@ function login() {
     method: 'post',
     url: '/api/auth/login',
     data: {
-      user_name: user_name.value,
-      password: password.value
+      user_name: form.user_name,
+      password: form.password
     }
   }).then((res: any) => {
     if (res.code == 0) {
@@ -65,10 +76,16 @@ $color: #f0f0f0;
 .fim_login {
   background: $color;
   width: 600px;
-  height: 450px;
+  height: 400px;
   margin: auto; /* 居中 */
   display: flex;
   flex-direction: column;
+}
+
+.login_form {
+  margin-top: 30px;
+  padding-left: 30px;
+  padding-right: 30px;
 }
 
 .banner {
