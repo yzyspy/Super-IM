@@ -1,15 +1,19 @@
 <template>
-  <div class="login-container">
-    <div class="content">
-      <div class="banner">
-      </div>
-      <el-input type="text" v-model="user_name" placeholder="用户名"/>
-      <el-input type="password" v-model="password" placeholder="密码"/>
-      <el-button type="primary" @click="login">登录</el-button>
-      <div class="bottom">
-        <router-link to="">忘记密码</router-link>
-        <router-link to="/register">注册账号</router-link>
-      </div>
+  <div class="fim_login">
+    <div class="banner">
+
+    </div>
+    <div class="login_form">
+      <el-form>
+        <el-input type="text" v-model="user_name" placeholder="用户名"/>
+        <el-input type="password" v-model="password" placeholder="密码"/>
+        <el-button type="primary" @click="login">登录</el-button>
+       </el-form>
+    </div>
+
+    <div class="bottom">
+      <router-link to="">忘记密码</router-link>
+      <router-link to="/register">注册账号</router-link>
     </div>
   </div>
 </template>
@@ -58,13 +62,7 @@ function login() {
 <style scoped lang="scss">
 $color: #f0f0f0;
 
-.login-container {
-  display: flex;
-  align-items: center;
-  min-height: 100vh; /* 视口高度 */
-}
-
-.content {
+.fim_login {
   background: $color;
   width: 600px;
   height: 450px;
