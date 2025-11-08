@@ -18,8 +18,10 @@ import (
 //}
 
 type AuthResponse struct {
-	Code int    `json:"code"`
-	Msg  string `json:"msg"`
+	Code   int    `json:"code"`
+	Msg    string `json:"msg"`
+	UserId int64  `json:"user_id"`
+	Role   int32  `json:"role"`
 }
 
 // 定义处理函数
@@ -66,6 +68,9 @@ func redirectHandler(w http.ResponseWriter, r *http.Request) {
 		// 处理api/user
 	}
 	log.Printf("redirectHandler newRequest=%+v\n", newRequest)
+	// 把登录用户的uid写进header
+	newRequest.Header.Set("uid", fmt.Sprintf("%d", authResponseObj.UserId))
+
 	resp, err := http.DefaultClient.Do(newRequest)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
