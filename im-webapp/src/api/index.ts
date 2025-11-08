@@ -3,7 +3,7 @@ import {ElMessage} from "element-plus";
 import {useUserInfoStore} from "@/stores";
 
 export const service = axios.create({
-    baseURL: 'http://localhost:8080', // 基础地址
+    baseURL: '', // 基础地址, 如果使用代理，这个地方要配置位空
     timeout: 10000, // 超时时间
     headers: { 'Content-Type': 'application/json' } // 请求头
 })

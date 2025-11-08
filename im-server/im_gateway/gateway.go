@@ -24,6 +24,7 @@ type AuthResponse struct {
 
 // 定义处理函数
 func redirectHandler(w http.ResponseWriter, r *http.Request) {
+
 	reqBody, _ := io.ReadAll(r.Body)
 
 	//请求认证服务,认证通过直接转发请求到下游服务，认证不通过，直接返回需要登录
@@ -54,15 +55,17 @@ func redirectHandler(w http.ResponseWriter, r *http.Request) {
 
 	// 认证通过，转发请求到下游服务
 	var newRequest *http.Request
+	log.Printf("redirectHandler r.URL.Path=%s\n", r.URL.Path)
 	if strings.Contains(r.URL.Path, "api/auth") {
 		// 处理api/auth请求
 		url := authServerAddr + r.URL.Path
-		log.Printf("redirectHandler url=%s", url)
+		log.Printf("redirectHandler url=%s\n", url)
 		newRequest, _ = http.NewRequest(r.Method, url, bytes.NewBuffer(reqBody))
 		newRequest.Header = r.Header
 	} else if strings.Contains(r.URL.Path, "api/user") {
 		// 处理api/user
 	}
+	log.Printf("redirectHandler newRequest=%+v\n", newRequest)
 	resp, err := http.DefaultClient.Do(newRequest)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -78,6 +81,8 @@ var etcd *clientv3.KV
 
 func main() {
 	// 注册处理函数到特定路由
+	//http.HandleFunc("/", redirectHandler)
+
 	http.HandleFunc("/", redirectHandler)
 
 	etcd = core.InitEtcd("127.0.0.1", 2379)
