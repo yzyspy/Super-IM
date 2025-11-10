@@ -12,11 +12,6 @@ import (
 	"strings"
 )
 
-//var serviceMap = map[string]string{
-//	"user": "http://localhost:9001", //user服务http服务端地址和端口
-//	"auth": "http://localhost:9002", //auth服务http服务端地址和端口
-//}
-
 type AuthResponse struct {
 	Code   int    `json:"code"`
 	Msg    string `json:"msg"`
@@ -26,16 +21,11 @@ type AuthResponse struct {
 
 // 定义处理函数
 func redirectHandler(w http.ResponseWriter, r *http.Request) {
-
 	reqBody, _ := io.ReadAll(r.Body)
-
 	//请求认证服务,认证通过直接转发请求到下游服务，认证不通过，直接返回需要登录
 	authServerAddr := core.GetKv(etcd, "auth_api")
-
 	authServerUrl := fmt.Sprintf("%s/api/auth/authentication", authServerAddr)
-
 	log.Printf("redirectHandler authServerUrl=%s", authServerUrl)
-
 	//请求认证服务
 	authRequest, _ := http.NewRequest("POST", authServerUrl, bytes.NewBuffer(reqBody))
 	authRequest.Header = r.Header
@@ -54,20 +44,8 @@ func redirectHandler(w http.ResponseWriter, r *http.Request) {
 		//http.Error(w, errors.New("token异常请重新登录").Error(), http.StatusUnauthorized)
 		return
 	}
-
 	// 认证通过，转发请求到下游服务
-	var newRequest *http.Request
-	log.Printf("redirectHandler r.URL.Path=%s\n", r.URL.Path)
-	if strings.Contains(r.URL.Path, "api/auth") {
-		// 处理api/auth请求
-		url := authServerAddr + r.URL.Path
-		log.Printf("redirectHandler url=%s\n", url)
-		newRequest, _ = http.NewRequest(r.Method, url, bytes.NewBuffer(reqBody))
-		newRequest.Header = r.Header
-	} else if strings.Contains(r.URL.Path, "api/user") {
-		// 处理api/user
-	}
-	log.Printf("redirectHandler newRequest=%+v\n", newRequest)
+	newRequest := makeProxyRequest(r, reqBody)
 	// 把登录用户的uid写进header
 	newRequest.Header.Set("uid", fmt.Sprintf("%d", authResponseObj.UserId))
 
@@ -76,22 +54,32 @@ func redirectHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-
 	//这一步很重要
 	io.Copy(w, resp.Body)
+}
 
+func makeProxyRequest(r *http.Request, reqBody []byte) *http.Request {
+	var newRequest *http.Request
+	log.Printf("redirectHandler r.URL.Path=%s\n", r.URL.Path)
+	if strings.Contains(r.URL.Path, "api/auth") {
+		// 处理api/auth请求
+		authServerAddr := core.GetKv(etcd, "auth_api")
+		url := authServerAddr + r.URL.Path
+		log.Printf("redirectHandler url=%s\n", url)
+		newRequest, _ = http.NewRequest(r.Method, url, bytes.NewBuffer(reqBody))
+		newRequest.Header = r.Header
+	} else if strings.Contains(r.URL.Path, "api/user") {
+		// 处理api/user
+	}
+	log.Printf("redirectHandler newRequest=%+v\n", newRequest)
+	return newRequest
 }
 
 var etcd *clientv3.KV
 
 func main() {
-	// 注册处理函数到特定路由
-	//http.HandleFunc("/", redirectHandler)
-
 	http.HandleFunc("/", redirectHandler)
-
 	etcd = core.InitEtcd("127.0.0.1", 2379)
-
 	// 启动服务器，监听8080端口
 	fmt.Println("Starting server at :8080")
 	if err := http.ListenAndServe(":8080", nil); err != nil {
