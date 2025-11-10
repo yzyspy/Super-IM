@@ -23,19 +23,16 @@ type AuthResponse struct {
 func redirectHandler(w http.ResponseWriter, r *http.Request) {
 	reqBody, _ := io.ReadAll(r.Body)
 	//请求认证服务,认证通过直接转发请求到下游服务，认证不通过，直接返回需要登录
-	authServerAddr := core.GetKv(etcd, "auth_api")
-	authServerUrl := fmt.Sprintf("%s/api/auth/authentication", authServerAddr)
-	log.Printf("redirectHandler authServerUrl=%s", authServerUrl)
-	//请求认证服务
-	authRequest, _ := http.NewRequest("POST", authServerUrl, bytes.NewBuffer(reqBody))
-	authRequest.Header = r.Header
-	authRequest.Header.Set("ValidPath", r.URL.Path)
-	authRequest.Header.Set("X-Forwarded-For", r.RemoteAddr)
+	authRequest := makeAuthRequest(r, reqBody)
 	authResponse, authError := http.DefaultClient.Do(authRequest)
 
 	authResponseBytes, _ := io.ReadAll(authResponse.Body)
 	var authResponseObj AuthResponse
-	json.Unmarshal(authResponseBytes, &authResponseObj)
+	err := json.Unmarshal(authResponseBytes, &authResponseObj)
+	if err != nil {
+		fmt.Printf("redirectHandler 网关请求认证服务失败 err=%+v", err)
+		return
+	}
 
 	fmt.Printf("redirectHandler 网关请求认证服务成功 request=%+v  authResponseObj=%+v", r, authResponseObj)
 	if authResponseObj.Code != 0 {
@@ -56,6 +53,17 @@ func redirectHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	//这一步很重要
 	io.Copy(w, resp.Body)
+}
+
+func makeAuthRequest(r *http.Request, reqBody []byte) *http.Request {
+	authServerAddr := core.GetKv(etcd, "auth_api")
+	authServerUrl := fmt.Sprintf("%s/api/auth/authentication", authServerAddr)
+	//请求认证服务
+	authRequest, _ := http.NewRequest("POST", authServerUrl, bytes.NewBuffer(reqBody))
+	authRequest.Header = r.Header
+	authRequest.Header.Set("ValidPath", r.URL.Path)
+	authRequest.Header.Set("X-Forwarded-For", r.RemoteAddr)
+	return authRequest
 }
 
 func makeProxyRequest(r *http.Request, reqBody []byte) *http.Request {
