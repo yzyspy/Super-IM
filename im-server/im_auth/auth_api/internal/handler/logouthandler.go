@@ -4,6 +4,7 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/zeromicro/go-zero/rest/httpx"
@@ -15,6 +16,10 @@ func logoutHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		l := logic.NewLogoutLogic(r.Context(), svcCtx)
 		token := r.Header.Get("token")
+		uid := r.Header.Get("uid")
+		clientIp := r.Header.Get("X-Forwarded-For")
+		fmt.Printf("logoutHandler clientIp: %s, token: %s, uid: %s\n", clientIp, token, uid)
+		l.Logger.Info("logoutHandler2 clientIp: %s, token: %s, uid: %s", clientIp, token, uid)
 		resp, err := l.Logout(token)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)

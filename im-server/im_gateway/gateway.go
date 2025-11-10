@@ -79,6 +79,7 @@ func makeProxyRequest(r *http.Request, reqBody []byte) *http.Request {
 	} else if strings.Contains(r.URL.Path, "api/user") {
 		// 处理api/user
 	}
+	newRequest.Header.Set("X-Forwarded-For", r.RemoteAddr)
 	log.Printf("redirectHandler newRequest=%+v\n", newRequest)
 	return newRequest
 }
