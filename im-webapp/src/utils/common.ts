@@ -2,6 +2,7 @@ export interface UserInfo {
     user_id: string;
     user_name: string;
     role: number;
+    token: string;
 }
 
 
@@ -19,6 +20,7 @@ export function parseToken(token: string): UserInfo {
     return {
         user_id: payload.user_id,
         user_name: payload.username,
-        role: 0
+        role: 0,
+        token: token
     }
 }

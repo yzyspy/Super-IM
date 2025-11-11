@@ -58,7 +58,6 @@ async function login() {
   } else {
     const userInfo = parseToken(res.data.token);
     useUserInfoStore().setUserInfo(userInfo)
-    useUserInfoStore().setToken(res.data.token)
     ElMessage.info("登录成功")
     router.replace("/")
   }

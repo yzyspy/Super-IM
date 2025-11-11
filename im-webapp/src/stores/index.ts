@@ -14,16 +14,18 @@ export const useUserInfoStore = defineStore('userInfo', {
       name: '',
       token: '',
     },
-    token: ''
   }),
   actions: {
     setUserInfo(userInfo: any) {
       console.log('setUserInfo', userInfo)
       this.userInfo = userInfo
+      localStorage.setItem('user', JSON.stringify(userInfo))
     },
-    setToken(token: string) {
-      console.log('setToken', token)
-      this.token = token
+    //退出登录时候调用
+    clearUserInfo() {
+      // 清除 localStorage
+      this.userInfo = null
+      localStorage.removeItem('user')
     }
   }
 })
