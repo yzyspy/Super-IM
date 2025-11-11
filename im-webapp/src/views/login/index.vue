@@ -40,32 +40,42 @@ import {useRouter} from "vue-router";
 
 import {reactive, ref} from 'vue'
 import {ElMessage} from "element-plus";
+import {type AuthLoginRequest, doLogin} from "@/api/auth_api";
+import {parseToken} from "@/utils/common";
 
 
-const form = reactive({
+const form = reactive<AuthLoginRequest>({
   user_name: '',
   password: ''
 })
 const router = useRouter()
 
-function login() {
-  service.request({
-    method: 'post',
-    url: '/api/auth/login',
-    data: {
-      user_name: form.user_name,
-      password: form.password
-    }
-  }).then((res: any) => {
-    if (res.code == 0) {
-      //保存token
-      useUserInfoStore().setToken(res.data.token)
-      ElMessage.info("登录成功")
-      router.replace("/")
-    } else {
-      ElMessage.info(res.msg)
-    }
-  });
+async function login() {
+  // const request: AuthLoginRequest = {
+  //   user_name: form.user_name,
+  //   password: form.password
+  // }
+  let res = await doLogin(form);
+  const userInfo = parseToken(res.data.token);
+
+
+  // service.request({
+  //   method: 'post',
+  //   url: '/api/auth/login',
+  //   data: {
+  //     user_name: form.user_name,
+  //     password: form.password
+  //   }
+  // }).then((res: any) => {
+  //   if (res.code == 0) {
+  //     //保存token
+  //     useUserInfoStore().setToken(res.data.token)
+  //     ElMessage.info("登录成功")
+  //     router.replace("/")
+  //   } else {
+  //     ElMessage.info(res.msg)
+  //   }
+  // });
 }
 </script>
 

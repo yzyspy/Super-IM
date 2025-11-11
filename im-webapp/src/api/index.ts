@@ -20,8 +20,20 @@ service.interceptors.request.use(config => {
 service.interceptors.response.use(response => {
     // 处理响应数据
     if (response.status !== 200) {
-       console.log('请求失败')
-       ElMessage.error(response.statusText)
+        console.log('请求失败')
+        ElMessage.error(response.statusText)
+        return Promise.reject(response)
     }
     return response.data
 })
+
+export interface  BaseResponse<T> {
+    code: number
+    msg: string
+    data: T
+}
+
+export interface ListResponse<T> {
+    list: T[]
+    total: number
+}
