@@ -10,24 +10,20 @@ export const useUserInfoStore = defineStore('userInfo', {
   // 为了完整类型推理，推荐使用箭头函数
   state: () => ({
     userInfo: {
+      uid: 0,
       name: '',
       token: '',
-    }
+    },
+    token: ''
   }),
-  getters: {
-    isLogin: (state) => {
-      return state.userInfo.token!== ''
-    },
-    getUserInfo: (state) => {
-      return state.userInfo
-    }
-  },
   actions: {
-    setToken(token: string) {
-      this.userInfo.token = token
-    },
     setUserInfo(userInfo: any) {
+      console.log('setUserInfo', userInfo)
       this.userInfo = userInfo
+    },
+    setToken(token: string) {
+      console.log('setToken', token)
+      this.token = token
     }
   }
 })

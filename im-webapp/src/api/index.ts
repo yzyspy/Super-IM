@@ -11,7 +11,7 @@ export const service = axios.create({
 service.interceptors.request.use(config => {
     // 添加token
 //    const token = useUserInfoStore().userInfo.token
-   const token : string = useUserInfoStore().getUserInfo.token
+   const token : string = useUserInfoStore().userInfo.token
    console.log("request interceptor token = " + token)
    config.headers['token'] = token
     return config

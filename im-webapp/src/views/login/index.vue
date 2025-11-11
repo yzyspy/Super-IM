@@ -51,31 +51,17 @@ const form = reactive<AuthLoginRequest>({
 const router = useRouter()
 
 async function login() {
-  // const request: AuthLoginRequest = {
-  //   user_name: form.user_name,
-  //   password: form.password
-  // }
   let res = await doLogin(form);
-  const userInfo = parseToken(res.data.token);
-
-
-  // service.request({
-  //   method: 'post',
-  //   url: '/api/auth/login',
-  //   data: {
-  //     user_name: form.user_name,
-  //     password: form.password
-  //   }
-  // }).then((res: any) => {
-  //   if (res.code == 0) {
-  //     //保存token
-  //     useUserInfoStore().setToken(res.data.token)
-  //     ElMessage.info("登录成功")
-  //     router.replace("/")
-  //   } else {
-  //     ElMessage.info(res.msg)
-  //   }
-  // });
+  if (res.code!== 0) {
+    ElMessage.info(res.msg)
+    return
+  } else {
+    const userInfo = parseToken(res.data.token);
+    useUserInfoStore().setUserInfo(userInfo)
+    useUserInfoStore().setToken(res.data.token)
+    ElMessage.info("登录成功")
+    router.replace("/")
+  }
 }
 </script>
 

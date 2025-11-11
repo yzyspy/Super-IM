@@ -18,32 +18,24 @@ import {ref} from "vue";
 import {service} from "@/api";
 import {useUserInfoStore} from "@/stores";
 import {ElMessage} from "element-plus";
+import {doRegister} from "@/api/auth_api";
 
 const user_name = ref('')
 const password = ref('')
 
-function register() {
-  service.request({
-    method: 'post',
-    url: '/api/auth/register',
-    data: {
-      user_name: user_name.value,
-      password: password.value
-    }
-  }).then((res: any) => {
-    console.log(res)
-    if (res.code == 0) {
-      //保存token
-      useUserInfoStore().setToken(res.data.token)
-      ElMessage.info("注册成功")
-    } else {
-      ElMessage.info(res.msg)
-    }
-  });
+async function register() {
+  let res = await doRegister({
+    user_name: user_name.value,
+    password: password.value
+  })
+  console.log(res)
+  if (res.code == 0) {
+    ElMessage.info("注册成功")
+  } else {
+    ElMessage.info(res.msg)
+  }
 }
 </script>
-
-<style scoped>
 
 <style scoped>
 .login-container {
