@@ -19,13 +19,18 @@ export const useUserInfoStore = defineStore('userInfo', {
     setUserInfo(userInfo: any) {
       console.log('setUserInfo', userInfo)
       this.userInfo = userInfo
-      localStorage.setItem('user', JSON.stringify(userInfo))
+      localStorage.setItem('user-info', JSON.stringify(userInfo))
+    },
+    loadUserInfo() {
+      const userInfo = localStorage.getItem('user-info')
+      if (userInfo) {
+        this.userInfo = JSON.parse(userInfo)
+      }
     },
     //退出登录时候调用
     clearUserInfo() {
       // 清除 localStorage
-      this.userInfo = null
-      localStorage.removeItem('user')
+      localStorage.removeItem('user-info')
     }
   }
 })

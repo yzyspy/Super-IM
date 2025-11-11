@@ -1,0 +1,18 @@
+type UserInfoRequest {
+	UserID uint `header:"uid"`
+	Role   int8 `header:"role"`
+}
+
+type UserInfoResponse {
+	UserID   uint   `json:"uid"`
+	Nickname string `json:"nickname"`
+	Avatar   string `json:"avatar"`
+	Role     int8   `json:"role"`
+}
+
+service users {
+	@handler UserInfo
+	get /api/user/user_info (UserInfoRequest) returns (UserInfoResponse)
+}
+
+//goctl api go -api user_api.api -dir . --home  ../../my_template/

@@ -69,16 +69,18 @@ func makeAuthRequest(r *http.Request, reqBody []byte) *http.Request {
 func makeProxyRequest(r *http.Request, reqBody []byte) *http.Request {
 	var newRequest *http.Request
 	log.Printf("redirectHandler r.URL.Path=%s\n", r.URL.Path)
+	var newUrl string
 	if strings.Contains(r.URL.Path, "api/auth") {
 		// 处理api/auth请求
 		authServerAddr := core.GetKv(etcd, "auth_api")
-		url := authServerAddr + r.URL.Path
-		log.Printf("redirectHandler url=%s\n", url)
-		newRequest, _ = http.NewRequest(r.Method, url, bytes.NewBuffer(reqBody))
-		newRequest.Header = r.Header
+		newUrl = authServerAddr + r.URL.Path
 	} else if strings.Contains(r.URL.Path, "api/user") {
 		// 处理api/user
+		userServerAddr := core.GetKv(etcd, "user_api")
+		newUrl = userServerAddr + r.URL.Path
 	}
+	newRequest, _ = http.NewRequest(r.Method, newUrl, bytes.NewBuffer(reqBody))
+	newRequest.Header = r.Header
 	newRequest.Header.Set("X-Forwarded-For", r.RemoteAddr)
 	log.Printf("redirectHandler newRequest=%+v\n", newRequest)
 	return newRequest
