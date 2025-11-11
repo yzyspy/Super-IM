@@ -15,8 +15,6 @@
 
 <script setup lang="ts">
 import {ref} from "vue";
-import {service} from "@/api";
-import {useUserInfoStore} from "@/stores";
 import {ElMessage} from "element-plus";
 import {doRegister} from "@/api/auth_api";
 
