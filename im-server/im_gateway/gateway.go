@@ -45,6 +45,7 @@ func redirectHandler(w http.ResponseWriter, r *http.Request) {
 	newRequest := makeProxyRequest(r, reqBody)
 	// 把登录用户的uid写进header
 	newRequest.Header.Set("uid", fmt.Sprintf("%d", authResponseObj.UserId))
+	newRequest.Header.Set("role", fmt.Sprintf("%d", authResponseObj.Role))
 
 	resp, err := http.DefaultClient.Do(newRequest)
 	if err != nil {

@@ -79,6 +79,12 @@ function change(menu : string) {
 .icon {
   cursor: pointer;
 }
+.avatar {
+  cursor: pointer;
+}
+.caidan {
+  cursor: pointer;
+}
 .caidan-container {
    display: flex;
    flex-direction: column;
