@@ -22,6 +22,7 @@ export const useUserInfoStore = defineStore('userInfo', {
       localStorage.setItem('user-info', JSON.stringify(userInfo))
     },
     loadUserInfo() {
+      console.log('loadUserInfo')
       const userInfo = localStorage.getItem('user-info')
       if (userInfo) {
         this.userInfo = JSON.parse(userInfo)
@@ -32,6 +33,11 @@ export const useUserInfoStore = defineStore('userInfo', {
       // 清除 localStorage
       localStorage.removeItem('user-info')
     }
+  },
+  getters: {
+    isLogin: (state) => {
+      return state.userInfo.token !== ''
+    },
   }
 })
 

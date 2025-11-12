@@ -11,6 +11,10 @@ import (
 type Config struct {
 	rest.RestConf
 
+	MySql struct {
+		DataSource string
+	}
+
 	Etcd struct {
 		Host string
 		Port int

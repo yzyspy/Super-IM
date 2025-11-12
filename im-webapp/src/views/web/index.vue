@@ -20,17 +20,19 @@ function change(menu : string) {
           <svg-icon iconName="icon-qqqingliao" @click="change('info')"></svg-icon>
         </div>
         <div class="fim_menu">
-          <div clas="icon">
-            <svg-icon iconName="icon-chat1" @click="change('info')"></svg-icon>
+          <div class="icon">
+            <svg-icon iconName="icon-chat1" @click="change('session')"></svg-icon>
           </div>
-          <div clas="icon">
-            <svg-icon iconName="icon-chat" @click="change('contact')"></svg-icon>
+          <div class="icon">
+            <svg-icon iconName="icon-lianxiren" @click="change('contact')"></svg-icon>
           </div>
-          <div clas="icon">
-            <svg-icon iconName="icon-chat" @click="change('notice')"></svg-icon>
+          <div class="icon">
+            <svg-icon iconName="icon-tongzhi" @click="change('notice')"></svg-icon>
           </div>
-          <div clas="icon">
-            <svg-icon iconName="icon-chat" @click="change('session')"></svg-icon>
+        </div>
+        <div class="caidan-container">
+          <div class="caidan">
+            <svg-icon iconName="icon-caidan" @click="change('info')"></svg-icon>
           </div>
         </div>
       </div>
@@ -52,13 +54,13 @@ function change(menu : string) {
 .fim_web {
   width: 800px; /* 你的div宽度 */
   height: 500px; /* 你的div高度 */
-  background-color: lightblue; /* 为了方便演示 */
+  background-color: #f3f3f3; /* 为了方便演示 */
 
   display: flex;
 }
 
 .fim_slide {
-  background-color: #ffecec;
+  background-color: #dededf;
   width: 80px;
 
   display: flex;
@@ -73,5 +75,17 @@ function change(menu : string) {
   justify-content: space-between;
   align-items: center;
   height: 30%;
+}
+.icon {
+  cursor: pointer;
+}
+.caidan-container {
+   display: flex;
+   flex-direction: column;
+   justify-content: flex-end;
+   height: 100vh;
+}
+.caidan {
+
 }
 </style>

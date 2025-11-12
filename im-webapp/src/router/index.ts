@@ -1,4 +1,5 @@
 import {createRouter, createWebHistory} from 'vue-router'
+import {useUserInfoStore} from '@/stores/index';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -53,6 +54,23 @@ const router = createRouter({
             ]
         },
     ]
+})
+
+// 路由守卫, 判断要跳转的路由是否需要登录，如果需要登录但是没有登录，则跳转到登录页面
+router.beforeEach((to, from, next) => {
+    let login = useUserInfoStore().isLogin
+    console.info('router.beforeEach', to, from, login)
+    if (to.name === 'login' || to.name ==='register') {
+        // 登录页面和注册页面不需要登录
+        next()
+    } else {
+        let login = useUserInfoStore().isLogin
+        if (login) {
+            next()
+        } else {
+            next({name: 'login'})
+        }
+    }
 })
 
 export default router
