@@ -36,5 +36,6 @@ func (l *GetUserLogic) GetUser(req *user_rpc.GetUserRequest) (*user_rpc.GetUserR
 	return &user_rpc.GetUserResponse{
 		NickName: user.Nickname,
 		Avator:   user.Avatar,
+		Abstract: user.Abstract,
 	}, nil
 }
