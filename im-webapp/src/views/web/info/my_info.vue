@@ -18,7 +18,12 @@ function logout() {
 </script>
 
 <template>
-  my_info
+  <div>
+    <div>头像</div>
+    <div>用户号</div>
+    <div>昵称</div>
+    <div>简介</div>
+  </div>
   <a @click="logout">退出登录</a>
 </template>
 

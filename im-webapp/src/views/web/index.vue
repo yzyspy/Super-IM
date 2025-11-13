@@ -79,6 +79,7 @@ function change(menu : string) {
 .icon {
   cursor: pointer;
 }
+
 .avatar {
   cursor: pointer;
 }
