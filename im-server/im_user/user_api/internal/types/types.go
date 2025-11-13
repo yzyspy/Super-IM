@@ -14,6 +14,7 @@ type UserInfoData struct {
 	Nickname string `json:"nickname"`
 	Avatar   string `json:"avatar"`
 	Role     int8   `json:"role"`
+	Abstract string `json:"abstract"`
 }
 
 type UserInfoRequest struct {

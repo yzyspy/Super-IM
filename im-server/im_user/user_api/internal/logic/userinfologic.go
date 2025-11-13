@@ -38,6 +38,7 @@ func (l *UserInfoLogic) UserInfo(req *types.UserInfoRequest) (resp *types.UserIn
 			UserID:   req.UserID,
 			Nickname: user.NickName,
 			Avatar:   user.Avator,
+			Abstract: user.Abstract,
 		},
 	}, nil
 }

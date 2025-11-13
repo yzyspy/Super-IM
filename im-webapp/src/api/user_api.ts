@@ -7,6 +7,7 @@ export interface QueryUserInfoResponse
     nickname : string;
     avatar : string;
     role : number;
+    abstract : string
 
 }
 
@@ -19,3 +20,6 @@ export interface QueryUserInfoRequest {
 export function queryUserInfo(request: QueryUserInfoRequest) : Promise<QueryUserInfoResponse> {
     return service.get('api/user/user_info', request)
 }
+
+
+//更新用户信息（昵称、头像等）

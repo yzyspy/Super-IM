@@ -32,10 +32,6 @@ func (l *GetUserLogic) GetUser(req *user_rpc.GetUserRequest) (*user_rpc.GetUserR
 	if err != nil {
 		return nil, errors.New("user not found")
 	}
-	//fmt.Printf("query user model %+v\n", user)
-	//fmt.Printf("query user model conf %s\n", *user.UserConfModel.RecallMessage)
-	//byteData, _ := json.Marshal(user)
-	//return &types.UserInfoResponse{Data: string(byteData)}
 
 	return &user_rpc.GetUserResponse{
 		NickName: user.Nickname,

@@ -192,6 +192,7 @@ type GetUserResponse struct {
 	NickName      string                 `protobuf:"bytes,1,opt,name=nick_name,json=nickName,proto3" json:"nick_name,omitempty"`
 	Role          int32                  `protobuf:"varint,3,opt,name=role,proto3" json:"role,omitempty"`
 	Avator        string                 `protobuf:"bytes,4,opt,name=avator,proto3" json:"avator,omitempty"`
+	Abstract      string                 `protobuf:"bytes,5,opt,name=abstract,proto3" json:"abstract,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -247,6 +248,13 @@ func (x *GetUserResponse) GetAvator() string {
 	return ""
 }
 
+func (x *GetUserResponse) GetAbstract() string {
+	if x != nil {
+		return x.Abstract
+	}
+	return ""
+}
+
 var File_user_rpc_proto protoreflect.FileDescriptor
 
 const file_user_rpc_proto_rawDesc = "" +
@@ -261,11 +269,12 @@ const file_user_rpc_proto_rawDesc = "" +
 	"\x12UserCreateResponse\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x04R\x06userId\")\n" +
 	"\x0eGetUserRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\x04R\x06userId\"Z\n" +
+	"\auser_id\x18\x01 \x01(\x04R\x06userId\"v\n" +
 	"\x0fGetUserResponse\x12\x1b\n" +
 	"\tnick_name\x18\x01 \x01(\tR\bnickName\x12\x12\n" +
 	"\x04role\x18\x03 \x01(\x05R\x04role\x12\x16\n" +
-	"\x06avator\x18\x04 \x01(\tR\x06avator2\x8f\x01\n" +
+	"\x06avator\x18\x04 \x01(\tR\x06avator\x12\x1a\n" +
+	"\babstract\x18\x05 \x01(\tR\babstract2\x8f\x01\n" +
 	"\x04User\x12G\n" +
 	"\n" +
 	"CreateUser\x12\x1b.user_rpc.UserCreateRequest\x1a\x1c.user_rpc.UserCreateResponse\x12>\n" +
