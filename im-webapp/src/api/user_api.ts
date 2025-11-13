@@ -3,12 +3,17 @@ import {service} from "@/api/index";
 
 export interface QueryUserInfoResponse
 {
+    code: number;
+    msg: string;
+    data: UserInfo;
+}
+
+export interface UserInfo {
     uid : number;
     nickname : string;
     avatar : string;
     role : number;
     abstract : string
-
 }
 
 export interface QueryUserInfoRequest {

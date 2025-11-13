@@ -65,8 +65,8 @@ async function login() {
   //  const queryUserInfoReq : QueryUserInfoRequest = {}
     let userInfoExtra = await queryUserInfo({})
 
-    userInfo.abstract = userInfoExtra.abstract
-    userInfo.avatar = userInfoExtra.avatar
+    userInfo.abstract = userInfoExtra.data.abstract
+    userInfo.avatar = userInfoExtra.data.avatar
     useUserInfoStore().setUserInfo(userInfo)
 
     console.log("用户信息1",userInfo)
