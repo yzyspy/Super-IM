@@ -27,3 +27,8 @@ func (s *UserServer) CreateUser(ctx context.Context, in *user_rpc.UserCreateRequ
 	l := logic.NewCreateUserLogic(ctx, s.svcCtx)
 	return l.CreateUser(in)
 }
+
+func (s *UserServer) GetUser(ctx context.Context, in *user_rpc.GetUserRequest) (*user_rpc.GetUserResponse, error) {
+	l := logic.NewGetUserLogic(ctx, s.svcCtx)
+	return l.GetUser(in)
+}

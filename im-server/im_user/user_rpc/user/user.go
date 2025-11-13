@@ -14,11 +14,14 @@ import (
 )
 
 type (
+	GetUserRequest     = user_rpc.GetUserRequest
+	GetUserResponse    = user_rpc.GetUserResponse
 	UserCreateRequest  = user_rpc.UserCreateRequest
 	UserCreateResponse = user_rpc.UserCreateResponse
 
 	User interface {
 		CreateUser(ctx context.Context, in *UserCreateRequest, opts ...grpc.CallOption) (*UserCreateResponse, error)
+		GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*GetUserResponse, error)
 	}
 
 	defaultUser struct {
@@ -35,4 +38,9 @@ func NewUser(cli zrpc.Client) User {
 func (m *defaultUser) CreateUser(ctx context.Context, in *UserCreateRequest, opts ...grpc.CallOption) (*UserCreateResponse, error) {
 	client := user_rpc.NewUserClient(m.cli.Conn())
 	return client.CreateUser(ctx, in, opts...)
+}
+
+func (m *defaultUser) GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*GetUserResponse, error) {
+	client := user_rpc.NewUserClient(m.cli.Conn())
+	return client.GetUser(ctx, in, opts...)
 }

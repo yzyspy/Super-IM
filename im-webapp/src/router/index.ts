@@ -39,7 +39,29 @@ const router = createRouter({
                 {
                     path: '/info',
                     name: 'info',
-                    component: () => import('@/views/web/info/index.vue')
+                    component: () => import('@/views/web/info/index.vue'),
+                    children: [
+                        {
+                            path: 'my_info',
+                            name: 'my_info',
+                            component: () => import('@/views/web/info/my_info.vue')
+                        },
+                        {
+                            path: 'base_info',
+                            name: 'base_info',
+                            component: () => import('@/views/web/info/base_info.vue')
+                        },
+                        {
+                            path: 'role_info',
+                            name: 'role_info',
+                            component: () => import('@/views/web/info/role_info.vue')
+                        },
+                        {
+                            path: 'safe_info',
+                            name: 'safe_info',
+                            component: () => import('@/views/web/info/safe_info.vue')
+                        },
+                    ]
                 },
                 {
                     path: '/session',
