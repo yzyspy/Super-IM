@@ -21,7 +21,8 @@ func UpdateUserInfoHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := logic.NewUpdateUserInfoLogic(r.Context(), svcCtx)
-		resp, err := l.UpdateUserInfo(&req)
+		uid := r.Header.Get("uid")
+		resp, err := l.UpdateUserInfo(&req, uid)
 		if err != nil {
 			httpx.OkJsonCtx(r.Context(), w, types.Response{Code: 400, Msg: err.Error()})
 		} else {

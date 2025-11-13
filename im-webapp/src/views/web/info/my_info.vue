@@ -11,6 +11,7 @@ function logout() {
 
   }
   let logoutRet = doLogout(req)
+  userStore.clearUserInfo()
   console.log("退出登录", logoutRet);
 }
 

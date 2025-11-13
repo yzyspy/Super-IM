@@ -30,6 +30,7 @@ export const useUserInfoStore = defineStore('userInfo', {
     clearUserInfo() {
       // 清除 localStorage
       localStorage.removeItem('user-info')
+      this.userInfo.token = ''
     }
   },
   getters: {

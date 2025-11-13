@@ -5,6 +5,9 @@ package logic
 
 import (
 	"context"
+	"im-server/common/models"
+	"im-server/im_user/user_models"
+	"strconv"
 
 	"im-server/im_user/user_api/internal/svc"
 	"im-server/im_user/user_api/internal/types"
@@ -26,8 +29,19 @@ func NewUpdateUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Up
 	}
 }
 
-func (l *UpdateUserInfoLogic) UpdateUserInfo(req *types.UserInfoUpdateRequest) (resp *types.UserInfoUpdateResponse, err error) {
-	// todo: add your logic here and delete this line
-
-	return
+func (l *UpdateUserInfoLogic) UpdateUserInfo(req *types.UserInfoUpdateRequest, uidStr string) (resp *types.UserInfoUpdateResponse, err error) {
+	uid, _ := strconv.Atoi(uidStr)
+	userModel := user_models.UserModel{
+		Model: models.Model{
+			ID: uint(uid), // 明确指定嵌套结构体的字段
+		},
+		Nickname: req.Nickname,
+		Avatar:   req.Avatar,
+	}
+	l.svcCtx.DB.Updates(&userModel)
+	return &types.UserInfoUpdateResponse{
+		Code: 0,
+		Msg:  "success",
+		Data: true,
+	}, nil
 }
