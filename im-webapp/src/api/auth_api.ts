@@ -18,6 +18,19 @@ export function doLogin(request: AuthLoginRequest) : Promise<AuthLoginResponse> 
 }
 
 
+
+export interface AuthLogoutRequest {
+}
+
+export interface AuthLogoutResponse {
+    code: number;
+    msg: string;
+}
+export function doLogout(request: AuthLogoutRequest) : Promise<AuthLogoutResponse> {
+    return service.post('api/auth/logout', request)
+}
+
+
 export interface RegisterRequest {
     user_name: string;
     password: string;

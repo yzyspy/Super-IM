@@ -17,12 +17,10 @@ export const useUserInfoStore = defineStore('userInfo', {
   }),
   actions: {
     setUserInfo(userInfo: any) {
-      console.log('setUserInfo', userInfo)
       this.userInfo = userInfo
       localStorage.setItem('user-info', JSON.stringify(userInfo))
     },
     loadUserInfo() {
-      console.log('loadUserInfo')
       const userInfo = localStorage.getItem('user-info')
       if (userInfo) {
         this.userInfo = JSON.parse(userInfo)

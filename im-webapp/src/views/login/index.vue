@@ -64,7 +64,7 @@ async function login() {
     //拉取用户信息（头像、配置等）
   //  const queryUserInfoReq : QueryUserInfoRequest = {}
     let userInfoExtra = await queryUserInfo({})
-    console.log("extra:",userInfoExtra)
+
     ElMessage.info("登录成功")
     router.replace("/")
   }
