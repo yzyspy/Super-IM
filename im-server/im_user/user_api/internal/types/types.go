@@ -3,21 +3,37 @@
 
 package types
 
-type UserInfoRequest struct {
-	UserID uint `header:"uid"`
-	Role   int8 `header:"role"`
-}
-
-type UserInfoResponse struct {
-	UserID   uint   `json:"uid"`
-	Nickname string `json:"nickname"`
-	Avatar   string `json:"avatar"`
-	Role     int8   `json:"role"`
-}
-
 type Response struct {
 	Code int    `json:"code"`
 	Msg  string `json:"msg"`
 	Data string `json:"data"`
 }
 
+type UserInfoData struct {
+	UserID   uint   `json:"uid"`
+	Nickname string `json:"nickname"`
+	Avatar   string `json:"avatar"`
+	Role     int8   `json:"role"`
+}
+
+type UserInfoRequest struct {
+	UserID uint `header:"uid"`
+	Role   int8 `header:"role"`
+}
+
+type UserInfoResponse struct {
+	Code int          `json:"code"`
+	Msg  string       `json:"msg"`
+	Data UserInfoData `json:"data"`
+}
+
+type UserInfoUpdateRequest struct {
+	Nickname string `json:"nickname"`
+	Avatar   string `json:"avatar"`
+}
+
+type UserInfoUpdateResponse struct {
+	Code int    `json:"code"`
+	Msg  string `json:"msg"`
+	Data bool   `json:"data"`
+}

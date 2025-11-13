@@ -32,7 +32,12 @@ func NewUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserInfo
 func (l *UserInfoLogic) UserInfo(req *types.UserInfoRequest) (resp *types.UserInfoResponse, err error) {
 	user, err := l.svcCtx.UserRpc.GetUser(l.ctx, &user_rpc.GetUserRequest{UserId: uint64(req.UserID)})
 	return &types.UserInfoResponse{
-		Nickname: user.NickName,
-		Avatar:   user.Avator,
+		Code: 0,
+		Msg:  "success",
+		Data: types.UserInfoData{
+			UserID:   req.UserID,
+			Nickname: user.NickName,
+			Avatar:   user.Avator,
+		},
 	}, nil
 }

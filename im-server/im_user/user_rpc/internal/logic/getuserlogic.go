@@ -2,7 +2,7 @@ package logic
 
 import (
 	"context"
-	"github.com/pkg/errors"
+	"errors"
 	"im-server/im_user/user_models"
 
 	"im-server/im_user/user_rpc/internal/svc"

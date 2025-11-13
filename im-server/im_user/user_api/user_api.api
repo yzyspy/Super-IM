@@ -1,13 +1,36 @@
+type Response {
+	Code int    `json:"code"`
+	Msg  string `json:"msg"`
+	Data string `json:"data"`
+}
+
 type UserInfoRequest {
 	UserID uint `header:"uid"`
 	Role   int8 `header:"role"`
 }
 
-type UserInfoResponse {
+type UserInfoData {
 	UserID   uint   `json:"uid"`
 	Nickname string `json:"nickname"`
 	Avatar   string `json:"avatar"`
 	Role     int8   `json:"role"`
+}
+
+type UserInfoResponse {
+	Code int          `json:"code"`
+	Msg  string       `json:"msg"`
+	Data UserInfoData `json:"data"`
+}
+
+type UserInfoUpdateResponse {
+	Code int    `json:"code"`
+	Msg  string `json:"msg"`
+	Data bool   `json:"data"`
+}
+
+type UserInfoUpdateRequest {
+	Nickname string `json:"nickname"`
+	Avatar   string `json:"avatar"`
 }
 
 service users {
@@ -15,13 +38,11 @@ service users {
 	@handler UserInfo
 	get /api/user/user_info (UserInfoRequest) returns (UserInfoResponse)
 
-    // 更新当前登录用户信息
+	// 更新当前登录用户信息
 	@handler UpdateUserInfo
-	post /api/user/update_user_info (UserInfoRequest) returns (UserInfoResponse)
-
-    // 查询用户某一个好友的信息
-
-    // 查询用户好友列表
+	post /api/user/update_user_info (UserInfoUpdateRequest) returns (UserInfoUpdateResponse)
+// 查询用户某一个好友的信息
+// 查询用户好友列表
 }
 
 //goctl api go -api user_api.api -dir . --home  ../../my_template/
