@@ -17,5 +17,5 @@ export interface QueryUserInfoRequest {
 
 //查询当前登录用户信息
 export function queryUserInfo(request: QueryUserInfoRequest) : Promise<QueryUserInfoResponse> {
-    return service.post('api/user/user_info', request)
+    return service.get('api/user/user_info', request)
 }

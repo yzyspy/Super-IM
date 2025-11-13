@@ -30,7 +30,21 @@ func (l *CreateUserLogic) CreateUser(req *user_rpc.UserCreateRequest) (*user_rpc
 		Pwd:      hashPwd,
 		Nickname: req.NickName,
 	}
+	//保存用户基本信息
 	l.svcCtx.DB.Save(&user_model)
+
+	user_conf_model := user_models.UserConfModel{
+		UserID:        user_model.ID,
+		RecallMessage: nil,
+		FriendOnline:  false,
+		Sound:         false,
+		SecureLink:    false,
+		SavePwd:       false,
+		SearchUser:    0,
+	}
+	//保存用户配置信息
+	l.svcCtx.DB.Save(&user_conf_model)
+
 	l.Logger.Infof("注册成功, user_id: %d", user_model.ID)
 	return &user_rpc.UserCreateResponse{
 		UserId: uint64(user_model.ID),

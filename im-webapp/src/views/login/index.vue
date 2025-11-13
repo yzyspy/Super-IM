@@ -44,8 +44,9 @@ import {reactive, ref} from 'vue'
 import {ElMessage} from "element-plus";
 import {type AuthLoginRequest, doLogin} from "@/api/auth_api";
 import {parseToken} from "@/utils/common";
+import {queryUserInfo, type QueryUserInfoRequest} from "@/api/user_api";
 
-
+// 这个地方等语法要好好理解一下
 const form = reactive<AuthLoginRequest>({
   user_name: '',
   password: ''
@@ -58,8 +59,12 @@ async function login() {
     ElMessage.info(res.msg)
     return
   } else {
-    const userInfo = parseToken(res.data.token);
+    const userInfo = parseToken(res.data.token)
     useUserInfoStore().setUserInfo(userInfo)
+    //拉取用户信息（头像、配置等）
+  //  const queryUserInfoReq : QueryUserInfoRequest = {}
+    let userInfoExtra = await queryUserInfo({})
+    console.log("extra:",userInfoExtra)
     ElMessage.info("登录成功")
     router.replace("/")
   }
