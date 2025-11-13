@@ -65,6 +65,13 @@ async function login() {
   //  const queryUserInfoReq : QueryUserInfoRequest = {}
     let userInfoExtra = await queryUserInfo({})
 
+    userInfo.abstract = userInfoExtra.abstract
+    userInfo.avatar = userInfoExtra.avatar
+    useUserInfoStore().setUserInfo(userInfo)
+
+    console.log("用户信息1",userInfo)
+    console.log("用户信息2",userInfoExtra)
+
     ElMessage.info("登录成功")
     router.replace("/")
   }

@@ -3,6 +3,8 @@ export interface UserInfo {
     user_name: string;
     role: number;
     token: string;
+    avatar: string;
+    abstract: string;
 }
 
 

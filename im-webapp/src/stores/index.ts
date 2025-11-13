@@ -10,14 +10,17 @@ export const useUserInfoStore = defineStore('userInfo', {
   // 为了完整类型推理，推荐使用箭头函数
   state: () => ({
     userInfo: {
-      uid: 0,
-      name: '',
+      user_id: 0,
+      user_name: '',
+      avatar: '',
+      abstract: '',
       token: '',
     },
   }),
   actions: {
     setUserInfo(userInfo: any) {
       this.userInfo = userInfo
+      console.log('setUserInfo', userInfo)
       localStorage.setItem('user-info', JSON.stringify(userInfo))
     },
     loadUserInfo() {
