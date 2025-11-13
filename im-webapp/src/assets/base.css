@@ -4,3 +4,11 @@
   box-sizing: border-box;
   margin: 0;
 }
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+  color: #795da3;
+  transition:0.5s;
+}
+a:hover { color:blue; }
