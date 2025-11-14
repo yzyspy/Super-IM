@@ -67,19 +67,27 @@ func makeAuthRequest(r *http.Request, reqBody []byte) *http.Request {
 	return authRequest
 }
 
+func getNewAddr(path string) string {
+	var newUrl string
+	if strings.Contains(path, "api/auth") {
+		// 处理api/auth请求
+		authServerAddr := core.GetKv(etcd, "auth_api")
+		newUrl = authServerAddr + path
+	} else if strings.Contains(path, "api/user") {
+		// 处理api/user
+		userServerAddr := core.GetKv(etcd, "user_api")
+		newUrl = userServerAddr + path
+	} else if strings.Contains(path, "api/file") {
+		fileServerAddr := core.GetKv(etcd, "file_api")
+		newUrl = fileServerAddr + path
+	}
+	return newUrl
+}
+
 func makeProxyRequest(r *http.Request, reqBody []byte) *http.Request {
 	var newRequest *http.Request
 	log.Printf("redirectHandler r.URL.Path=%s\n", r.URL.Path)
-	var newUrl string
-	if strings.Contains(r.URL.Path, "api/auth") {
-		// 处理api/auth请求
-		authServerAddr := core.GetKv(etcd, "auth_api")
-		newUrl = authServerAddr + r.URL.Path
-	} else if strings.Contains(r.URL.Path, "api/user") {
-		// 处理api/user
-		userServerAddr := core.GetKv(etcd, "user_api")
-		newUrl = userServerAddr + r.URL.Path
-	}
+	newUrl := getNewAddr(r.URL.Path)
 	newRequest, _ = http.NewRequest(r.Method, newUrl, bytes.NewBuffer(reqBody))
 	newRequest.Header = r.Header
 	newRequest.Header.Set("X-Forwarded-For", r.RemoteAddr)

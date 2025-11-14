@@ -5,6 +5,7 @@ import {onMounted, reactive} from "vue";
 import { toRefs } from 'vue'
 
 const userStore = useUserInfoStore();
+
 const userInfo = reactive({
   avatar: '',
   uid: 0,
@@ -18,10 +19,6 @@ onMounted(() => {
   userInfo.avatar = userStore.userInfo.avatar
   userInfo.uid = userStore.userInfo.user_id
   userInfo.abstract = userStore.userInfo.abstract
-
-   console.log("用户信息44", userStore.userInfo);
-  console.log("用户信息 token", userStore.userInfo.token);
-  console.log("用户信息 name", userStore.userInfo.user_name);
 });
 
 function logout() {
@@ -33,10 +30,10 @@ function logout() {
 
 <template>
   <div>
-    <div>头像{{userInfo.avatar}}</div>
-    <div>用户号{{userInfo.uid}}</div>
-    <div>昵称{{userInfo.name}}</div>
-    <div>简介{{userInfo.abstract}}</div>
+    <div>头像:{{userInfo.avatar}}</div>
+    <div>用户号:{{userInfo.uid}}</div>
+    <div>昵称:{{userInfo.name}}</div>
+    <div>简介:{{userInfo.abstract}}</div>
   </div>
   <a @click="logout">退出登录</a>
 </template>
