@@ -27,7 +27,6 @@ func NewImageShowLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ImageSh
 }
 
 func (l *ImageShowLogic) ImageShow(req *types.ImageShowRequest) error {
-	// todo: add your logic here and delete this line
 
 	return nil
 }

@@ -11,6 +11,8 @@ type ImageResponsse struct {
 }
 
 type ImageShowRequest struct {
+	ImageType string `path:"imageType"` //图片类型, 这个这个地方是path ！！！！！！！！，不是json
+	ImageName string `path:"imageName"` //图片名称
 }
 
 type ImageShowResponse struct {
