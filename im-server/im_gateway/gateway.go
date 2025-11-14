@@ -91,7 +91,7 @@ func makeProxyRequest(r *http.Request, reqBody []byte) *http.Request {
 	newRequest, _ = http.NewRequest(r.Method, newUrl, bytes.NewBuffer(reqBody))
 	newRequest.Header = r.Header
 	newRequest.Header.Set("X-Forwarded-For", r.RemoteAddr)
-	log.Printf("redirectHandler newRequest=%+v\n", newRequest)
+	//log.Printf("redirectHandler newRequest=%+v\n", newRequest)
 	return newRequest
 }
 
