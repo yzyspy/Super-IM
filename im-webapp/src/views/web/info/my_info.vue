@@ -3,8 +3,12 @@ import { useUserInfoStore } from "@/stores/index";
 import {type AuthLogoutRequest, doLogout} from "@/api/auth_api"
 import {onMounted, reactive} from "vue";
 import { toRefs } from 'vue'
+import { useRouter } from "vue-router";
+import ImageUpload from '@/components/ImageUpload.vue';
+
 
 const userStore = useUserInfoStore();
+const router = useRouter();
 
 const userInfo = reactive({
   avatar: '',
@@ -21,10 +25,13 @@ onMounted(() => {
   userInfo.abstract = userStore.userInfo.abstract
 });
 
-function logout() {
-  let logoutRet = doLogout({})
+async function logout() {
+  let logoutRet = await doLogout({})
+
   userStore.clearUserInfo()
   console.log("退出登录", logoutRet);
+  router.push({ name: 'login' })
+
 }
 </script>
 
@@ -36,6 +43,8 @@ function logout() {
     <div>简介:{{userInfo.abstract}}</div>
   </div>
   <a @click="logout">退出登录</a>
+  <ImageUpload />
+
 </template>
 
 <style scoped>

@@ -25,8 +25,8 @@ func authenticationHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		l := logic.NewAuthenticationLogic(r.Context(), svcCtx)
 
 		clientIp := r.Header.Get("X-Forwarded-For")
-
 		fmt.Printf("authenticationHandler clientIp: %s\n", clientIp)
+
 		resp, err := l.Authentication(&req)
 		if err != nil {
 			//	httpx.ErrorCtx(r.Context(), w, err)

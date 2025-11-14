@@ -31,7 +31,7 @@ func NewAuthenticationLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Au
 }
 
 func isWhiteList(requestUrl string) bool {
-	whiteList := []string{"/login", "/register"}
+	whiteList := []string{"/login", "/register", "/uploads"}
 	for _, url := range whiteList {
 		if strings.Contains(requestUrl, url) {
 			return true
@@ -42,8 +42,6 @@ func isWhiteList(requestUrl string) bool {
 
 func (l *AuthenticationLogic) Authentication(req *types.AuthenticationRequest) (resp *types.AuthenticationResponse, err error) {
 	requestUrl := req.ValidPath
-	fmt.Printf("authenticationHandler requestUrl %s\n", requestUrl)
-	fmt.Printf("authenticationHandler token %s\n", req.Token)
 	//判断请求url是否在认证白名单中，如果在白名单中，直接返回认证成功，不校验token
 	//login 、logout、authentication 这些认证接口是不需要登录的，直接返回认证成功
 	if isWhiteList(requestUrl) {

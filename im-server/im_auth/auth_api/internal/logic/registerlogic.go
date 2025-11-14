@@ -37,7 +37,7 @@ func (l *RegisterLogic) Register(req *types.RegisterRequest) (resp *types.Respon
 	//调用用户服务的rpc进行新用户的创建
 	l.svcCtx.UserRpc.CreateUser(l.ctx, &user_rpc.UserCreateRequest{NickName: req.UserName, Password: req.Password})
 	return &types.Response{
-		Code: 200,
+		Code: 0,
 		Msg:  "注册成功",
 	}, nil
 }

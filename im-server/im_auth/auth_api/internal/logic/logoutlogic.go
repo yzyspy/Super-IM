@@ -48,7 +48,7 @@ func (l *LogoutLogic) Logout(token string) (resp *types.Response, err error) {
 	l.svcCtx.Redis.SetNX(key, "1", time.Duration(expireTime)*time.Second)
 
 	return &types.Response{
-		Code: 200,
+		Code: 0,
 		Msg:  "logout success",
 	}, nil
 }

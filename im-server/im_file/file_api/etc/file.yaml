@@ -1,0 +1,7 @@
+Name: file
+Host: 0.0.0.0
+Port: 7001
+
+Etcd:
+  Host: 127.0.0.1
+  Port: 2379
