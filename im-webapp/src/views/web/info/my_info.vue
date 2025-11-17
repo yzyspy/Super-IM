@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { useUserInfoStore } from "@/stores/index";
 import {type AuthLogoutRequest, doLogout} from "@/api/auth_api"
-import {onMounted, reactive} from "vue";
+import {onMounted, reactive, ref} from "vue";
 import { toRefs } from 'vue'
 import { useRouter } from "vue-router";
 import ImageUpload from '@/components/ImageUpload.vue';
+import SvgIcon from "@/components/SvgIcon.vue";
 
 
 const userStore = useUserInfoStore();
@@ -31,22 +32,47 @@ async function logout() {
   userStore.clearUserInfo()
   console.log("退出登录", logoutRet);
   router.push({ name: 'login' })
+}
 
+
+const showEdit = ref(false)
+function editNickName() {
+  if (showEdit.value == true) {
+    showEdit.value = false
+  } else {
+    showEdit.value = true
+  }
 }
 </script>
 
 <template>
-  <div>
-    <div>头像:{{userInfo.avatar}}</div>
-    <div>用户号:{{userInfo.uid}}</div>
-    <div>昵称:{{userInfo.name}}</div>
-    <div>简介:{{userInfo.abstract}}</div>
+  <div class="my-info">
+    <el-form-item label="头像">
+      <el-avatar :src="userInfo.avatar"></el-avatar>
+      <ImageUpload />
+    </el-form-item>
+    <el-form-item label="用户号">
+      <span>{{userInfo.uid}}</span>
+    </el-form-item>
+    <el-form-item label="昵称">
+      <span v-if="!showEdit">{{userInfo.name}}</span>
+
+        <el-input  v-else v-model="userInfo.name"></el-input>
+        <svg-icon iconName="icon-bianji" @click="editNickName()"></svg-icon>
+
+
+    </el-form-item>
+    <el-form-item label="简介">
+      <span>{{userInfo.abstract}}</span>
+    </el-form-item>
+    <a @click="logout">退出登录</a>
   </div>
-  <a @click="logout">退出登录</a>
-  <ImageUpload />
+
 
 </template>
 
 <style scoped>
-
+.my-info {
+  padding: 10px;
+}
 </style>

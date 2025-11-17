@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import SvgIcon from "@/components/SvgIcon.vue";
 import {useRouter} from "vue-router";
+import {useUserInfoStore} from "@/stores";
+
 
 const router = useRouter()
-
+const userStore = useUserInfoStore();
 
 function change(menu : string) {
   //router.push({ name: menu})
@@ -17,7 +19,7 @@ function change(menu : string) {
     <div class="fim_web">
       <div class="fim_slide">
         <div class="avatar">
-          <svg-icon iconName="icon-qqqingliao" @click="change('info')"></svg-icon>
+          <el-avatar :src="userStore.userInfo.avatar"></el-avatar>
         </div>
         <div class="fim_menu">
           <div class="icon">
