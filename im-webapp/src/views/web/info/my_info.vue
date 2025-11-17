@@ -55,6 +55,7 @@ function editAbstract() {
 
 function onUploadSuccess(url : string) {
    alert("上传成功" + url)
+   userInfo.avatar = url
 }
 
 </script>
