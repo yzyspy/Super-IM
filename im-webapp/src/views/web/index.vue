@@ -80,10 +80,12 @@ function change(menu : string) {
 }
 .icon {
   cursor: pointer;
+  margin-top: 30px;
 }
 
 .avatar {
   cursor: pointer;
+  margin-top: 20px;
 }
 .caidan {
   cursor: pointer;
@@ -95,6 +97,6 @@ function change(menu : string) {
    height: 100vh;
 }
 .caidan {
-
+   margin-bottom: 10px;
 }
 </style>
