@@ -37,6 +37,8 @@ func ImageHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		fileName := fileHead.Filename
 		filePath := path.Join("uploads", imageType, fileName)
 		fmt.Println(filePath)
+
+		//保存图片到本地
 		err := os.WriteFile(filePath, byteData, 0666)
 		if err != nil {
 			httpx.OkJsonCtx(r.Context(), w, types.Response{Code: 400, Msg: err.Error()})
@@ -44,7 +46,7 @@ func ImageHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := logic.NewImageLogic(r.Context(), svcCtx)
-		resp, err := l.Image(&req)
+		resp, err := l.Image(&req, filePath)
 		if err != nil {
 			httpx.OkJsonCtx(r.Context(), w, types.Response{Code: 400, Msg: err.Error()})
 		} else {

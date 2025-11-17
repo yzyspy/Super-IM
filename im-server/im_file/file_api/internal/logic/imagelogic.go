@@ -5,6 +5,7 @@ package logic
 
 import (
 	"context"
+	"fmt"
 
 	"im-server/im_file/file_api/internal/svc"
 	"im-server/im_file/file_api/internal/types"
@@ -26,8 +27,9 @@ func NewImageLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ImageLogic 
 	}
 }
 
-func (l *ImageLogic) Image(req *types.ImageRequest) (resp *types.ImageResponsse, err error) {
+func (l *ImageLogic) Image(req *types.ImageRequest, filePath string) (resp *types.ImageResponsse, err error) {
+	filePathUrl := fmt.Sprintf("%s%s", "/api/file/", filePath)
 	return &types.ImageResponsse{
-		Url: "image-url",
+		Url: filePathUrl,
 	}, nil
 }

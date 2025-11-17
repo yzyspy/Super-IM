@@ -1,6 +1,11 @@
 import {service} from "@/api/index";
 
-export function uploadImageApi(file: File, imageType: string) {
+
+export interface Response {
+    url: string;
+}
+
+export function uploadImageApi(file: File, imageType: string) : Promise<Response> {
     const formData = new FormData();
     formData.set('image', file);
     formData.set('imageType', imageType);
