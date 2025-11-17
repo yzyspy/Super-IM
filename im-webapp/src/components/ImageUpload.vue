@@ -17,7 +17,7 @@ const props = withDefaults(defineProps<ImageUploadProps>(), {
 // 使用defineEmits来定义事件
 const emit = defineEmits(['onUploadSuccess']);
 
-const uploadDone = (url : string) => {
+const uploadCallback = (url : string) => {
   // 触发事件，并传递数据
   emit('onUploadSuccess', url);//父组件通过绑定onUploadSuccess属性接收 url
 };
@@ -40,7 +40,7 @@ const upload = async () => {
   try {
     const response = await uploadImageApi(file.value, props.image_type);
     console.log('上传成功:', response);
-    uploadDone("http://localhost" + response.url )
+    uploadCallback("http://localhost" + response.url )
     // 给父组件发送事件，通知图片上传成功，并且返回图片地址
   } catch (error) {
     console.error('上传失败:', error);

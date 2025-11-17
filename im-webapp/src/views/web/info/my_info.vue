@@ -37,12 +37,12 @@ async function logout() {
 }
 
 
-const showEdit = ref(false)
+const showEditName = ref(false)
 function editNickName() {
-  if (showEdit.value == true) {
-    showEdit.value = false
+  if (showEditName.value == true) {
+    showEditName.value = false
   } else {
-    showEdit.value = true
+    showEditName.value = true
   }
 }
 
@@ -70,14 +70,32 @@ async function onUploadSuccess(url : string) {
   ElMessage.info("上传成功" + ret.data)
 }
 
-function onEditNameBlur() {
+async function onEditNameBlur() {
   console.log("onEditNameBlur" )
   ElMessage.info("onEditNameBlur" )
+
+  var userId = userStore.userInfo.user_id;
+
+  let request : UpdateUserInfoRequest = {
+    uid: userId,
+    nickname: url,
+  }
+  let ret = await updateUserInfo(request)
+  //调用接口更新用户昵称 和 useStore
 }
 
-function onEditAbstractBlur() {
+async function onEditAbstractBlur() {
   console.log("onEditAbstractBlur" )
   ElMessage.info("onEditAbstractBlur" )
+
+  var userId = userStore.userInfo.user_id;
+
+  let request : UpdateUserInfoRequest = {
+    uid: userId,
+    abstract: url,
+  }
+  let ret = await updateUserInfo(request)
+  //调用接口更新用户昵称 和 useStore
 }
 
 </script>
@@ -93,7 +111,7 @@ function onEditAbstractBlur() {
     </el-form-item>
     <el-form-item label="昵称">
       <div class="edit">
-        <span v-if="!showEdit">{{userInfo.name}}</span>
+        <span v-if="!showEditName">{{userInfo.name}}</span>
         <el-input  v-else v-model="userInfo.name" placeholder="请输入昵称" @blur="onEditNameBlur"></el-input>
         <svg-icon iconName="icon-bianji" @click="editNickName()"></svg-icon>
       </div>
