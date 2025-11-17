@@ -62,15 +62,11 @@ async function login() {
     const userInfo = parseToken(res.data.token)
     useUserInfoStore().setUserInfo(userInfo)
     //拉取用户信息（头像、配置等）
-  //  const queryUserInfoReq : QueryUserInfoRequest = {}
     let userInfoExtra = await queryUserInfo({})
 
     userInfo.abstract = userInfoExtra.data.abstract
     userInfo.avatar = userInfoExtra.data.avatar
     useUserInfoStore().setUserInfo(userInfo)
-
-    console.log("用户信息1",userInfo)
-    console.log("用户信息2",userInfoExtra)
 
     ElMessage.info("登录成功")
     router.replace("/")

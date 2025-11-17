@@ -30,8 +30,8 @@ type UserInfoUpdateResponse {
 }
 
 type UserInfoUpdateRequest {
-	Nickname string `json:"nickname"`
-	Avatar   string `json:"avatar"`
+	Nickname string `json:"nickname,optional"`
+	Avatar   string `json:"avatar,optional"`
 }
 
 service users {

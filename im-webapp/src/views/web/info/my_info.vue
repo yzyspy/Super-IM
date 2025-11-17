@@ -56,23 +56,28 @@ function editAbstract() {
 }
 
 async function onUploadSuccess(url : string) {
-   ElMessage.info("上传成功")
-   userInfo.avatar = url
+
+  userInfo.avatar = url
+
+  var userId = userStore.userInfo.user_id;
 
   let request : UpdateUserInfoRequest = {
-    uid: 1,
+    uid: userId,
     avatar: url,
   }
   let ret = await updateUserInfo(request)
   //调用接口更新用户头像 和 useStore
+  ElMessage.info("上传成功" + ret.data)
 }
 
 function onEditNameBlur() {
-
+  console.log("onEditNameBlur" )
+  ElMessage.info("onEditNameBlur" )
 }
 
 function onEditAbstractBlur() {
-
+  console.log("onEditAbstractBlur" )
+  ElMessage.info("onEditAbstractBlur" )
 }
 
 </script>
@@ -81,7 +86,7 @@ function onEditAbstractBlur() {
   <div class="my-info">
     <el-form-item label="头像">
       <el-avatar :src="userInfo.avatar"></el-avatar>
-      <ImageUpload :image_type="'photo'" @onUploadSuccess="onUploadSuccess" />
+      <ImageUpload :image_type="'avatar'" @onUploadSuccess="onUploadSuccess" />
     </el-form-item>
     <el-form-item label="用户号">
       <span>{{userInfo.uid}}</span>
