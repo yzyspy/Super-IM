@@ -19,7 +19,7 @@ const emit = defineEmits(['onUploadSuccess']);
 
 const uploadDone = (url : string) => {
   // 触发事件，并传递数据
-  emit('onUploadSuccess', url);
+  emit('onUploadSuccess', url);//父组件通过绑定onUploadSuccess属性接收 url
 };
 
 
