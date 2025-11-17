@@ -7,6 +7,7 @@ import { useRouter } from "vue-router";
 import ImageUpload from '@/components/ImageUpload.vue';
 import SvgIcon from "@/components/SvgIcon.vue";
 import {ElMessage} from "element-plus";
+import {updateUserInfo, type UpdateUserInfoRequest} from "@/api/user_api";
 
 
 const userStore = useUserInfoStore();
@@ -54,9 +55,15 @@ function editAbstract() {
   }
 }
 
-function onUploadSuccess(url : string) {
+async function onUploadSuccess(url : string) {
    ElMessage.info("上传成功")
    userInfo.avatar = url
+
+  let request : UpdateUserInfoRequest = {
+    uid: 1,
+    avatar: url,
+  }
+  let ret = await updateUserInfo(request)
   //调用接口更新用户头像 和 useStore
 }
 

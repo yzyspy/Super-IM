@@ -31,9 +31,10 @@ export function queryUserInfo(request: QueryUserInfoRequest) : Promise<QueryUser
 
 export interface UpdateUserInfoRequest
 {
-    nickname : string;
-    avatar : string;
-    abstract : string
+    uid : number;
+    nickname? : string;
+    avatar? : string ;
+    abstract? : string
 }
 
 export interface UpdateUserInfoResponse
