@@ -51,7 +51,7 @@ const upload = async () => {
 </script>
 
 <template>
-  <div>{{image_type}}
+  <div>
     <input type="file" accept="image/*" @change="handleFileChange"/>
     <button @click="upload" :disabled="!file || uploading">
       {{ uploading ? '上传中...' : '上传图片' }}

@@ -29,4 +29,23 @@ export function queryUserInfo(request: QueryUserInfoRequest) : Promise<QueryUser
 }
 
 
+export interface UpdateUserInfoRequest
+{
+    nickname : string;
+    avatar : string;
+    abstract : string
+}
+
+export interface UpdateUserInfoResponse
+{
+    code: number;
+    msg: string;
+    data: boolean;
+}
+
 //更新用户信息（昵称、头像等）
+export function updateUserInfo(request : UpdateUserInfoRequest) : Promise<UpdateUserInfoResponse> {
+    return service.post('/api/user/update_user_info', request)
+}
+
+

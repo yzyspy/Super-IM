@@ -6,6 +6,7 @@ import { toRefs } from 'vue'
 import { useRouter } from "vue-router";
 import ImageUpload from '@/components/ImageUpload.vue';
 import SvgIcon from "@/components/SvgIcon.vue";
+import {ElMessage} from "element-plus";
 
 
 const userStore = useUserInfoStore();
@@ -54,8 +55,17 @@ function editAbstract() {
 }
 
 function onUploadSuccess(url : string) {
-   alert("上传成功" + url)
+   ElMessage.info("上传成功")
    userInfo.avatar = url
+  //调用接口更新用户头像 和 useStore
+}
+
+function onEditNameBlur() {
+
+}
+
+function onEditAbstractBlur() {
+
 }
 
 </script>
@@ -72,14 +82,14 @@ function onUploadSuccess(url : string) {
     <el-form-item label="昵称">
       <div class="edit">
         <span v-if="!showEdit">{{userInfo.name}}</span>
-        <el-input  v-else v-model="userInfo.name" placeholder="请输入昵称"></el-input>
+        <el-input  v-else v-model="userInfo.name" placeholder="请输入昵称" @blur="onEditNameBlur"></el-input>
         <svg-icon iconName="icon-bianji" @click="editNickName()"></svg-icon>
       </div>
     </el-form-item>
     <el-form-item label="简介">
       <div class="edit">
         <span v-if="!showEditAbstract">{{userInfo.abstract}}</span>
-        <el-input  v-else v-model="userInfo.abstract" placeholder="请输入简介"></el-input>
+        <el-input  v-else v-model="userInfo.abstract" placeholder="请输入简介" @blur="onEditAbstractBlur"></el-input>
         <svg-icon iconName="icon-bianji" @click="editAbstract()"></svg-icon>
       </div>
     </el-form-item>
