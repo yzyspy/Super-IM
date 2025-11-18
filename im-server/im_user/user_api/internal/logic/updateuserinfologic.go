@@ -37,6 +37,7 @@ func (l *UpdateUserInfoLogic) UpdateUserInfo(req *types.UserInfoUpdateRequest, u
 		},
 		Nickname: req.Nickname,
 		Avatar:   req.Avatar,
+		Abstract: req.Abstract,
 	}
 	l.svcCtx.DB.Updates(&userModel)
 	return &types.UserInfoUpdateResponse{

@@ -31,6 +31,7 @@ type UserInfoResponse struct {
 type UserInfoUpdateRequest struct {
 	Nickname string `json:"nickname,optional"`
 	Avatar   string `json:"avatar,optional"`
+	Abstract   string `json:"abstract,optional"`
 }
 
 type UserInfoUpdateResponse struct {
