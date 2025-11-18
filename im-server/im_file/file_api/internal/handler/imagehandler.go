@@ -5,6 +5,7 @@ package handler
 
 import (
 	"fmt"
+	"im-server/utils/strings"
 	"io"
 	"net/http"
 	"os"
@@ -34,7 +35,7 @@ func ImageHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 
 		imageType := r.FormValue("imageType")
 
-		fileName := fileHead.Filename
+		fileName := strings.AddShortRandomSuffix(fileHead.Filename)
 		filePath := path.Join("uploads", imageType, fileName)
 		fmt.Println(filePath)
 
@@ -53,4 +54,5 @@ func ImageHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			httpx.OkJsonCtx(r.Context(), w, resp)
 		}
 	}
+
 }
