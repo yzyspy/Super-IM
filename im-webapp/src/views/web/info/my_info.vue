@@ -134,7 +134,10 @@ async function onEditAbstractBlur() {
     <el-form-item label="头像">
       <el-avatar :src="userInfo.avatar"></el-avatar>
       <svg-icon v-if="!showEditAvatar"  iconName="icon-bianji" @click="editAvatar()"></svg-icon>
-      <ImageUpload v-else :image_type="'avatar'" @onUploadSuccess="onUploadSuccess" />
+      <div id="avatar-upload" v-else>
+        <ImageUpload  :image_type="'avatar'" @onUploadSuccess="onUploadSuccess" />
+      </div>
+
     </el-form-item>
     <el-form-item label="用户号">
       <span>{{userInfo.uid}}</span>
@@ -164,4 +167,8 @@ async function onEditAbstractBlur() {
 .edit {
   display: flex;
 }
+#avatar-upload {
+  margin-left: 20px;
+}
+
 </style>
