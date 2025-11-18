@@ -82,34 +82,32 @@ async function onUploadSuccess(url : string) {
   let ret = await updateUserInfo(request)
   //调用接口更新用户头像 和 useStore
   ElMessage.info("上传成功" + ret.data)
+
+  userStore.userInfo.avatar = url
 }
 
 async function onEditNameBlur() {
-  console.log("onEditNameBlur" )
-  ElMessage.info("onEditNameBlur" )
-
   var userId = userStore.userInfo.user_id;
 
   let request : UpdateUserInfoRequest = {
     uid: userId,
-    nickname: url,
+    nickname: userInfo.name,
   }
   let ret = await updateUserInfo(request)
   //调用接口更新用户昵称 和 useStore
+  userStore.userInfo.user_name = userInfo.name
 }
 
 async function onEditAbstractBlur() {
-  console.log("onEditAbstractBlur" )
-  ElMessage.info("onEditAbstractBlur" )
-
   var userId = userStore.userInfo.user_id;
 
   let request : UpdateUserInfoRequest = {
     uid: userId,
-    abstract: url,
+    abstract: userInfo.abstract,
   }
   let ret = await updateUserInfo(request)
   //调用接口更新用户昵称 和 useStore
+  userStore.userInfo.abstract = userInfo.abstract
 }
 
 </script>
