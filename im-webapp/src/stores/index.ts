@@ -23,6 +23,9 @@ export const useUserInfoStore = defineStore('userInfo', {
       console.log('setUserInfo', userInfo)
       localStorage.setItem('user-info', JSON.stringify(userInfo))
     },
+    refreshUserInfo() {
+      localStorage.setItem('user-info', JSON.stringify(this.userInfo))//pinia重新加载到localStorage
+    },
     loadUserInfo() {
       const userInfo = localStorage.getItem('user-info')
       if (userInfo) {

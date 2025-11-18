@@ -96,7 +96,7 @@ async function onUploadSuccess(url : string) {
   ElMessage.info("上传成功" + ret.data)
 
   userStore.userInfo.avatar = url //更新useStore
-                                   //更新localStore
+  userStore.refreshUserInfo()    //更新localStore
 }
 
 async function onEditNameBlur() {
@@ -109,6 +109,7 @@ async function onEditNameBlur() {
   let ret = await updateUserInfo(request)
   //调用接口更新用户昵称 和 useStore
   userStore.userInfo.user_name = userInfo.name
+  userStore.refreshUserInfo()
   //更新localStore
   showEditName.value = false
 }
@@ -123,6 +124,7 @@ async function onEditAbstractBlur() {
   let ret = await updateUserInfo(request)
   //调用接口更新用户昵称 和 useStore
   userStore.userInfo.abstract = userInfo.abstract
+  userStore.refreshUserInfo()
   //更新localStore
   showEditAbstract.value = false
 }

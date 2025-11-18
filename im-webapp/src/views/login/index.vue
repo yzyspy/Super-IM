@@ -53,6 +53,8 @@ const form = reactive<AuthLoginRequest>({
 })
 const router = useRouter()
 
+const store = useUserInfoStore()
+
 async function login() {
   let res = await doLogin(form);
   if (res.code!== 0) {
@@ -60,13 +62,13 @@ async function login() {
     return
   } else {
     const userInfo = parseToken(res.data.token)
-    useUserInfoStore().setUserInfo(userInfo)
+    store.setUserInfo(userInfo)
     //拉取用户信息（头像、配置等）
     let userInfoExtra = await queryUserInfo({})
 
-    userInfo.abstract = userInfoExtra.data.abstract
-    userInfo.avatar = userInfoExtra.data.avatar
-    useUserInfoStore().setUserInfo(userInfo)
+    store.userInfo.abstract = userInfoExtra.data.abstract
+    store.userInfo.avatar = userInfoExtra.data.avatar
+    store.refreshUserInfo()
 
     ElMessage.info("登录成功")
     router.replace("/")
