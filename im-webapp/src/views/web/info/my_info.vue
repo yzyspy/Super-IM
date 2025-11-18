@@ -96,6 +96,8 @@ async function onEditNameBlur() {
   let ret = await updateUserInfo(request)
   //调用接口更新用户昵称 和 useStore
   userStore.userInfo.user_name = userInfo.name
+
+  showEditName.value = false
 }
 
 async function onEditAbstractBlur() {
@@ -108,6 +110,8 @@ async function onEditAbstractBlur() {
   let ret = await updateUserInfo(request)
   //调用接口更新用户昵称 和 useStore
   userStore.userInfo.abstract = userInfo.abstract
+
+  showEditAbstract.value = false
 }
 
 </script>
