@@ -38,20 +38,34 @@ async function logout() {
 
 
 const showEditName = ref(false)
+const nickNameInputRef = ref()
 function editNickName() {
   if (showEditName.value == true) {
     showEditName.value = false
   } else {
     showEditName.value = true
+    //这个地方获得焦点，后续才能触发 失去焦点的blur事件
+    //另外这个地方需要注意的是需要延迟10ms，否者不会触发获取焦点
+    setTimeout(() => {
+      nickNameInputRef.value.focus()
+    }, 10);
   }
 }
 
 const showEditAbstract = ref(false)
+// 声明 ref（变量名要与模板中的一致）
+const abstractInputRef = ref()
 function editAbstract() {
   if (showEditAbstract.value == true) {
     showEditAbstract.value = false
   } else {
     showEditAbstract.value = true
+    //这个地方获得焦点，后续才能触发 失去焦点的blur事件
+    //另外这个地方需要注意的是需要延迟10ms，否者不会触发获取焦点
+    setTimeout(() => {
+      abstractInputRef.value.focus()
+    }, 10);
+
   }
 }
 
@@ -112,14 +126,14 @@ async function onEditAbstractBlur() {
     <el-form-item label="昵称">
       <div class="edit">
         <span v-if="!showEditName">{{userInfo.name}}</span>
-        <el-input  v-else v-model="userInfo.name" placeholder="请输入昵称" @blur="onEditNameBlur"></el-input>
+        <el-input ref="nickNameInputRef"  v-else v-model="userInfo.name" placeholder="请输入昵称" @blur="onEditNameBlur"></el-input>
         <svg-icon iconName="icon-bianji" @click="editNickName()"></svg-icon>
       </div>
     </el-form-item>
     <el-form-item label="简介">
       <div class="edit">
         <span v-if="!showEditAbstract">{{userInfo.abstract}}</span>
-        <el-input  v-else v-model="userInfo.abstract" placeholder="请输入简介" @blur="onEditAbstractBlur"></el-input>
+        <el-input ref="abstractInputRef" v-else v-model="userInfo.abstract" placeholder="请输入简介" type="textarea" @blur="onEditAbstractBlur"></el-input>
         <svg-icon iconName="icon-bianji" @click="editAbstract()"></svg-icon>
       </div>
     </el-form-item>
