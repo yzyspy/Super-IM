@@ -37,6 +37,17 @@ async function logout() {
 }
 
 
+const showEditAvatar = ref(false)
+function editAvatar() {
+  if (showEditAvatar.value == true) {
+    showEditAvatar.value = false
+  } else {
+    showEditAvatar.value = true
+  }
+}
+
+
+
 const showEditName = ref(false)
 const nickNameInputRef = ref()
 function editNickName() {
@@ -70,8 +81,9 @@ function editAbstract() {
 }
 
 async function onUploadSuccess(url : string) {
+  showEditAvatar.value = false;
 
-  userInfo.avatar = url
+  userInfo.avatar = url //更新页面显示
 
   var userId = userStore.userInfo.user_id;
 
@@ -83,7 +95,8 @@ async function onUploadSuccess(url : string) {
   //调用接口更新用户头像 和 useStore
   ElMessage.info("上传成功" + ret.data)
 
-  userStore.userInfo.avatar = url
+  userStore.userInfo.avatar = url //更新useStore
+                                   //更新localStore
 }
 
 async function onEditNameBlur() {
@@ -96,7 +109,7 @@ async function onEditNameBlur() {
   let ret = await updateUserInfo(request)
   //调用接口更新用户昵称 和 useStore
   userStore.userInfo.user_name = userInfo.name
-
+  //更新localStore
   showEditName.value = false
 }
 
@@ -110,7 +123,7 @@ async function onEditAbstractBlur() {
   let ret = await updateUserInfo(request)
   //调用接口更新用户昵称 和 useStore
   userStore.userInfo.abstract = userInfo.abstract
-
+  //更新localStore
   showEditAbstract.value = false
 }
 
@@ -120,7 +133,8 @@ async function onEditAbstractBlur() {
   <div class="my-info">
     <el-form-item label="头像">
       <el-avatar :src="userInfo.avatar"></el-avatar>
-      <ImageUpload :image_type="'avatar'" @onUploadSuccess="onUploadSuccess" />
+      <svg-icon v-if="!showEditAvatar"  iconName="icon-bianji" @click="editAvatar()"></svg-icon>
+      <ImageUpload v-else :image_type="'avatar'" @onUploadSuccess="onUploadSuccess" />
     </el-form-item>
     <el-form-item label="用户号">
       <span>{{userInfo.uid}}</span>
