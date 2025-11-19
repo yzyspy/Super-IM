@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  safe_info
+  安全设置
 
 </template>
 

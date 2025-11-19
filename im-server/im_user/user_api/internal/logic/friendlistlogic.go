@@ -5,6 +5,7 @@ package logic
 
 import (
 	"context"
+	"im-server/im_user/user_models"
 
 	"im-server/im_user/user_api/internal/svc"
 	"im-server/im_user/user_api/internal/types"
@@ -27,7 +28,7 @@ func NewFriendListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Friend
 }
 
 func (l *FriendListLogic) FriendList(req *types.FriendListRequest) (resp *types.FriendListResponse, err error) {
-	// todo: add your logic here and delete this line
+	var friends []user_models.FriendModel
 
 	return
 }

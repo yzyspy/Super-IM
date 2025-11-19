@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  base_info
+  基础设置
 
 </template>
 

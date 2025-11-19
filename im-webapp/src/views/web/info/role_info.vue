@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  role_info
+  权限设置
 
 </template>
 
