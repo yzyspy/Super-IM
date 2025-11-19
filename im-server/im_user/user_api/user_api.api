@@ -32,7 +32,30 @@ type UserInfoUpdateResponse {
 type UserInfoUpdateRequest {
 	Nickname string `json:"nickname,optional"`
 	Avatar   string `json:"avatar,optional"`
-    Abstract string `json:"abstract,optional"`
+	Abstract string `json:"abstract,optional"`
+}
+
+type FriendInfoRequest {
+	UserID uint `header:"uid"`
+	Role   int8 `header:"role"` //这个地方支持 header、path、form
+}
+
+type FriendInfoResponse {
+	Code int            `json:"code"`
+	Msg  string         `json:"msg"`
+	Data []UserInfoData `json:"data"`
+}
+
+type FriendListRequest {
+	UserID uint `header:"uid"`
+	Role   int8 `header:"role"`
+	Page   int  `form:"page,optional"`
+	Limit  int  `form:"limit,optional"`
+}
+
+type FriendListResponse {
+	List  []FriendInfoResponse `json:"list"`
+	Count int                  `json:"count"`
 }
 
 service users {
@@ -43,8 +66,14 @@ service users {
 	// 更新当前登录用户信息
 	@handler UpdateUserInfo
 	post /api/user/update_user_info (UserInfoUpdateRequest) returns (UserInfoUpdateResponse)
-// 查询用户某一个好友的信息
-// 查询用户好友列表
+
+	// 查询用户某一个好友的信息
+	@handler FriendInfo
+	get /api/user/friend_info (FriendInfoRequest) returns (FriendInfoResponse)
+
+	// 查询用户好友列表
+	@handler FriendList
+	get /api/user/friend_list (FriendListRequest) returns (FriendListResponse)
 }
 
 //goctl api go -api user_api.api -dir . --home  ../../my_template/

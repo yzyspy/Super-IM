@@ -3,6 +3,29 @@
 
 package types
 
+type FriendInfoRequest struct {
+	UserID uint `header:"uid"`
+	Role   int8 `header:"role"` //这个地方支持 header、path、form
+}
+
+type FriendInfoResponse struct {
+	Code int            `json:"code"`
+	Msg  string         `json:"msg"`
+	Data []UserInfoData `json:"data"`
+}
+
+type FriendListRequest struct {
+	UserID uint `header:"uid"`
+	Role   int8 `header:"role"`
+	Page   int  `form:"page,optional"`
+	Limit  int  `form:"limit,optional"`
+}
+
+type FriendListResponse struct {
+	List  []FriendInfoResponse `json:"list"`
+	Count int                  `json:"count"`
+}
+
 type Response struct {
 	Code int    `json:"code"`
 	Msg  string `json:"msg"`
@@ -31,7 +54,7 @@ type UserInfoResponse struct {
 type UserInfoUpdateRequest struct {
 	Nickname string `json:"nickname,optional"`
 	Avatar   string `json:"avatar,optional"`
-	Abstract   string `json:"abstract,optional"`
+	Abstract string `json:"abstract,optional"`
 }
 
 type UserInfoUpdateResponse struct {
