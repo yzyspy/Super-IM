@@ -9,9 +9,9 @@ type FriendInfoRequest struct {
 }
 
 type FriendInfoResponse struct {
-	Code int            `json:"code"`
-	Msg  string         `json:"msg"`
-	Data []UserInfoData `json:"data"`
+	Code int          `json:"code"`
+	Msg  string       `json:"msg"`
+	Data UserInfoData `json:"data"`
 }
 
 type FriendListRequest struct {
@@ -22,8 +22,8 @@ type FriendListRequest struct {
 }
 
 type FriendListResponse struct {
-	List  []FriendInfoResponse `json:"list"`
-	Count int                  `json:"count"`
+	List  []UserInfoData `json:"list"`
+	Count int            `json:"count"`
 }
 
 type Response struct {
