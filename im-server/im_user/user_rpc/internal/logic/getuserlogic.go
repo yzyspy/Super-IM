@@ -3,6 +3,7 @@ package logic
 import (
 	"context"
 	"errors"
+	"fmt"
 	"im-server/im_user/user_models"
 
 	"im-server/im_user/user_rpc/internal/svc"
@@ -29,6 +30,7 @@ func (l *GetUserLogic) GetUser(req *user_rpc.GetUserRequest) (*user_rpc.GetUserR
 	var user user_models.UserModel
 	// gorm
 	err := l.svcCtx.DB.Preload("UserConfModel").Take(&user, req.UserId).Error
+	fmt.Printf("user_cof_model: %v", user.UserConfModel)
 	if err != nil {
 		return nil, errors.New("user not found")
 	}

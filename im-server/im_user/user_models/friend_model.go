@@ -9,12 +9,12 @@ import (
 // 好友表
 type FriendModel struct {
 	models.Model
-	SenderUserId uint   `gorm:"column:user_id" json:"send_user_id"`      //好友申请uid
-	RecvUserId   uint   `gorm:"column:recv_user_id" json:"recv_user_id"` //接受好友uid
-	Notice       string `gorm:"column:notice;size:255" json:"notice"`    //好友备注【这个功能没有做，就显示对方昵称吧】
+	SenderUserId uint   `gorm:"column:sender_user_id" json:"sender_user_id"` //好友申请uid
+	RecvUserId   uint   `gorm:"column:recv_user_id" json:"recv_user_id"`     //接受好友uid
+	Notice       string `gorm:"column:notice;size:255" json:"notice"`        //好友备注【这个功能没有做，就显示对方昵称吧】
 
-	SendUserModel *UserModel `gorm:"foreignkey:ID" json:"sender_user"`
-	RecvUserModel *UserModel `gorm:"foreignkey:ID" json:"recv_user"`
+	SendUserModel *UserModel `gorm:"foreignkey:SenderUserId" json:"sender_user"`
+	RecvUserModel *UserModel `gorm:"foreignkey:RecvUserId" json:"recv_user"`
 }
 
 // 判断A 和B是否是好友关系
@@ -30,6 +30,6 @@ func (f *FriendModel) IsFriend(db *gorm.DB, A uint, B uint) bool {
 
 // 查询A的全部好友
 func (f *FriendModel) Friends(db *gorm.DB, A uint) (list []FriendModel) {
-	db.Preload("SendUserModel").Preload("RecvUserModel").Find(&list, "send_user_id = ? or recv_user_id = ?", A, A)
+	db.Preload("SendUserModel").Preload("RecvUserModel").Find(&list, "sender_user_id = ? or recv_user_id = ?", A, A)
 	return
 }
