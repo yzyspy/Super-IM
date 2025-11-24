@@ -12,7 +12,7 @@ type Option struct {
 	Preload  []string
 }
 
-func ListQuery[T any](db *gorm.DB, model T, option Option) (list []T, count int, err error) {
+func ListQuery[T any](db *gorm.DB, model T, option Option) (list []T, count int64, err error) {
 	query := db.Where(model) //查询哪个表
 
 	//模糊匹配
@@ -41,5 +41,7 @@ func ListQuery[T any](db *gorm.DB, model T, option Option) (list []T, count int,
 	offset := (option.PageInfo.Page - 1) * option.PageInfo.Limit
 
 	err = query.Limit(option.PageInfo.Limit).Offset(offset).Find(&list).Error
+	//查询总数
+	err = query.Count(&count).Error
 	return
 }

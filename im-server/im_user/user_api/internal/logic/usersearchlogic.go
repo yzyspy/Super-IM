@@ -33,6 +33,22 @@ func (l *UserSearchLogic) UserSearch(req *types.UserSearchRequest) (resp *types.
 	list, count, err := list_query.ListQuery(l.svcCtx.DB, user_models.UserModel{}, list_query.Option{})
 	if err != nil {
 		fmt.Println("搜索用户失败")
+		return nil, err
 	}
-	return
+	if len(list) == 0 {
+		return nil, fmt.Errorf("搜索结果为空")
+	}
+	result := make([]types.UserInfoData, 0)
+	for _, user := range list {
+		result = append(result, types.UserInfoData{
+			UserID:   user.ID,
+			Nickname: user.Nickname,
+			Avatar:   user.Avatar,
+			Abstract: user.Abstract,
+		})
+	}
+	return &types.UserListResponse{
+		List:  result,
+		Count: int(count),
+	}, nil
 }
