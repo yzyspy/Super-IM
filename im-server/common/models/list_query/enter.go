@@ -12,7 +12,7 @@ type Option struct {
 	Preload  []string
 }
 
-func listQuery[T any](db *gorm.DB, model T, option Option) (list []T, count int, err error) {
+func ListQuery[T any](db *gorm.DB, model T, option Option) (list []T, count int, err error) {
 	query := db.Where(model) //查询哪个表
 
 	//模糊匹配

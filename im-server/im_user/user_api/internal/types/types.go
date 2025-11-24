@@ -62,3 +62,8 @@ type UserInfoUpdateResponse struct {
 	Msg  string `json:"msg"`
 	Data bool   `json:"data"`
 }
+
+type UserSearchRequest struct {
+	UserID   uint   `json:"uid"`
+	Nickname string `json:"nickname"`
+}

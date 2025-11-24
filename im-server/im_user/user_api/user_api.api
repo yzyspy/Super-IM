@@ -9,6 +9,11 @@ type UserInfoRequest {
 	Role   int8 `header:"role"`
 }
 
+type UserSearchRequest {
+	UserID   uint   `json:"uid"`
+	Nickname string `json:"nickname"`
+}
+
 type UserInfoData {
 	UserID   uint   `json:"uid"`
 	Nickname string `json:"nickname"`
@@ -71,15 +76,16 @@ service users {
 	@handler FriendInfo
 	get /api/user/friend_info (FriendInfoRequest) returns (FriendInfoResponse)
 
-	// 查询用户好友列表
+	// 查询用户好友列表 (//1.好友列表)
 	@handler FriendList
 	get /api/user/friend_list (FriendListRequest) returns (FriendListResponse)
 
-//1.好友列表
-//2.用户昵称或者uid模糊搜索
-//3.申请好友
-//4.申请好友记录
-//5.同意或者拒绝好友申请
+	// 用户模糊搜索 (用户昵称或者uid模糊搜索)
+	@handler UserSearch
+	get /api/user/user_search (UserSearchRequest) returns (UserInfoResponse)
+// 申请好友
+// 查看被加好友的记录
+// 同意或者拒绝好友申请
 }
 
 //goctl api go -api user_api.api -dir . --home  ../../my_template/
