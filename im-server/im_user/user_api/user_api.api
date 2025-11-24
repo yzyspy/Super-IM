@@ -63,6 +63,11 @@ type FriendListResponse {
 	Count int            `json:"count"`
 }
 
+type UserListResponse {
+	List  []UserInfoData `json:"list"`
+	Count int            `json:"count"`
+}
+
 service users {
 	// 查询当前登录用户信息
 	@handler UserInfo
@@ -82,7 +87,7 @@ service users {
 
 	// 用户模糊搜索 (用户昵称或者uid模糊搜索)
 	@handler UserSearch
-	get /api/user/user_search (UserSearchRequest) returns (UserInfoResponse)
+	get /api/user/user_search (UserSearchRequest) returns (UserListResponse)
 // 申请好友
 // 查看被加好友的记录
 // 同意或者拒绝好友申请
