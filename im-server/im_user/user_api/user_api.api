@@ -74,6 +74,12 @@ service users {
 	// 查询用户好友列表
 	@handler FriendList
 	get /api/user/friend_list (FriendListRequest) returns (FriendListResponse)
+
+//1.好友列表
+//2.用户昵称或者uid模糊搜索
+//3.申请好友
+//4.申请好友记录
+//5.同意或者拒绝好友申请
 }
 
 //goctl api go -api user_api.api -dir . --home  ../../my_template/

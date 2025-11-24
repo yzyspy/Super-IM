@@ -29,7 +29,7 @@ func (f *FriendModel) IsFriend(db *gorm.DB, A uint, B uint) bool {
 }
 
 // 查询A的全部好友
-func (f *FriendModel) Friends(db *gorm.DB, A uint) (list []FriendModel) {
+func (f *FriendModel) Friends(db *gorm.DB, A uint) (list []FriendModel) { //golang特性，命名返回值
 	db.Preload("SendUserModel").Preload("RecvUserModel").Find(&list, "sender_user_id = ? or recv_user_id = ?", A, A)
 	return
 }
