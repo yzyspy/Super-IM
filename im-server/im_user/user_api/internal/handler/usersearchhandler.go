@@ -16,7 +16,7 @@ func UserSearchHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.UserSearchRequest
 		if err := httpx.Parse(r, &req); err != nil {
-			httpx.OkJsonCtx(r.Context(), w, types.Response{Code: 400, Msg: err.Error()})
+			httpx.OkJsonCtx(r.Context(), w, types.Response{Code: 401, Msg: err.Error()})
 			return
 		}
 

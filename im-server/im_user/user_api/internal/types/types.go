@@ -69,6 +69,6 @@ type UserListResponse struct {
 }
 
 type UserSearchRequest struct {
-	UserID   uint   `json:"uid"`
-	Nickname string `json:"nickname"`
+	UserID   uint   `path:"uid"`
+	Nickname string `path:"nickname"`
 }
