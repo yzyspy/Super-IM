@@ -32,6 +32,7 @@ func NewUserSearchLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserSe
 }
 
 func (l *UserSearchLogic) UserSearch(req *types.UserSearchRequest) (resp *types.UserListResponse, err error) {
+	//优先根据用户昵称搜索，昵称没有根据uid搜索
 	keyword := req.Nickname
 	if len(keyword) == 0 {
 		keyword = strconv.Itoa(int(req.UserID))
@@ -45,7 +46,7 @@ func (l *UserSearchLogic) UserSearch(req *types.UserSearchRequest) (resp *types.
 		},
 		Where:   l.svcCtx.DB,
 		Likes:   []string{"ID", "Nickname"},
-		Preload: []string{""},
+		Preload: []string{"UserConfModel"},
 	})
 	if err != nil {
 		fmt.Println("搜索用户失败")

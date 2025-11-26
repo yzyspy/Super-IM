@@ -10,8 +10,8 @@ type UserInfoRequest {
 }
 
 type UserSearchRequest {
-	UserID   uint   `path:"uid"`
-	Nickname string `path:"nickname"`
+	UserID   uint   `form:"uid"`
+	Nickname string `form:"nickname"`
 }
 
 type UserInfoData {

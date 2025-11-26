@@ -1,6 +1,7 @@
 package list_query
 
 import (
+	"fmt"
 	"gorm.io/gorm"
 	"im-server/common/models"
 )
@@ -31,9 +32,13 @@ func ListQuery[T any](db *gorm.DB, model T, option Option) (list []T, count int6
 	}
 
 	//预加载
-	for _, s := range option.Preload {
-		query = query.Preload(s)
+	if len(option.Preload) > 0 {
+		for _, s := range option.Preload {
+			fmt.Printf("add preload: %s\n", s)
+			query = query.Preload(s)
+		}
 	}
+
 	//分页查询
 	option.PageInfo.Page = 1
 	option.PageInfo.Limit = 10
@@ -41,7 +46,15 @@ func ListQuery[T any](db *gorm.DB, model T, option Option) (list []T, count int6
 	offset := (option.PageInfo.Page - 1) * option.PageInfo.Limit
 
 	err = query.Limit(option.PageInfo.Limit).Offset(offset).Find(&list).Error
+	if err != nil {
+		fmt.Printf("查询列表失败: %v", err)
+		return
+	}
 	//查询总数
 	err = query.Count(&count).Error
+	if err != nil {
+		fmt.Printf("查询列表count: %v", err)
+		return
+	}
 	return
 }

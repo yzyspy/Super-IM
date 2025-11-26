@@ -86,8 +86,8 @@ func getNewAddr(path string) string {
 
 func makeProxyRequest(r *http.Request, reqBody []byte) *http.Request {
 	var newRequest *http.Request
-	newUrl := getNewAddr(r.URL.Path)
-	log.Printf("redirectHandler newUrl=%s\n", newUrl)
+	newUrl := getNewAddr(r.URL.String())
+	log.Printf("redirectHandler path=%s newUrl=%s\n", r.URL.String(), newUrl)
 	newRequest, _ = http.NewRequest(r.Method, newUrl, bytes.NewBuffer(reqBody))
 	newRequest.Header = r.Header
 	newRequest.Header.Set("X-Forwarded-For", r.RemoteAddr)
