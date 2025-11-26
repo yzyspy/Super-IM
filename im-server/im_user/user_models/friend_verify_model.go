@@ -11,7 +11,7 @@ type FriendVerifyModel struct {
 	SenderUserId         uint                        `gorm:"column:sender_user_id" json:"sender_user_id"`
 	RecvUserId           uint                        `gorm:"column:recv_user_id" json:"recv_user_id"`
 	Notice               string                      `gorm:"column:notice;size:255" json:"notice"`                         //好友申请备注
-	Status               uint8                       `gorm:"column:status" json:"status"`                                  //1:同意 2:拒绝 3.忽略
+	Status               uint8                       `gorm:"column:status" json:"status"`                                  // 0:未操作 1:同意 2:拒绝 3.忽略
 	AddtionalMessage     string                      `gorm:"column:additional_message;size:255" json:"additional_message"` //额外消息
 	VerificationQuestion *ctype.VerificationQuestion `gorm:"column:verification_question" json:"verification_question"`    //验证问题
 }

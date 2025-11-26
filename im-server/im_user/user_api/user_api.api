@@ -69,6 +69,30 @@ type UserListResponse {
 	Count int            `json:"count"`
 }
 
+type ApplyFriendRequest {
+
+}
+
+type ApplyFriendResponse {
+
+}
+
+type FriendApplyListRequest {
+
+}
+
+type FriendApplyListResponse {
+
+}
+
+type ResponseFriendApplyRequest {
+
+}
+
+type ResponseFriendApplyResponse {
+
+}
+
 service users {
 	// 查询当前登录用户信息
 	@handler UserInfo
@@ -89,9 +113,19 @@ service users {
 	// 用户模糊搜索 (用户昵称或者uid模糊搜索)
 	@handler UserSearch
 	get /api/user/user_search (UserSearchRequest) returns (UserListResponse)
-// 申请好友
-// 查看被加好友的记录
-// 同意或者拒绝好友申请
+
+	// 申请好友
+	@handler applyFriend
+	post /api/user/apply_friend (ApplyFriendRequest) returns (ApplyFriendResponse)//添加好友申请
+
+   // 当前登录用户,查看被别人加好友的记录
+	@handler friendApplyList
+	get /api/user/friend_apply_list (FriendApplyListRequest) returns (FriendApplyListResponse)//好友申请列表
+
+	// 同意或者拒绝好友申请
+	@handler responseFriendApply
+	put /api/user/response_friend_apply (ResponseFriendApplyRequest) returns (ResponseFriendApplyResponse)//同意或者拒绝好友申请
+
 }
 
 //goctl api go -api user_api.api -dir . --home  ../../my_template/

@@ -15,7 +15,7 @@ type UserConfModel struct {
 	SecureLink           bool                        `gorm:"column:secure_link" json:"secure_link"`                     //是否开启安全链接
 	SavePwd              bool                        `gorm:"column:save_pwd" json:"save_pwd"`                           //是否保存密码
 	SearchUser           uint8                       `gorm:"column:search_user" json:"search_user"`                     //别人查找你的方式 0:不允许查找 1:允许通过用户ID查询 2:允许通过昵称查询
-	Verification         uint8                       `gorm:"column:verification" json:"verification"`                   //好友验证方式 0:不允许任何人添加 1:允许任何人添加 2：需要验证消息 3:需要回答问题 4:需要正确回答问题
+	Verification         uint8                       `gorm:"column:verification" json:"verification"`                   //好友验证方式 0:不允许任何人添加 1:允许任何人添加,但是需要我同意才能成为好友 2：对方申请就直接直接成为好友
 	VerificationQuestion *ctype.VerificationQuestion `gorm:"column:verification_question" json:"verification_question"` //验证问题
 	Online               bool                        `gorm:"column:online" json:"online"`                               //是否在线
 }
