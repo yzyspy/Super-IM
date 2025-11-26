@@ -33,11 +33,12 @@ type Response struct {
 }
 
 type UserInfoData struct {
-	UserID   uint   `json:"uid"`
-	Nickname string `json:"nickname"`
-	Avatar   string `json:"avatar"`
-	Role     int8   `json:"role"`
-	Abstract string `json:"abstract"`
+	UserID       uint   `json:"uid"`
+	Nickname     string `json:"nickname"`
+	Avatar       string `json:"avatar"`
+	Role         int8   `json:"role"`
+	Abstract     string `json:"abstract"`
+	Verification int    `json:"verification"`
 }
 
 type UserInfoRequest struct {

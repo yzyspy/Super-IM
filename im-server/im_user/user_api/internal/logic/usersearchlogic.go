@@ -58,10 +58,11 @@ func (l *UserSearchLogic) UserSearch(req *types.UserSearchRequest) (resp *types.
 	result := make([]types.UserInfoData, 0)
 	for _, user := range list {
 		result = append(result, types.UserInfoData{
-			UserID:   user.ID,
-			Nickname: user.Nickname,
-			Avatar:   user.Avatar,
-			Abstract: user.Abstract,
+			UserID:       user.ID,
+			Nickname:     user.Nickname,
+			Avatar:       user.Avatar,
+			Abstract:     user.Abstract,
+			Verification: int(user.UserConfModel.Verification),
 		})
 	}
 	return &types.UserListResponse{
