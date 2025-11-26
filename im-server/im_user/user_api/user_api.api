@@ -93,6 +93,14 @@ type ResponseFriendApplyResponse {
 
 }
 
+type FriendDeleteRequest {
+
+}
+
+type FriendDeleteResponse {
+
+}
+
 service users {
 	// 查询当前登录用户信息
 	@handler UserInfo
@@ -114,6 +122,8 @@ service users {
 	@handler UserSearch
 	get /api/user/user_search (UserSearchRequest) returns (UserListResponse)
 
+
+
 	// 申请好友
 	@handler applyFriend
 	post /api/user/apply_friend (ApplyFriendRequest) returns (ApplyFriendResponse)//添加好友申请
@@ -125,6 +135,10 @@ service users {
 	// 同意或者拒绝好友申请
 	@handler responseFriendApply
 	put /api/user/response_friend_apply (ResponseFriendApplyRequest) returns (ResponseFriendApplyResponse)//同意或者拒绝好友申请
+
+    // 删除好友
+	@handler friendDelete
+	delete /api/user/friends (FriendDeleteRequest) returns (FriendDeleteResponse)
 
 }
 
