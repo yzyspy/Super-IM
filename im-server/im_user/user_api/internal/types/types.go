@@ -3,6 +3,35 @@
 
 package types
 
+type ApplyFriendRequest struct {
+	UserID uint `json:"uid"` //添加好友的用户id
+}
+
+type ApplyFriendResponse struct {
+	Code int    `json:"code"`
+	Msg  string `json:"msg"`
+	Data bool   `json:"data"`
+}
+
+type FriendApplyListRequest struct {
+}
+
+type FriendApplyListResponse struct {
+	Code int            `json:"code"`
+	Msg  string         `json:"msg"`
+	List []UserInfoData `json:"list"`
+}
+
+type FriendDeleteRequest struct {
+	UserID uint `json:"uid"`
+}
+
+type FriendDeleteResponse struct {
+	Code int    `json:"code"`
+	Msg  string `json:"msg"`
+	Data bool   `json:"data"`
+}
+
 type FriendInfoRequest struct {
 	UserID uint `header:"uid"`
 	Role   int8 `header:"role"` //这个地方支持 header、path、form
@@ -30,6 +59,17 @@ type Response struct {
 	Code int    `json:"code"`
 	Msg  string `json:"msg"`
 	Data string `json:"data"`
+}
+
+type ResponseFriendApplyRequest struct {
+	Friend_verify_id int  `json:"code"`
+	Status           int8 `json:"status"` // 1:同意 2:拒绝
+}
+
+type ResponseFriendApplyResponse struct {
+	Code int    `json:"code"`
+	Msg  string `json:"msg"`
+	Data bool   `json:"data"`
 }
 
 type UserInfoData struct {

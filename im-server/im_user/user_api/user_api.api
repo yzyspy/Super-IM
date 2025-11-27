@@ -70,35 +70,42 @@ type UserListResponse {
 }
 
 type ApplyFriendRequest {
-
+	UserID uint `json:"uid"` //添加好友的用户id
 }
 
 type ApplyFriendResponse {
-
+	Code int    `json:"code"`
+	Msg  string `json:"msg"`
+	Data bool   `json:"data"`
 }
 
-type FriendApplyListRequest {
-
-}
+type FriendApplyListRequest {}
 
 type FriendApplyListResponse {
-
+	Code int            `json:"code"`
+	Msg  string         `json:"msg"`
+	List []UserInfoData `json:"list"`
 }
 
 type ResponseFriendApplyRequest {
-
+	Friend_verify_id int  `json:"code"`
+	Status           int8 `json:"status"` // 1:同意 2:拒绝
 }
 
 type ResponseFriendApplyResponse {
-
+	Code int    `json:"code"`
+	Msg  string `json:"msg"`
+	Data bool   `json:"data"`
 }
 
 type FriendDeleteRequest {
-
+	UserID uint `json:"uid"`
 }
 
 type FriendDeleteResponse {
-
+	Code int    `json:"code"`
+	Msg  string `json:"msg"`
+	Data bool   `json:"data"`
 }
 
 service users {
@@ -122,24 +129,21 @@ service users {
 	@handler UserSearch
 	get /api/user/user_search (UserSearchRequest) returns (UserListResponse)
 
-
-
 	// 申请好友
 	@handler applyFriend
-	post /api/user/apply_friend (ApplyFriendRequest) returns (ApplyFriendResponse)//添加好友申请
+	post /api/user/apply_friend (ApplyFriendRequest) returns (ApplyFriendResponse) //添加好友申请
 
-   // 当前登录用户,查看被别人加好友的记录
+	// 当前登录用户,查看被别人加好友的记录
 	@handler friendApplyList
-	get /api/user/friend_apply_list (FriendApplyListRequest) returns (FriendApplyListResponse)//好友申请列表
+	get /api/user/friend_apply_list (FriendApplyListRequest) returns (FriendApplyListResponse) //好友申请列表
 
 	// 同意或者拒绝好友申请
 	@handler responseFriendApply
-	put /api/user/response_friend_apply (ResponseFriendApplyRequest) returns (ResponseFriendApplyResponse)//同意或者拒绝好友申请
+	put /api/user/response_friend_apply (ResponseFriendApplyRequest) returns (ResponseFriendApplyResponse) //同意或者拒绝好友申请
 
-    // 删除好友
+	// 删除好友
 	@handler friendDelete
 	delete /api/user/friends (FriendDeleteRequest) returns (FriendDeleteResponse)
-
 }
 
 //goctl api go -api user_api.api -dir . --home  ../../my_template/
