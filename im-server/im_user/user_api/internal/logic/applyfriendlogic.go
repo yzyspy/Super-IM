@@ -46,7 +46,7 @@ func (l *ApplyFriendLogic) ApplyFriend(req *types.ApplyFriendRequest, currentUse
 	f := user_models.FriendModel{}
 	isFriend := f.IsFriend(l.svcCtx.DB, req.UserID, uint(currentUid))
 	if isFriend {
-		return nil, errors.New("already friend")
+		return nil, errors.New("已经是好友了")
 	}
 	// insert 好友验证表,等待被邀请方同意
 	model := user_models.FriendVerifyModel{

@@ -26,8 +26,7 @@ func NewFriendApplyListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *F
 	}
 }
 
-func (l *FriendApplyListLogic) FriendApplyList(req *types.FriendApplyListRequest) (resp *types.FriendApplyListResponse, err error) {
-	// todo: add your logic here and delete this line
-
+func (l *FriendApplyListLogic) FriendApplyList(req *types.FriendApplyListRequest, currentUserId int) (resp *types.FriendApplyListResponse, err error) {
+	// 查询好友申请表，所有recv_uid_id == currentUserId的记录
 	return
 }

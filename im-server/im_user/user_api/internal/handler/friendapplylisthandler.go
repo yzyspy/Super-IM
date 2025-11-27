@@ -5,6 +5,7 @@ package handler
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/zeromicro/go-zero/rest/httpx"
 	"im-server/im_user/user_api/internal/logic"
@@ -19,9 +20,10 @@ func friendApplyListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			httpx.OkJsonCtx(r.Context(), w, types.Response{Code: 400, Msg: err.Error()})
 			return
 		}
-
+		uid := r.Header.Get("uid")
+		uidInt, _ := strconv.Atoi(uid)
 		l := logic.NewFriendApplyListLogic(r.Context(), svcCtx)
-		resp, err := l.FriendApplyList(&req)
+		resp, err := l.FriendApplyList(&req, uidInt)
 		if err != nil {
 			httpx.OkJsonCtx(r.Context(), w, types.Response{Code: 400, Msg: err.Error()})
 		} else {
