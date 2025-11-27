@@ -40,7 +40,7 @@ func (l *FriendApplyListLogic) FriendApplyList(req *types.FriendApplyListRequest
 
 	for _, friend := range friendApplyList {
 		userDataList = append(userDataList, types.FriendApplyItem{
-			FriendVerifyModelId: int8(friend.ID),
+			FriendVerifyModelId: int8(friend.Model.ID),
 			UserID:              friend.SenderUserId,
 			Nickname:            friend.SendUserModel.Nickname,
 			Avatar:              friend.SendUserModel.Avatar,

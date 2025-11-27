@@ -7,7 +7,7 @@ import (
 
 // 好友申请
 type FriendVerifyModel struct {
-	Model                models.Model
+	models.Model
 	SenderUserId         uint                        `gorm:"column:sender_user_id" json:"sender_user_id"`
 	RecvUserId           uint                        `gorm:"column:recv_user_id" json:"recv_user_id"`
 	Notice               string                      `gorm:"column:notice;size:255" json:"notice"`                         //好友申请备注

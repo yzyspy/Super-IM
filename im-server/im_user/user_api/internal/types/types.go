@@ -70,7 +70,7 @@ type Response struct {
 }
 
 type ResponseFriendApplyRequest struct {
-	Friend_verify_id int  `json:"code"`
+	Friend_verify_id int  `json:"id"`
 	Status           int8 `json:"status"` // 1:同意 2:拒绝
 }
 

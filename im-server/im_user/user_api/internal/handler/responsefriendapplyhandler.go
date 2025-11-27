@@ -16,14 +16,14 @@ func responseFriendApplyHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.ResponseFriendApplyRequest
 		if err := httpx.Parse(r, &req); err != nil {
-			httpx.OkJsonCtx(r.Context(), w, types.Response{Code: 400, Msg: err.Error()})
+			httpx.OkJsonCtx(r.Context(), w, types.Response{Code: 401, Msg: err.Error()})
 			return
 		}
 
 		l := logic.NewResponseFriendApplyLogic(r.Context(), svcCtx)
 		resp, err := l.ResponseFriendApply(&req)
 		if err != nil {
-			httpx.OkJsonCtx(r.Context(), w, types.Response{Code: 400, Msg: err.Error()})
+			httpx.OkJsonCtx(r.Context(), w, types.Response{Code: 402, Msg: err.Error()})
 		} else {
 			httpx.OkJsonCtx(r.Context(), w, resp)
 		}

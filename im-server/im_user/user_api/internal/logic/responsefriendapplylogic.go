@@ -39,6 +39,7 @@ func (l *ResponseFriendApplyLogic) ResponseFriendApply(req *types.ResponseFriend
 	resp = &types.ResponseFriendApplyResponse{
 		Code: 0,
 		Msg:  "success",
+		Data: true,
 	}
 	return
 }
