@@ -1,7 +1,6 @@
 package user_models
 
 import (
-	"fmt"
 	"gorm.io/gorm"
 	"im-server/common/models"
 )
@@ -19,12 +18,10 @@ type FriendModel struct {
 
 // 判断A 和B是否是好友关系
 func (f *FriendModel) IsFriend(db *gorm.DB, A uint, B uint) bool {
-	err := db.Take(&f, "(send_user_id = ? and recv_user_id = ?) or (send_user_id = ? and recv_user_id = ?)", A, B, B, A).Error
+	err := db.Take(&f, "(sender_user_id = ? and recv_user_id = ?) or (sender_user_id = ? and recv_user_id = ?)", A, B, B, A).Error
 	if err == nil {
 		return true
 	}
-	fmt.Println(err) //record not found
-
 	return false
 }
 

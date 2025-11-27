@@ -36,16 +36,30 @@ func (l *ApplyFriendLogic) ApplyFriend(req *types.ApplyFriendRequest, currentUse
 	find_user_err := l.svcCtx.DB.Preload("UserConfModel").Take(&user, req.UserID).Error
 
 	if find_user_err != nil {
-		return nil, find_user_err
+		return nil, errors.New("用户不存在")
 	}
 	//校验是否已经是好友
-	currentUid, _ := strconv.Atoi(currentUserIDStr)
+	currentUid, atoi_err := strconv.Atoi(currentUserIDStr)
+	if atoi_err != nil {
+		return nil, errors.New("current user id error")
+	}
 	f := user_models.FriendModel{}
 	isFriend := f.IsFriend(l.svcCtx.DB, req.UserID, uint(currentUid))
 	if isFriend {
 		return nil, errors.New("already friend")
 	}
 	// insert 好友验证表,等待被邀请方同意
+	model := user_models.FriendVerifyModel{
+		SenderUserId: uint(currentUid),
+		RecvUserId:   req.UserID,
+		Status:       0,
+	}
+	l.svcCtx.DB.Create(&model)
 
+	resp = &types.ApplyFriendResponse{
+		Code: 0,
+		Msg:  "success",
+		Data: true,
+	}
 	return
 }
