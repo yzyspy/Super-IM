@@ -19,9 +19,9 @@ func applyFriendHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			httpx.OkJsonCtx(r.Context(), w, types.Response{Code: 400, Msg: err.Error()})
 			return
 		}
-
+		uid := r.Header.Get("uid")
 		l := logic.NewApplyFriendLogic(r.Context(), svcCtx)
-		resp, err := l.ApplyFriend(&req)
+		resp, err := l.ApplyFriend(&req, uid)
 		if err != nil {
 			httpx.OkJsonCtx(r.Context(), w, types.Response{Code: 400, Msg: err.Error()})
 		} else {

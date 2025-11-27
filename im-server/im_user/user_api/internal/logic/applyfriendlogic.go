@@ -5,6 +5,9 @@ package logic
 
 import (
 	"context"
+	"errors"
+	"im-server/im_user/user_models"
+	"strconv"
 
 	"im-server/im_user/user_api/internal/svc"
 	"im-server/im_user/user_api/internal/types"
@@ -26,8 +29,23 @@ func NewApplyFriendLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Apply
 	}
 }
 
-func (l *ApplyFriendLogic) ApplyFriend(req *types.ApplyFriendRequest) (resp *types.ApplyFriendResponse, err error) {
-	// todo: add your logic here and delete this line
+func (l *ApplyFriendLogic) ApplyFriend(req *types.ApplyFriendRequest, currentUserIDStr string) (resp *types.ApplyFriendResponse, err error) {
+	// 检查用户是否存在
+	var user user_models.UserModel
+	// gorm
+	find_user_err := l.svcCtx.DB.Preload("UserConfModel").Take(&user, req.UserID).Error
+
+	if find_user_err != nil {
+		return nil, find_user_err
+	}
+	//校验是否已经是好友
+	currentUid, _ := strconv.Atoi(currentUserIDStr)
+	f := user_models.FriendModel{}
+	isFriend := f.IsFriend(l.svcCtx.DB, req.UserID, uint(currentUid))
+	if isFriend {
+		return nil, errors.New("already friend")
+	}
+	// insert 好友验证表,等待被邀请方同意
 
 	return
 }
