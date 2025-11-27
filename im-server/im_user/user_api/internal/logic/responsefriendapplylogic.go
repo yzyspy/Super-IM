@@ -5,6 +5,8 @@ package logic
 
 import (
 	"context"
+	"im-server/common/models"
+	"im-server/im_user/user_models"
 
 	"im-server/im_user/user_api/internal/svc"
 	"im-server/im_user/user_api/internal/types"
@@ -27,7 +29,16 @@ func NewResponseFriendApplyLogic(ctx context.Context, svcCtx *svc.ServiceContext
 }
 
 func (l *ResponseFriendApplyLogic) ResponseFriendApply(req *types.ResponseFriendApplyRequest) (resp *types.ResponseFriendApplyResponse, err error) {
-	// todo: add your logic here and delete this line
-
+	model := user_models.FriendVerifyModel{
+		Model: models.Model{
+			ID: uint(req.Friend_verify_id), // 明确指定嵌套结构体的字段
+		},
+		Status: uint8(req.Status),
+	}
+	l.svcCtx.DB.Updates(&model)
+	resp = &types.ResponseFriendApplyResponse{
+		Code: 0,
+		Msg:  "success",
+	}
 	return
 }

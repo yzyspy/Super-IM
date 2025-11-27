@@ -13,13 +13,21 @@ type ApplyFriendResponse struct {
 	Data bool   `json:"data"`
 }
 
+type FriendApplyItem struct {
+	FriendVerifyModelId int8   `json:"friend_verify_model_id"`
+	UserID              uint   `json:"uid"`
+	Nickname            string `json:"nickname"`
+	Avatar              string `json:"avatar"`
+	Role                int8   `json:"role"`
+}
+
 type FriendApplyListRequest struct {
 }
 
 type FriendApplyListResponse struct {
-	Code int            `json:"code"`
-	Msg  string         `json:"msg"`
-	List []UserInfoData `json:"list"`
+	Code int               `json:"code"`
+	Msg  string            `json:"msg"`
+	List []FriendApplyItem `json:"list"`
 }
 
 type FriendDeleteRequest struct {

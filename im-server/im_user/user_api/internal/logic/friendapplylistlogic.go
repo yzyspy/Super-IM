@@ -5,6 +5,7 @@ package logic
 
 import (
 	"context"
+	"im-server/im_user/user_models"
 
 	"im-server/im_user/user_api/internal/svc"
 	"im-server/im_user/user_api/internal/types"
@@ -28,5 +29,25 @@ func NewFriendApplyListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *F
 
 func (l *FriendApplyListLogic) FriendApplyList(req *types.FriendApplyListRequest, currentUserId int) (resp *types.FriendApplyListResponse, err error) {
 	// 查询好友申请表，所有recv_uid_id == currentUserId的记录
+	friendApplyList := make([]user_models.FriendVerifyModel, 0)
+	l.svcCtx.DB.Preload("SendUserModel").Preload("RecvUserModel").Find(&friendApplyList, "recv_user_id = ?", currentUserId)
+	if len(friendApplyList) == 0 {
+		return &types.FriendApplyListResponse{
+			List: []types.FriendApplyItem{},
+		}, nil
+	}
+	userDataList := make([]types.FriendApplyItem, 0)
+
+	for _, friend := range friendApplyList {
+		userDataList = append(userDataList, types.FriendApplyItem{
+			FriendVerifyModelId: int8(friend.ID),
+			UserID:              friend.SenderUserId,
+			Nickname:            friend.SendUserModel.Nickname,
+			Avatar:              friend.SendUserModel.Avatar,
+		})
+	}
+	resp = &types.FriendApplyListResponse{
+		List: userDataList,
+	}
 	return
 }
