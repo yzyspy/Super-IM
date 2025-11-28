@@ -36,6 +36,11 @@ func (l *ResponseFriendApplyLogic) ResponseFriendApply(req *types.ResponseFriend
 		Status: uint8(req.Status),
 	}
 	l.svcCtx.DB.Updates(&model)
+
+	if req.Status == 1 {
+		// 同意添加好友
+
+	}
 	resp = &types.ResponseFriendApplyResponse{
 		Code: 0,
 		Msg:  "success",
