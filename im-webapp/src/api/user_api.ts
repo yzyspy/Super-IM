@@ -50,3 +50,19 @@ export function updateUserInfo(request : UpdateUserInfoRequest) : Promise<Update
 }
 
 
+export interface SearchUserRequest
+{
+    uid : string;
+    nickname? : string;
+}
+
+export interface SearchUserResponse
+{
+
+}
+// 根据uid或者昵称搜索用户
+export function searchUser(request : SearchUserRequest) : Promise<SearchUserResponse> {
+    return service.get('/api/user/user_search', request)
+}
+
+
