@@ -85,8 +85,8 @@ import {
   Location,
   Setting,
 } from '@element-plus/icons-vue'
-import {reactive, ref} from "vue";
-import {searchUser, type SearchUserRequest, type UserInfo} from "@/api/user_api";
+import {onMounted, reactive, ref} from "vue";
+import {queryMyFriendList, searchUser, type SearchUserRequest, type UserInfo} from "@/api/user_api";
 import {ElMessage} from "element-plus";
 
 const handleOpen = (key: string, keyPath: string[]) => {
@@ -99,6 +99,12 @@ const handleClose = (key: string, keyPath: string[]) => {
 const searchTxt = ref('')
 const friendList = ref<UserInfo[]>([])
 
+onMounted(() => {
+     let ret = queryMyFriendList().then((res) => {
+       console.log("queryMyFriendList")
+       console.log(res)
+     })
+  })
 
 async function handleSearch() {
   const req: SearchUserRequest = {

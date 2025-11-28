@@ -87,3 +87,9 @@ export function applyFriend(request : ApplyFriendRequest) : Promise<ApplyFriendR
 
 
 //我的好友列表
+export function queryMyFriendList() : Promise<UserInfo[]> {
+    return service.get('/api/user/friend_list')
+}
+
+
+
