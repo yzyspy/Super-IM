@@ -84,3 +84,6 @@ export interface ApplyFriendResponse
 export function applyFriend(request : ApplyFriendRequest) : Promise<ApplyFriendResponse> {
     return service.post('/api/user/apply_friend', request)
 }
+
+
+//我的好友列表

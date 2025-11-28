@@ -29,17 +29,28 @@ func NewResponseFriendApplyLogic(ctx context.Context, svcCtx *svc.ServiceContext
 }
 
 func (l *ResponseFriendApplyLogic) ResponseFriendApply(req *types.ResponseFriendApplyRequest) (resp *types.ResponseFriendApplyResponse, err error) {
-	model := user_models.FriendVerifyModel{
+	//更新好友申请的状态
+	l.svcCtx.DB.Updates(&user_models.FriendVerifyModel{
 		Model: models.Model{
 			ID: uint(req.Friend_verify_id), // 明确指定嵌套结构体的字段
 		},
-		Status: uint8(req.Status),
-	}
-	l.svcCtx.DB.Updates(&model)
+		Status: uint8(req.Status), // 同意为1，拒绝为2
+	})
 
 	if req.Status == 1 {
 		// 同意添加好友
+		friend_verify_model := user_models.FriendVerifyModel{
+			Model: models.Model{
+				ID: uint(req.Friend_verify_id), // 明确指定嵌套结构体的字段
+			},
+		}
+		l.svcCtx.DB.Take(&friend_verify_model)
 
+		friend_model := user_models.FriendModel{
+			SenderUserId: friend_verify_model.SenderUserId,
+			RecvUserId:   friend_verify_model.RecvUserId,
+		}
+		l.svcCtx.DB.Create(&friend_model)
 	}
 	resp = &types.ResponseFriendApplyResponse{
 		Code: 0,
