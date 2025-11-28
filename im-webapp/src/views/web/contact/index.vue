@@ -100,8 +100,7 @@ const searchTxt = ref('')
 const friendList = ref<UserInfo[]>([])
 
 onMounted(() => {
-     let ret = queryMyFriendList().then((res) => {
-       console.log(res)
+    queryMyFriendList().then((res) => {
        friendList.value = res.list
      })
   })
