@@ -25,7 +25,9 @@ export interface QueryUserInfoRequest {}
  * @param request
  */
 export function queryUserInfo(request: QueryUserInfoRequest) : Promise<QueryUserInfoResponse> {
-    return service.get('/api/user/user_info', request)
+    return service.get('/api/user/user_info', {
+        params: request // 【在这里传递参数】
+    });
 }
 
 
@@ -58,11 +60,27 @@ export interface SearchUserRequest
 
 export interface SearchUserResponse
 {
+    list: UserInfo[]
 
 }
 // 根据uid或者昵称搜索用户
 export function searchUser(request : SearchUserRequest) : Promise<SearchUserResponse> {
-    return service.get('/api/user/user_search', request)
+    return service.get('/api/user/user_search', {
+        params: request
+    });
 }
 
+export interface ApplyFriendRequest
+{
+    uid : string;
+    nickname? : string;
+}
 
+export interface ApplyFriendResponse
+{
+
+}
+//申请成为好友
+export function applyFriend(request : ApplyFriendRequest) : Promise<ApplyFriendResponse> {
+    return service.post('/api/user/apply_friend', request)
+}

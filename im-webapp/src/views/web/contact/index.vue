@@ -36,8 +36,17 @@
                        <template #title>
                          <span>我的好友</span>
                        </template>
-                       <el-menu-item index="1-1">
-                         <img src="http://localhost/api/file/uploads/avatar/logo_8hpzr7.png" width="30px" height="30px" />
+                       <el-menu-item index="1-1" v-for="(item, index) in friendList">
+                         <div class="user_item">
+                           <div>
+                             <img :src="item.avatar" width="30px" height="30px" />
+                           </div>
+                           <div>
+                             <div>
+                               {{item.nickname}}
+                             </div>
+                           </div>
+                         </div>
                        </el-menu-item>
                        <el-sub-menu index="1-4">
                          <template #title>二级菜单</template>
@@ -65,6 +74,9 @@
   height: 500px;
   width: 150px;
 }
+.user_item {
+  display: flex;
+}
 </style>
 <script lang="ts" setup>
 import {
@@ -73,8 +85,8 @@ import {
   Location,
   Setting,
 } from '@element-plus/icons-vue'
-import {ref} from "vue";
-import {searchUser, type SearchUserRequest} from "@/api/user_api";
+import {reactive, ref} from "vue";
+import {searchUser, type SearchUserRequest, type UserInfo} from "@/api/user_api";
 import {ElMessage} from "element-plus";
 
 const handleOpen = (key: string, keyPath: string[]) => {
@@ -85,14 +97,16 @@ const handleClose = (key: string, keyPath: string[]) => {
 }
 
 const searchTxt = ref('')
+const friendList = ref<UserInfo[]>([])
+
 
 async function handleSearch() {
-  console.log(searchTxt.value)
   const req: SearchUserRequest = {
     uid: searchTxt.value,
     nickname: searchTxt.value,
   }
   let ret = await searchUser(req)
-  console.log(ret)
+  console.log(ret.list)
+  friendList.value = ret.list
 }
 </script>
