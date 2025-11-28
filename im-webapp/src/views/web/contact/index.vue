@@ -101,8 +101,8 @@ const friendList = ref<UserInfo[]>([])
 
 onMounted(() => {
      let ret = queryMyFriendList().then((res) => {
-       console.log("queryMyFriendList")
        console.log(res)
+       friendList.value = res.list
      })
   })
 
@@ -113,6 +113,6 @@ async function handleSearch() {
   }
   let ret = await searchUser(req)
   console.log(ret.list)
-  friendList.value = ret.list
+
 }
 </script>

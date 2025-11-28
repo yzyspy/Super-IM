@@ -86,8 +86,13 @@ export function applyFriend(request : ApplyFriendRequest) : Promise<ApplyFriendR
 }
 
 
+export interface FriendListResponse
+{
+    list: UserInfo[]
+
+}
 //我的好友列表
-export function queryMyFriendList() : Promise<UserInfo[]> {
+export function queryMyFriendList() : Promise<FriendListResponse> {
     return service.get('/api/user/friend_list')
 }
 
