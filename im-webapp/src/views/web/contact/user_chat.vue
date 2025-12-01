@@ -1,6 +1,7 @@
 <script setup lang="ts">
 // 声明从路由接收的 props
-import {onActivated, onMounted, watch} from "vue";
+import {onActivated, onMounted, ref, watch} from "vue";
+import SvgIcon from "@/components/SvgIcon.vue";
 
 const props = defineProps({
   id: { // 对应路由配置中的 :id
@@ -19,15 +20,16 @@ watch(
     (newId, oldId) => {
       console.log(`--- watch 触发: ID 从 ${oldId} 变为 ${newId} ---`);
     },
-    // { immediate: true } // 如果想在组件初始化时就执行，可以加上这个
 );
+
+const inputText = ref(''); // 输入框内容
 
 </script>
 
 <template>
 <div class="user-chat-container">
   <div class="chat-header">
-    user_chat {{props.id}}
+    与user_chat {{props.id}} 对话中
   </div>
 
   <div class="chat-history">
@@ -35,7 +37,8 @@ watch(
   </div>
 
   <div class="chat-input">
-    消息输入框
+    <el-input  placeholder="请输入简介{{props.id}}"  v-model="inputText" />
+    <svg-icon icon-name="icon-zhifeiji"></svg-icon>
   </div>
 </div>
 
@@ -49,18 +52,16 @@ watch(
   flex-direction: column;
   .chat-header {
     flex-grow: 1;
-    background-color: #f5f5f5;
     flex-basis: 0;
   }
   .chat-history {
     flex-grow: 10;
-    background-color: #fff;
     flex-basis: 0;
   }
   .chat-input {
     flex-grow: 1;
-    background-color:red;
     flex-basis: 0;
+    display: flex;
   }
 }
 </style>
