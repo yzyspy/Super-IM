@@ -72,7 +72,7 @@
 }
 .contact_slide {
   height: 500px;
-  width: 150px;
+  width: 140px;
 }
 .user_item {
   display: flex;

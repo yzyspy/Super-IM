@@ -63,7 +63,7 @@ function change(menu : string) {
 
 .fim_slide {
   background-color: #dededf;
-  width: 80px;
+  width: 60px;
 
   display: flex;
   flex-direction: column;
