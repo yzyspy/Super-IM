@@ -25,7 +25,7 @@ watch(
 </script>
 
 <template>
-user_chat {{props.id}}}
+user_chat {{props.id}}
 </template>
 
 <style scoped>
