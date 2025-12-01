@@ -11,7 +11,7 @@
                @blur="handleSearch"
                />
            </div>
-           <span>添加群聊</span>
+           <span> <svg-icon iconName="icon-bianji"></svg-icon></span>
         </div>
          <div class="content_menu">
            <el-scrollbar height="480px">
@@ -37,7 +37,7 @@
                          <span>我的好友</span>
                        </template>
                        <el-menu-item index="1-1" v-for="(item, index) in friendList">
-                         <div class="user_item">
+                         <div class="user_item" @click="onUserClick(item)">
                            <div>
                              <img :src="item.avatar" width="30px" height="30px" />
                            </div>
@@ -88,6 +88,8 @@ import {
 import {onMounted, reactive, ref} from "vue";
 import {queryMyFriendList, searchUser, type SearchUserRequest, type UserInfo} from "@/api/user_api";
 import {ElMessage} from "element-plus";
+import {useRouter} from "vue-router";
+import SvgIcon from "@/components/SvgIcon.vue";
 
 const handleOpen = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
@@ -95,6 +97,8 @@ const handleOpen = (key: string, keyPath: string[]) => {
 const handleClose = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
 }
+
+const router = useRouter();
 
 const searchTxt = ref('')
 const friendList = ref<UserInfo[]>([])
@@ -112,6 +116,10 @@ async function handleSearch() {
   }
   let ret = await searchUser(req)
   console.log(ret.list)
+}
 
+function onUserClick(item: UserInfo) {
+ // router.push("/user_chat")
+  router.push({ name: 'user_chat' , params: { id: item.uid} })
 }
 </script>

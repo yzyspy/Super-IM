@@ -29,11 +29,17 @@ const router = createRouter({
                             name: 'user_list',
                             component: () => import('@/views/web/contact/user_list.vue')
                         },
-                      {
-                        path: '/welcome',//加反斜杠是绝对路径，匹配的是http://localhost:5173/welcome，去掉反斜杠是相对路径，匹配的是http://localhost:5173/contact/welcome
-                        name: 'welcome',
-                        component: () => import('@/views/web/contact/welcome.vue')
-                      }
+                        {
+                          path: 'welcome',//加反斜杠是绝对路径，匹配的是http://localhost:5173/welcome，去掉反斜杠是相对路径，匹配的是http://localhost:5173/contact/welcome
+                          name: 'welcome',
+                          component: () => import('@/views/web/contact/welcome.vue')
+                        },
+                        {
+                            path: 'user_chat/:id',//对话页面,path需要配置参数
+                            name: 'user_chat',
+                            props: true,//需要设置为true
+                            component: () => import('@/views/web/contact/user_chat.vue'),
+                        }
                     ]
                 },
                 {
