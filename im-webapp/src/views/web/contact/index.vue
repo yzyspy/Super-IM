@@ -57,6 +57,7 @@
            </el-scrollbar>
          </div>
     </div>
+    <div class="line"></div>
     <div class="contact_main">
          <router-view></router-view>
     </div>
@@ -76,6 +77,13 @@
 }
 .user_item {
   display: flex;
+}
+.contact_main {
+
+}
+.line {
+  width: 1px;
+  background-color: #e6e6e6;
 }
 </style>
 <script lang="ts" setup>

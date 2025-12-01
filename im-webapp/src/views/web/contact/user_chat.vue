@@ -25,9 +25,42 @@ watch(
 </script>
 
 <template>
-user_chat {{props.id}}
+<div class="user-chat-container">
+  <div class="chat-header">
+    user_chat {{props.id}}
+  </div>
+
+  <div class="chat-history">
+    聊天记录
+  </div>
+
+  <div class="chat-input">
+    消息输入框
+  </div>
+</div>
+
 </template>
 
-<style scoped>
-
+<style scoped lang="scss">
+.user-chat-container {
+  width: 600px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  .chat-header {
+    flex-grow: 1;
+    background-color: #f5f5f5;
+    flex-basis: 0;
+  }
+  .chat-history {
+    flex-grow: 10;
+    background-color: #fff;
+    flex-basis: 0;
+  }
+  .chat-input {
+    flex-grow: 1;
+    background-color:red;
+    flex-basis: 0;
+  }
+}
 </style>
