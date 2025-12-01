@@ -39,12 +39,10 @@
                        <el-menu-item index="1-1" v-for="(item, index) in friendList">
                          <div class="user_item" @click="onUserClick(item)">
                            <div>
-                             <img :src="item.avatar" width="30px" height="30px" />
+                             <el-avatar :src="item.avatar" width="30px" height="30px" />
                            </div>
-                           <div>
-                             <div>
-                               {{item.nickname}}
-                             </div>
+                           <div class="nickname">
+                             {{item.nickname}}
                            </div>
                          </div>
                        </el-menu-item>
@@ -77,6 +75,9 @@
 }
 .user_item {
   display: flex;
+  .nickname {
+     margin-left: 10px;
+  }
 }
 .contact_main {
 
