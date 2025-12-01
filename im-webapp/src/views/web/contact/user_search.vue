@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <div>user_list</div>
+  <div>user_search</div>
 </template>
 
 <style scoped>

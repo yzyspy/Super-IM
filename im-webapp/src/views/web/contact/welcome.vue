@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <div><el-button type="danger">welcome</el-button></div>
+  <div>welcome</div>
 </template>
 
 <style scoped>
