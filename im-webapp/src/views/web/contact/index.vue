@@ -119,7 +119,7 @@ onMounted(() => {
   })
 
 async function handleSearch() {
-  router.push({  name: 'search' , params: { uid: searchTxt.value, nickname: searchTxt.value} })
+  router.push({  name: 'search' , params: { keyword: searchTxt.value} })
 }
 
 function onUserClick(item: UserInfo) {

@@ -23,12 +23,8 @@ const router = createRouter({
                     path: '/contact',
                     name: 'contact',
                     component: () => import('@/views/web/contact/index.vue'),
+                    redirect: {name: 'welcome'},//默认加载的子路由
                     children: [
-                        {
-                            path: '',
-                            name: 'user_list',
-                            component: () => import('@/views/web/contact/user_list.vue')
-                        },
                         {
                           path: 'welcome',//加反斜杠是绝对路径，匹配的是http://localhost:5173/welcome，去掉反斜杠是相对路径，匹配的是http://localhost:5173/contact/welcome
                           name: 'welcome',
@@ -41,8 +37,9 @@ const router = createRouter({
                             component: () => import('@/views/web/contact/user_detail.vue'),
                         },
                         {
-                            path: 'search',
+                            path: 'search/:keyword',
                             name: 'search',
+                            props: true,//需要设置为true
                             component: () => import('@/views/web/contact/search/index.vue'),
                             children: [
                                 {
@@ -65,7 +62,7 @@ const router = createRouter({
                     component: () => import('@/views/web/info/index.vue'),
                     children: [
                         {
-                            path: '',
+                            path: '',//配置为空，默认加载my_info， 也可以通过给父路由配置redirect实现
                             name: 'my_info',
                             component: () => import('@/views/web/info/my_info.vue')
                         },
