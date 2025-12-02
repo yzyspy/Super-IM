@@ -97,4 +97,22 @@ export function queryMyFriendList() : Promise<FriendListResponse> {
 }
 
 
+export interface FriendApplyListResponse {
+    code: number
+    msg: string
+    list: FriendApplyItem[]
+}
+
+export interface FriendApplyItem {
+    friend_verify_model_id: number
+    uid: number
+    nickname: string
+    avatar: string
+}
+//查看我的好友申请验证列表
+export function getFriendApplyList() : Promise<FriendApplyListResponse> {
+    return service.get('/api/user/friend_apply_list')
+}
+
+
 
