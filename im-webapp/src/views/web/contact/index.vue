@@ -123,6 +123,7 @@ async function handleSearch() {
     uid: searchTxt.value,
     nickname: searchTxt.value,
   }
+  router.push({  name: 'user_chat' , params: { uid: searchTxt.value, nickname: searchTxt.value} })
   let ret = await searchUser(req)
   console.log(ret.list)
 }

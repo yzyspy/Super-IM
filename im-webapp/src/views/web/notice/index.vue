@@ -12,6 +12,20 @@ onMounted(() => {
 </script>
 
 <template>
+<div>
+  <el-button-group>
+    <el-button type="primary">通知</el-button>
+    <el-button type="primary">私信</el-button>
+    <el-dropdown>
+      <el-button type="primary">通知</el-button>
+      <el-button type="primary">私信</el-button>
+      <el-dropdown-menu>
+        <el-dropdown-item>通知</el-dropdown-item>
+        <el-dropdown-item>私信</el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
+  </el-button-group>
+</div>
 
 </template>
 
