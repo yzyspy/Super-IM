@@ -39,6 +39,23 @@ const router = createRouter({
                             name: 'user_detail',
                             props: true,//需要设置为true
                             component: () => import('@/views/web/contact/user_detail.vue'),
+                        },
+                        {
+                            path: 'search',
+                            name: 'search',
+                            component: () => import('@/views/web/contact/search/index.vue'),
+                            children: [
+                                {
+                                    path: 'search_user',
+                                    name: 'search_user',
+                                    component: () => import('@/views/web/contact/search/search_user.vue')
+                                },
+                                {
+                                    path: 'search_group',
+                                    name: 'search_group',
+                                    component: () => import('@/views/web/contact/search/search_group.vue')
+                                },
+                            ]
                         }
                     ]
                 },

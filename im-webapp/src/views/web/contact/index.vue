@@ -119,13 +119,7 @@ onMounted(() => {
   })
 
 async function handleSearch() {
-  const req: SearchUserRequest = {
-    uid: searchTxt.value,
-    nickname: searchTxt.value,
-  }
-  router.push({  name: 'user_chat' , params: { uid: searchTxt.value, nickname: searchTxt.value} })
-  let ret = await searchUser(req)
-  console.log(ret.list)
+  router.push({  name: 'search' , params: { uid: searchTxt.value, nickname: searchTxt.value} })
 }
 
 function onUserClick(item: UserInfo) {
