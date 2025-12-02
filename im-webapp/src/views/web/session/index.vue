@@ -3,7 +3,7 @@
 </script>
 
 <template>
-session
+  <router-view></router-view>
 </template>
 
 <style scoped>

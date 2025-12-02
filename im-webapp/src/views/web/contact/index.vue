@@ -129,6 +129,6 @@ async function handleSearch() {
 
 function onUserClick(item: UserInfo) {
  // router.push("/user_chat")
-  router.push({ name: 'user_chat' , params: { id: item.uid} })
+  router.push({ name: 'user_detail' , params: { id: item.uid} })
 }
 </script>

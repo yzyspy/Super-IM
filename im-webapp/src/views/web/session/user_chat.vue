@@ -33,7 +33,7 @@ const inputText = ref(''); // 输入框内容
   </div>
 
   <div class="chat-history">
-    聊天记录
+    <el-input v-model="inputText" type="textarea" placeholder="请输入内容"  />
   </div>
 
   <div class="chat-input">
@@ -55,11 +55,11 @@ const inputText = ref(''); // 输入框内容
     flex-basis: 0;
   }
   .chat-history {
-    flex-grow: 10;
+    flex-grow: 12;
     flex-basis: 0;
   }
   .chat-input {
-    flex-grow: 1;
+    flex-grow: 1.5;
     flex-basis: 0;
     display: flex;
   }

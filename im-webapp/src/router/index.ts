@@ -35,10 +35,10 @@ const router = createRouter({
                           component: () => import('@/views/web/contact/welcome.vue')
                         },
                         {
-                            path: 'user_chat/:id',//对话页面,path需要配置参数
-                            name: 'user_chat',
+                            path: 'user_detail/:id',//对话页面,path需要配置参数
+                            name: 'user_detail',
                             props: true,//需要设置为true
-                            component: () => import('@/views/web/contact/user_chat.vue'),
+                            component: () => import('@/views/web/contact/user_detail.vue'),
                         }
                     ]
                 },
@@ -72,7 +72,15 @@ const router = createRouter({
                 {
                     path: '/session',
                     name: 'session',
-                    component: () => import('@/views/web/session/index.vue')
+                    component: () => import('@/views/web/session/index.vue'),
+                    children: [
+                        {
+                            path: 'user_chat/:id',//对话页面,path需要配置参数
+                            name: 'user_chat',
+                            props: true,//需要设置为true
+                            component: () => import('@/views/web/session/user_chat.vue'),
+                        },
+                    ]
                 },
                 {
                     path: '/notice',
