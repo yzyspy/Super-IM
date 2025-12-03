@@ -19,6 +19,7 @@ type FriendApplyItem struct {
 	Nickname            string `json:"nickname"`
 	Avatar              string `json:"avatar"`
 	Role                int8   `json:"role"`
+	Status              int8   `json:"status"` // 0:待处理 1:同意 2:拒绝
 }
 
 type FriendApplyListRequest struct {

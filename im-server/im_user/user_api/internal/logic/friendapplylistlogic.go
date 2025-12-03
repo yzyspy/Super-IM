@@ -44,6 +44,7 @@ func (l *FriendApplyListLogic) FriendApplyList(req *types.FriendApplyListRequest
 			UserID:              friend.SenderUserId,
 			Nickname:            friend.SendUserModel.Nickname,
 			Avatar:              friend.SendUserModel.Avatar,
+			Status:              int8(friend.Status),
 		})
 	}
 	resp = &types.FriendApplyListResponse{

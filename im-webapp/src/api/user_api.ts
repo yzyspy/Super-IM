@@ -17,14 +17,6 @@ export interface UserInfo {
 }
 
 
-export interface FriendApplyUserInfo {
-    uid : number;
-    nickname : string;
-    avatar : string;
-    friend_verify_model_id : number;
-}
-
-
 export interface QueryUserInfoRequest {}
 
 
@@ -118,6 +110,7 @@ export interface FriendApplyItem {
     uid: number
     nickname: string
     avatar: string
+    status : number
 }
 //查看我的好友申请验证列表
 export function getFriendApplyList() : Promise<FriendApplyListResponse> {

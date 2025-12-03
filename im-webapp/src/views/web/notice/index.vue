@@ -1,11 +1,12 @@
 <script setup lang="ts">
 
 import {onMounted, ref} from "vue";
-import {type FriendApplyUserInfo, getFriendApplyList, type UserInfo} from "@/api/user_api";
+import {getFriendApplyList, type FriendApplyItem, type UserInfo} from "@/api/user_api";
 import { ArrowDown } from '@element-plus/icons-vue';
+import {ElMessage} from "element-plus";
 
 
-const applyList = ref<FriendApplyUserInfo[]>([])
+const applyList = ref<FriendApplyItem[]>([])
 
 onMounted(() => {
   //获取我的好友申请验证列表
@@ -14,8 +15,8 @@ onMounted(() => {
   })
 })
 
-function handleCommand(command: string) {
-  console.log(command);
+const handleCommand = (command: string) => {
+  console.log(command)
 }
 
 </script>
@@ -26,19 +27,27 @@ function handleCommand(command: string) {
         <span>我的好友申请</span>
       </template>
       <el-menu-item index="1-3" v-for="(item, index) in applyList" :key="index">
-        {{item.nickname}}
-        <el-dropdown @click="handleCommand">
-    <span class="el-dropdown-link">
-      同意<el-icon class="el-icon--right"><arrow-down /></el-icon>
-    </span>
+       <span>{{item.nickname}}</span>
 
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item>同意</el-dropdown-item>
-              <el-dropdown-item>忽略</el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
+        <div v-if="item.status === 0">
+              <el-dropdown @command=handleCommand>
+                <span class="el-dropdown-link" @click="handleCommand('agree')">
+                  同意<el-icon> <arrow-down/></el-icon>
+                </span>
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item command="reject" >拒绝</el-dropdown-item>
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
+        </div>
+        <div v-else-if="item.status === 1">
+          已同意
+        </div>
+        <div v-else-if="item.status === 2">
+          已拒绝
+        </div>
+
       </el-menu-item>
     </el-sub-menu>
   </el-menu>
