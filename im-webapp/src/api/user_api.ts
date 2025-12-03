@@ -71,13 +71,15 @@ export function searchUser(request : SearchUserRequest) : Promise<SearchUserResp
 
 export interface ApplyFriendRequest
 {
-    uid : string;
+    uid : number;
     nickname? : string;
 }
 
 export interface ApplyFriendResponse
 {
-
+    code: number;
+    msg: string;
+    data: boolean;
 }
 //申请成为好友
 export function applyFriend(request : ApplyFriendRequest) : Promise<ApplyFriendResponse> {

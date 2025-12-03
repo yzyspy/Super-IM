@@ -17,19 +17,42 @@ function handleCommand(command: string) {
 
 </script>
 <template>
-  <el-dropdown @click="handleCommand">
+  <el-menu>
+    <el-sub-menu index="1">
+      <template #title>
+        <span>我的好友申请</span>
+      </template>
+      <el-menu-item index="1-3">
+        <el-dropdown @click="handleCommand">
     <span class="el-dropdown-link">
-      下拉菜单<el-icon class="el-icon--right"><arrow-down /></el-icon>
+      同意<el-icon class="el-icon--right"><arrow-down /></el-icon>
     </span>
 
-    <template #dropdown>
-      <el-dropdown-menu>
-        <el-dropdown-item>选项一</el-dropdown-item>
-        <el-dropdown-item divided>分割线</el-dropdown-item>
-        <el-dropdown-item disabled>禁用选项</el-dropdown-item>
-      </el-dropdown-menu>
-    </template>
-  </el-dropdown>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item>拒绝</el-dropdown-item>
+              <el-dropdown-item>忽略</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+      </el-menu-item>
+      <el-menu-item index="1-3">
+        <el-dropdown @click="handleCommand">
+    <span class="el-dropdown-link">
+      同意<el-icon class="el-icon--right"><arrow-down /></el-icon>
+    </span>
+
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item>拒绝</el-dropdown-item>
+              <el-dropdown-item>忽略</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+      </el-menu-item>
+    </el-sub-menu>
+  </el-menu>
+
 </template>
 
 <style scoped>

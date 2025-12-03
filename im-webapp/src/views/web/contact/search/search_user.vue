@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import {useRouter} from "vue-router";
 import {onMounted, ref} from "vue";
-import {searchUser, type SearchUserRequest, type UserInfo} from "@/api/user_api";
+import {applyFriend, type ApplyFriendRequest, searchUser, type SearchUserRequest, type UserInfo} from "@/api/user_api";
+import {ElMessage} from "element-plus";
 
 const router = useRouter();
 
@@ -16,15 +17,27 @@ onMounted(() => {
   const req: SearchUserRequest = {
     keyword : props.keyword
   }
-  let ret = searchUser(req).then((res) => {
+ searchUser(req).then((res) => {
     searchUserList.value = res.list
   })
 })
 const searchTxt = ref(props.keyword)
 const searchUserList = ref<UserInfo[]>([])
+
+const addFriend = (uid: number) => {
+  const req : ApplyFriendRequest = {
+    uid : uid
+  }
+  applyFriend(req).then((res) => {
+    if(res.code === 0 && res.data) {
+      ElMessage.success('申请成功')
+    } else {
+      ElMessage.error(res.msg)
+    }
+  })
+}
+
 </script>
-
-
 
 <template>
   <div class="contact-search">
@@ -39,6 +52,7 @@ const searchUserList = ref<UserInfo[]>([])
         <div class="nickname">
           {{item.nickname}}
         </div>
+        <el-button @click="addFriend(item.uid)">加好友</el-button>
       </div>
     </div>
   </div>
