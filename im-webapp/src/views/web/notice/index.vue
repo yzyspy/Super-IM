@@ -1,7 +1,13 @@
 <script setup lang="ts">
 
 import {onMounted, ref} from "vue";
-import {getFriendApplyList, type FriendApplyItem, type UserInfo} from "@/api/user_api";
+import {
+  getFriendApplyList,
+  type FriendApplyItem,
+  type UserInfo,
+  handleResponseFriendApply,
+  type ResponseFriendApplyRequest
+} from "@/api/user_api";
 import { ArrowDown } from '@element-plus/icons-vue';
 import {ElMessage} from "element-plus";
 
@@ -15,8 +21,18 @@ onMounted(() => {
   })
 })
 
-const handleCommand = (command: object) => {
-  console.log(command)
+interface Command {
+  id: number
+  operation: number
+}
+
+const handleCommand = async (command: Command) => {
+  const req : ResponseFriendApplyRequest = {
+    id: command.id,
+    status: command.operation
+  }
+  var ret = await handleResponseFriendApply(req);
+  console.log(ret);
 }
 
 function onItemClick(item : FriendApplyItem) {
@@ -31,7 +47,7 @@ function onItemClick(item : FriendApplyItem) {
         <span>我的好友申请</span>
       </template>
       <el-menu-item index="1-3" v-for="(item, index) in applyList" :key="index">
-        <div @click="onItemClick(item)">
+        <div @click="onItemClick(item)" class="apply-item">
             <span>{{item.nickname}}</span>
             <el-avatar :src="item.avatar"></el-avatar>
             <div v-if="item.status === 0">
@@ -65,5 +81,8 @@ function onItemClick(item : FriendApplyItem) {
   color: var(--el-color-primary);
   display: flex;
   align-items: center;
+}
+.apply-item {
+  display: flex;
 }
 </style>

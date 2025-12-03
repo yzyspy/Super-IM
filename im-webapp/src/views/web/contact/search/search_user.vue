@@ -14,12 +14,12 @@ const props = defineProps({
 });
 
 onMounted(() => {
-  const req: SearchUserRequest = {
-    keyword : props.keyword
-  }
- searchUser(req).then((res) => {
-    searchUserList.value = res.list
-  })
+    const req: SearchUserRequest = {
+      keyword : props.keyword
+    }
+   searchUser(req).then((res) => {
+      searchUserList.value = res.list
+    })
 })
 const searchTxt = ref(props.keyword)
 const searchUserList = ref<UserInfo[]>([])
@@ -37,11 +37,22 @@ const addFriend = (uid: number) => {
   })
 }
 
+function doSearchUser() {
+  const req: SearchUserRequest = {
+    keyword : searchTxt.value
+  }
+  console.log(req)
+  searchUser(req).then((res) => {
+    searchUserList.value = res.list
+  })
+}
+
 </script>
 
 <template>
   <div class="contact-search">
     <el-input v-model="searchTxt" placeholder="请输入用户号或者用户昵称"></el-input>
+    <el-button @click="doSearchUser">搜索</el-button>
   </div>
   <div class="search-result">
     <div class="search-user" v-for="item in searchUserList">
@@ -52,8 +63,8 @@ const addFriend = (uid: number) => {
         <div class="nickname">
           {{item.nickname}}
         </div>
-        <el-button @click="addFriend(item.uid)">加好友</el-button>
       </div>
+      <el-button @click="addFriend(item.uid)">加好友</el-button>
     </div>
   </div>
 
@@ -67,7 +78,11 @@ const addFriend = (uid: number) => {
 .search-user {
   width: 100px;
   height: 100px;
-  background-color: #669900;
-  border: red solid 1px;
+}
+.contact-search {
+  display: flex;
+}
+.user_item {
+  display: flex;
 }
 </style>

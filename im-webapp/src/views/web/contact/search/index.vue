@@ -26,14 +26,24 @@ const searchTxt = ref(props.keyword)
 </script>
 
 <template>
-
-  <router-link :to="{name:'search_user', params: { keyword: searchTxt}}">找人</router-link>
-  <router-link :to="{name:'search_group', params: { keyword: searchTxt}}">找群</router-link>
-
- <router-view></router-view>
-
+  <div class="search-container">
+    <div class="search-user-container">
+      <router-link :to="{name:'search_user', params: { keyword: searchTxt}}">找人</router-link>
+    </div>
+    <div class="search-group-container">
+      <router-link :to="{name:'search_group', params: { keyword: searchTxt}}">找群</router-link>
+    </div>
+  </div>
+  <div>
+    <router-view></router-view>
+  </div>
 </template>
 
 <style scoped>
-
+.search-container {
+  display: flex;
+}
+.search-group-container {
+  margin-left: 40px;
+}
 </style>

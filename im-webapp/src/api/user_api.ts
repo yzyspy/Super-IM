@@ -130,7 +130,7 @@ export interface ResponseFriendApplyResponse {
 }
 //同意或者拒绝好友申请
 export function handleResponseFriendApply(request : ResponseFriendApplyRequest) : Promise<ResponseFriendApplyResponse> {
-    return service.put('/api/user/response_friend_apply')
+    return service.put('/api/user/response_friend_apply', request)
 }
 
 
