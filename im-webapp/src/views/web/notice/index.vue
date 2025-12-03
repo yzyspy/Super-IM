@@ -19,6 +19,10 @@ const handleCommand = (command: object) => {
   console.log(command)
 }
 
+function onItemClick(item : FriendApplyItem) {
+
+}
+
 </script>
 <template>
   <el-menu>
@@ -27,29 +31,28 @@ const handleCommand = (command: object) => {
         <span>我的好友申请</span>
       </template>
       <el-menu-item index="1-3" v-for="(item, index) in applyList" :key="index">
-       <span>{{item.nickname}}</span>
-        <el-avatar size="mini" :src="item.avatar"></el-avatar>
-        <span>{{item.friend_verify_model_id}}</span>
-
-        <div v-if="item.status === 0">
+        <div @click="onItemClick(item)">
+            <span>{{item.nickname}}</span>
+            <el-avatar :src="item.avatar"></el-avatar>
+            <div v-if="item.status === 0">
               <el-dropdown @command=handleCommand>
-                <span class="el-dropdown-link" @click="handleCommand({'id': item.friend_verify_model_id, 'operation': 1})">
-                  同意<el-icon> <arrow-down/></el-icon>
-                </span>
+                  <span class="el-dropdown-link" @click="handleCommand({'id': item.friend_verify_model_id, 'operation': 1})">
+                    同意<el-icon> <arrow-down/></el-icon>
+                  </span>
                 <template #dropdown>
                   <el-dropdown-menu>
                     <el-dropdown-item :command="{'id': item.friend_verify_model_id, 'operation': 2}" >拒绝</el-dropdown-item>
                   </el-dropdown-menu>
                 </template>
               </el-dropdown>
+            </div>
+            <div v-else-if="item.status === 1">
+              已同意
+            </div>
+            <div v-else-if="item.status === 2">
+              已拒绝
+            </div>
         </div>
-        <div v-else-if="item.status === 1">
-          已同意
-        </div>
-        <div v-else-if="item.status === 2">
-          已拒绝
-        </div>
-
       </el-menu-item>
     </el-sub-menu>
   </el-menu>
