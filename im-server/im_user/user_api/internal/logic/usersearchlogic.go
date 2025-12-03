@@ -8,11 +8,9 @@ import (
 	"fmt"
 	"im-server/common/models"
 	"im-server/common/models/list_query"
-	"im-server/im_user/user_models"
-	"strconv"
-
 	"im-server/im_user/user_api/internal/svc"
 	"im-server/im_user/user_api/internal/types"
+	"im-server/im_user/user_models"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -33,9 +31,12 @@ func NewUserSearchLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserSe
 
 func (l *UserSearchLogic) UserSearch(req *types.UserSearchRequest) (resp *types.UserListResponse, err error) {
 	//优先根据用户昵称搜索，昵称没有根据uid搜索
-	keyword := req.Nickname
+	keyword := req.Keyword
 	if len(keyword) == 0 {
-		keyword = strconv.Itoa(int(req.UserID))
+		return &types.UserListResponse{
+			List:  []types.UserInfoData{},
+			Count: 0,
+		}, nil
 	}
 
 	list, count, err := list_query.ListQuery(l.svcCtx.DB, user_models.UserModel{}, list_query.Option{

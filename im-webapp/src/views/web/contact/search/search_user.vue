@@ -1,31 +1,27 @@
 <script setup lang="ts">
 import {useRouter} from "vue-router";
 import {onMounted, ref} from "vue";
-import {searchUser, type SearchUserRequest} from "@/api/user_api";
+import {searchUser, type SearchUserRequest, type UserInfo} from "@/api/user_api";
 
 const router = useRouter();
 
 const props = defineProps({
   keyword: {
-    type: [String, Number],
+    type: [String],
     required: true
   },
 });
 
 onMounted(() => {
-  const keyword = props.keyword
-  console.log(keyword)
-
   const req: SearchUserRequest = {
-    uid: keyword,
-    nickname: keyword,
+    keyword : props.keyword
   }
   let ret = searchUser(req).then((res) => {
-    console.log(res.list)
+    searchUserList.value = res.list
   })
 })
 const searchTxt = ref(props.keyword)
-
+const searchUserList = ref<UserInfo[]>([])
 </script>
 
 
@@ -35,26 +31,15 @@ const searchTxt = ref(props.keyword)
     <el-input v-model="searchTxt" placeholder="请输入用户号或者用户昵称"></el-input>
   </div>
   <div class="search-result">
-    <div class="search-user">
-
-    </div>
-    <div class="search-user">
-
-    </div>
-    <div class="search-user">
-
-    </div>
-    <div class="search-user">
-
-    </div>
-    <div class="search-user">
-
-    </div>
-    <div class="search-user">
-
-    </div>
-    <div class="search-user">
-
+    <div class="search-user" v-for="item in searchUserList">
+      <div class="user_item">
+        <div>
+          <el-avatar :src="item.avatar" width="30px" height="30px" />
+        </div>
+        <div class="nickname">
+          {{item.nickname}}
+        </div>
+      </div>
     </div>
   </div>
 

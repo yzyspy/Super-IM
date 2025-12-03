@@ -54,8 +54,7 @@ export function updateUserInfo(request : UpdateUserInfoRequest) : Promise<Update
 
 export interface SearchUserRequest
 {
-    uid : string;
-    nickname? : string;
+    keyword? : string
 }
 
 export interface SearchUserResponse

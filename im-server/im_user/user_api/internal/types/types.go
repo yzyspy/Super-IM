@@ -118,6 +118,5 @@ type UserListResponse struct {
 }
 
 type UserSearchRequest struct {
-	UserID   uint   `form:"uid"`
-	Nickname string `form:"nickname"`
+	Keyword string `form:"keyword"`
 }
