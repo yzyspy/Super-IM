@@ -16,6 +16,15 @@ export interface UserInfo {
     abstract : string
 }
 
+
+export interface FriendApplyUserInfo {
+    uid : number;
+    nickname : string;
+    avatar : string;
+    friend_verify_model_id : number;
+}
+
+
 export interface QueryUserInfoRequest {}
 
 
