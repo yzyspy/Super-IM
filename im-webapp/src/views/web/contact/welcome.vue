@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <div>welcome</div>
+  <div>主要功能：用户注册、用户登录、用户修改个人信息、添加好友、单聊、创建群组、群聊、发送图片和语音、视频通话</div>
 </template>
 
 <style scoped>

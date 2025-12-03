@@ -23,73 +23,17 @@ watch(
 
 const searchTxt = ref(props.keyword)
 
-function changeTab(index: number) {
-    // TODO: change tab
-    if (index == 0) {
-        router.push({ name: 'search_user' })
-    } else if (index == 1) {
-        router.push({ name: 'search_group' })
-    }
-}
-//
-// const req: SearchUserRequest = {
-//   uid: searchTxt.value,
-//   nickname: searchTxt.value,
-// }
-// let ret = await searchUser(req)
-// console.log(ret.list)
-
 </script>
 
 <template>
-  <div class="contact-search">
-    <el-input v-model="searchTxt" placeholder="请输入用户号或者用户昵称"></el-input>
-    <el-button @click="changeTab(0)">搜索</el-button>
-  </div>
-  <el-button @click="changeTab(0)">找人</el-button>
-  <el-button @click="changeTab(1)">找群</el-button>
-  <div class="search-result">
-    <div class="search-user">
 
-    </div>
-    <div class="search-user">
-
-    </div>
-    <div class="search-user">
-
-    </div>
-    <div class="search-user">
-
-    </div>
-    <div class="search-user">
-
-    </div>
-    <div class="search-user">
-
-    </div>
-    <div class="search-user">
-
-    </div>
-  </div>
+  <router-link :to="{name:'search_user', params: { keyword: searchTxt}}">找人</router-link>
+  <router-link :to="{name:'search_group', params: { keyword: searchTxt}}">找群</router-link>
 
  <router-view></router-view>
 
 </template>
 
 <style scoped>
-.contact-search {
-  display: flex;
-  align-items: center;
-}
-.search-result {
-  display: flex;
-  flex-wrap: wrap;
-}
-.search-user {
-  width: 100px;
-  height: 100px;
-  background-color: #669900;
-  border: red solid 1px;
-}
 
 </style>

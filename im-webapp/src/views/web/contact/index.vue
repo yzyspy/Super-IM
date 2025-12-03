@@ -37,7 +37,7 @@
                          <span>我的好友</span>
                        </template>
                        <el-menu-item index="1-1" v-for="(item, index) in friendList">
-                         <div class="user_item" @click="onUserClick(item)">
+                         <div class="user_item" :class="{active: Number(route.params.id) === item.uid}" @click="onUserClick(item)">
                            <div>
                              <el-avatar :src="item.avatar" width="30px" height="30px" />
                            </div>
@@ -78,6 +78,9 @@
   .nickname {
      margin-left: 10px;
   }
+  &.active {
+    background-color: #f5f5f5;
+  }
 }
 .contact_main {
 
@@ -97,7 +100,7 @@ import {
 import {onMounted, reactive, ref} from "vue";
 import {queryMyFriendList, searchUser, type SearchUserRequest, type UserInfo} from "@/api/user_api";
 import {ElMessage} from "element-plus";
-import {useRouter} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 import SvgIcon from "@/components/SvgIcon.vue";
 
 const handleOpen = (key: string, keyPath: string[]) => {
@@ -108,6 +111,7 @@ const handleClose = (key: string, keyPath: string[]) => {
 }
 
 const router = useRouter();
+const route= useRoute();
 
 const searchTxt = ref('')
 const friendList = ref<UserInfo[]>([])

@@ -40,16 +40,19 @@ const router = createRouter({
                             path: 'search/:keyword',
                             name: 'search',
                             props: true,//需要设置为true
+                            redirect: {name: 'search_user'},
                             component: () => import('@/views/web/contact/search/index.vue'),
                             children: [
                                 {
-                                    path: 'search_user',
+                                    path: 'search_user/:keyword',
                                     name: 'search_user',
+                                    props: true,//需要设置为true
                                     component: () => import('@/views/web/contact/search/search_user.vue')
                                 },
                                 {
-                                    path: 'search_group',
+                                    path: 'search_group/:keyword',
                                     name: 'search_group',
+                                    props: true,//需要设置为true
                                     component: () => import('@/views/web/contact/search/search_group.vue')
                                 },
                             ]
