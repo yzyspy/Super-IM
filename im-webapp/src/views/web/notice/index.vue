@@ -26,6 +26,7 @@ function handleCommand(command: string) {
         <span>我的好友申请</span>
       </template>
       <el-menu-item index="1-3" v-for="(item, index) in applyList" :key="index">
+        {{item.nickname}}
         <el-dropdown @click="handleCommand">
     <span class="el-dropdown-link">
       同意<el-icon class="el-icon--right"><arrow-down /></el-icon>
@@ -33,7 +34,7 @@ function handleCommand(command: string) {
 
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item>{{item.nickname}}</el-dropdown-item>
+              <el-dropdown-item>同意</el-dropdown-item>
               <el-dropdown-item>忽略</el-dropdown-item>
             </el-dropdown-menu>
           </template>
