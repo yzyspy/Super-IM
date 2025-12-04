@@ -21,8 +21,9 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	User_CreateUser_FullMethodName = "/user_rpc.User/CreateUser"
-	User_GetUser_FullMethodName    = "/user_rpc.User/GetUser"
+	User_CreateUser_FullMethodName   = "/user_rpc.User/CreateUser"
+	User_GetUser_FullMethodName      = "/user_rpc.User/GetUser"
+	User_GetUserBatch_FullMethodName = "/user_rpc.User/GetUserBatch"
 )
 
 // UserClient is the client API for User service.
@@ -31,6 +32,7 @@ const (
 type UserClient interface {
 	CreateUser(ctx context.Context, in *UserCreateRequest, opts ...grpc.CallOption) (*UserCreateResponse, error)
 	GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*GetUserResponse, error)
+	GetUserBatch(ctx context.Context, in *GetUserBatchRequest, opts ...grpc.CallOption) (*GetUserBatchResponse, error)
 }
 
 type userClient struct {
@@ -61,12 +63,23 @@ func (c *userClient) GetUser(ctx context.Context, in *GetUserRequest, opts ...gr
 	return out, nil
 }
 
+func (c *userClient) GetUserBatch(ctx context.Context, in *GetUserBatchRequest, opts ...grpc.CallOption) (*GetUserBatchResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetUserBatchResponse)
+	err := c.cc.Invoke(ctx, User_GetUserBatch_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServer is the server API for User service.
 // All implementations must embed UnimplementedUserServer
 // for forward compatibility.
 type UserServer interface {
 	CreateUser(context.Context, *UserCreateRequest) (*UserCreateResponse, error)
 	GetUser(context.Context, *GetUserRequest) (*GetUserResponse, error)
+	GetUserBatch(context.Context, *GetUserBatchRequest) (*GetUserBatchResponse, error)
 	mustEmbedUnimplementedUserServer()
 }
 
@@ -82,6 +95,9 @@ func (UnimplementedUserServer) CreateUser(context.Context, *UserCreateRequest) (
 }
 func (UnimplementedUserServer) GetUser(context.Context, *GetUserRequest) (*GetUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUser not implemented")
+}
+func (UnimplementedUserServer) GetUserBatch(context.Context, *GetUserBatchRequest) (*GetUserBatchResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserBatch not implemented")
 }
 func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}
 func (UnimplementedUserServer) testEmbeddedByValue()              {}
@@ -140,6 +156,24 @@ func _User_GetUser_Handler(srv interface{}, ctx context.Context, dec func(interf
 	return interceptor(ctx, in, info, handler)
 }
 
+func _User_GetUserBatch_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserBatchRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).GetUserBatch(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_GetUserBatch_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).GetUserBatch(ctx, req.(*GetUserBatchRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // User_ServiceDesc is the grpc.ServiceDesc for User service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -154,6 +188,10 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUser",
 			Handler:    _User_GetUser_Handler,
+		},
+		{
+			MethodName: "GetUserBatch",
+			Handler:    _User_GetUserBatch_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

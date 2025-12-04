@@ -5,9 +5,12 @@ package logic
 
 import (
 	"context"
+	"fmt"
 	"im-server/common/models"
+	"im-server/common/models/ctype"
 	"im-server/common/models/list_query"
 	"im-server/im_chat/chat_models"
+	"im-server/im_user/user_rpc/types/user_rpc"
 
 	"im-server/im_chat/chat_api/internal/svc"
 	"im-server/im_chat/chat_api/internal/types"
@@ -29,15 +32,49 @@ func NewChatHistoryLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ChatH
 	}
 }
 
-func (l *ChatHistoryLogic) ChatHistory(req *types.ChatHistoryRequest) (resp *types.ChatHistoryResponse, err error) {
-	list_query.ListQuery(l.svcCtx.DB, chat_models.ChatModel{}, list_query.Option{
+type MyChatHistoryResponse struct {
+	ID        uint             `json:"id"`
+	UserID    uint             `json:"user_id"`
+	Avatar    string           `json:"avatar"`
+	Nickname  string           `json:"nickname"`
+	CreatedAt string           `json:"created_at"`
+	Msg       *ctype.Msg       `json:"msg"`
+	SystemMsg *ctype.SystemMsg `json:"system_msg"`
+}
+
+func (l *ChatHistoryLogic) ChatHistory(req *types.ChatHistoryRequest) (resp *MyChatHistoryResponse, err error) {
+	fmt.Printf("ChatHistory req: %v", req)
+	list, count, err := list_query.ListQuery(l.svcCtx.DB, chat_models.ChatModel{}, list_query.Option{
 		PageInfo: models.PageInfo{
 			Page:  req.Page,
 			Limit: req.Limit,
 		},
 		Where: l.svcCtx.DB.Where("sender_user_id = ? or recv_user_id = ?", req.UserId, req.UserId),
 	})
+	fmt.Printf("ChatHistory list: %v, count: %d, err: %v", list, count, err)
+	if count == 0 {
+		return nil, fmt.Errorf("no chat history found")
+	}
 	//根据uid去重
+	uids := make([]uint64, 0)
 	//批量uid查询用户的详情
+	getUserBatchRequest := &user_rpc.GetUserBatchRequest{
+		UserIds: uids,
+	}
+	getUserBatchResponse, err := l.svcCtx.UserRpc.GetUserBatch(l.ctx, getUserBatchRequest)
+	if err != nil {
+		fmt.Printf("GetUserBatch 1 err: %v", err)
+		return
+	}
+	for _, item := range list {
+		userInfo := getUserBatchResponse.Users[uint64(item.ID)]
+		resp = &MyChatHistoryResponse{
+			ID:        item.ID,
+			UserID:    item.SenderUserId,
+			Avatar:    userInfo.Avator,
+			Nickname:  userInfo.NickName,
+			CreatedAt: item.CreatedAt.Format("2006-01-02 15:04:05"),
+		}
+	}
 	return
 }

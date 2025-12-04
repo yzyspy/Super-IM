@@ -32,3 +32,8 @@ func (s *UserServer) GetUser(ctx context.Context, in *user_rpc.GetUserRequest) (
 	l := logic.NewGetUserLogic(ctx, s.svcCtx)
 	return l.GetUser(in)
 }
+
+func (s *UserServer) GetUserBatch(ctx context.Context, in *user_rpc.GetUserBatchRequest) (*user_rpc.GetUserBatchResponse, error) {
+	l := logic.NewGetUserBatchLogic(ctx, s.svcCtx)
+	return l.GetUserBatch(in)
+}

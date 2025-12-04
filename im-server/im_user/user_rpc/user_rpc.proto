@@ -28,7 +28,16 @@ message GetUserResponse {
   string abstract = 5;
 }
 
+message GetUserBatchRequest {
+  repeated uint64 user_ids = 1;
+}
+
+message GetUserBatchResponse {
+  map<uint64, GetUserResponse> users = 1;
+}
+
 service User {
   rpc CreateUser(UserCreateRequest) returns (UserCreateResponse);
   rpc GetUser(GetUserRequest) returns (GetUserResponse);
+  rpc GetUserBatch(GetUserBatchRequest) returns (GetUserBatchResponse);
 }

@@ -255,6 +255,94 @@ func (x *GetUserResponse) GetAbstract() string {
 	return ""
 }
 
+type GetUserBatchRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserIds       []uint64               `protobuf:"varint,1,rep,packed,name=user_ids,json=userIds,proto3" json:"user_ids,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserBatchRequest) Reset() {
+	*x = GetUserBatchRequest{}
+	mi := &file_user_rpc_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserBatchRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserBatchRequest) ProtoMessage() {}
+
+func (x *GetUserBatchRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_user_rpc_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserBatchRequest.ProtoReflect.Descriptor instead.
+func (*GetUserBatchRequest) Descriptor() ([]byte, []int) {
+	return file_user_rpc_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *GetUserBatchRequest) GetUserIds() []uint64 {
+	if x != nil {
+		return x.UserIds
+	}
+	return nil
+}
+
+type GetUserBatchResponse struct {
+	state         protoimpl.MessageState      `protogen:"open.v1"`
+	Users         map[uint64]*GetUserResponse `protobuf:"bytes,1,rep,name=users,proto3" json:"users,omitempty" protobuf_key:"varint,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserBatchResponse) Reset() {
+	*x = GetUserBatchResponse{}
+	mi := &file_user_rpc_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserBatchResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserBatchResponse) ProtoMessage() {}
+
+func (x *GetUserBatchResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_user_rpc_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserBatchResponse.ProtoReflect.Descriptor instead.
+func (*GetUserBatchResponse) Descriptor() ([]byte, []int) {
+	return file_user_rpc_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *GetUserBatchResponse) GetUsers() map[uint64]*GetUserResponse {
+	if x != nil {
+		return x.Users
+	}
+	return nil
+}
+
 var File_user_rpc_proto protoreflect.FileDescriptor
 
 const file_user_rpc_proto_rawDesc = "" +
@@ -274,11 +362,20 @@ const file_user_rpc_proto_rawDesc = "" +
 	"\tnick_name\x18\x01 \x01(\tR\bnickName\x12\x12\n" +
 	"\x04role\x18\x03 \x01(\x05R\x04role\x12\x16\n" +
 	"\x06avator\x18\x04 \x01(\tR\x06avator\x12\x1a\n" +
-	"\babstract\x18\x05 \x01(\tR\babstract2\x8f\x01\n" +
+	"\babstract\x18\x05 \x01(\tR\babstract\"0\n" +
+	"\x13GetUserBatchRequest\x12\x19\n" +
+	"\buser_ids\x18\x01 \x03(\x04R\auserIds\"\xac\x01\n" +
+	"\x14GetUserBatchResponse\x12?\n" +
+	"\x05users\x18\x01 \x03(\v2).user_rpc.GetUserBatchResponse.UsersEntryR\x05users\x1aS\n" +
+	"\n" +
+	"UsersEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\x04R\x03key\x12/\n" +
+	"\x05value\x18\x02 \x01(\v2\x19.user_rpc.GetUserResponseR\x05value:\x028\x012\xde\x01\n" +
 	"\x04User\x12G\n" +
 	"\n" +
 	"CreateUser\x12\x1b.user_rpc.UserCreateRequest\x1a\x1c.user_rpc.UserCreateResponse\x12>\n" +
-	"\aGetUser\x12\x18.user_rpc.GetUserRequest\x1a\x19.user_rpc.GetUserResponseB\fZ\n" +
+	"\aGetUser\x12\x18.user_rpc.GetUserRequest\x1a\x19.user_rpc.GetUserResponse\x12M\n" +
+	"\fGetUserBatch\x12\x1d.user_rpc.GetUserBatchRequest\x1a\x1e.user_rpc.GetUserBatchResponseB\fZ\n" +
 	"./user_rpcb\x06proto3"
 
 var (
@@ -293,23 +390,30 @@ func file_user_rpc_proto_rawDescGZIP() []byte {
 	return file_user_rpc_proto_rawDescData
 }
 
-var file_user_rpc_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_user_rpc_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_user_rpc_proto_goTypes = []any{
-	(*UserCreateRequest)(nil),  // 0: user_rpc.UserCreateRequest
-	(*UserCreateResponse)(nil), // 1: user_rpc.UserCreateResponse
-	(*GetUserRequest)(nil),     // 2: user_rpc.GetUserRequest
-	(*GetUserResponse)(nil),    // 3: user_rpc.GetUserResponse
+	(*UserCreateRequest)(nil),    // 0: user_rpc.UserCreateRequest
+	(*UserCreateResponse)(nil),   // 1: user_rpc.UserCreateResponse
+	(*GetUserRequest)(nil),       // 2: user_rpc.GetUserRequest
+	(*GetUserResponse)(nil),      // 3: user_rpc.GetUserResponse
+	(*GetUserBatchRequest)(nil),  // 4: user_rpc.GetUserBatchRequest
+	(*GetUserBatchResponse)(nil), // 5: user_rpc.GetUserBatchResponse
+	nil,                          // 6: user_rpc.GetUserBatchResponse.UsersEntry
 }
 var file_user_rpc_proto_depIdxs = []int32{
-	0, // 0: user_rpc.User.CreateUser:input_type -> user_rpc.UserCreateRequest
-	2, // 1: user_rpc.User.GetUser:input_type -> user_rpc.GetUserRequest
-	1, // 2: user_rpc.User.CreateUser:output_type -> user_rpc.UserCreateResponse
-	3, // 3: user_rpc.User.GetUser:output_type -> user_rpc.GetUserResponse
-	2, // [2:4] is the sub-list for method output_type
-	0, // [0:2] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	6, // 0: user_rpc.GetUserBatchResponse.users:type_name -> user_rpc.GetUserBatchResponse.UsersEntry
+	3, // 1: user_rpc.GetUserBatchResponse.UsersEntry.value:type_name -> user_rpc.GetUserResponse
+	0, // 2: user_rpc.User.CreateUser:input_type -> user_rpc.UserCreateRequest
+	2, // 3: user_rpc.User.GetUser:input_type -> user_rpc.GetUserRequest
+	4, // 4: user_rpc.User.GetUserBatch:input_type -> user_rpc.GetUserBatchRequest
+	1, // 5: user_rpc.User.CreateUser:output_type -> user_rpc.UserCreateResponse
+	3, // 6: user_rpc.User.GetUser:output_type -> user_rpc.GetUserResponse
+	5, // 7: user_rpc.User.GetUserBatch:output_type -> user_rpc.GetUserBatchResponse
+	5, // [5:8] is the sub-list for method output_type
+	2, // [2:5] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_user_rpc_proto_init() }
@@ -323,7 +427,7 @@ func file_user_rpc_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_user_rpc_proto_rawDesc), len(file_user_rpc_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

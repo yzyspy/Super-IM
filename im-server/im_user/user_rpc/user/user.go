@@ -14,14 +14,17 @@ import (
 )
 
 type (
-	GetUserRequest     = user_rpc.GetUserRequest
-	GetUserResponse    = user_rpc.GetUserResponse
-	UserCreateRequest  = user_rpc.UserCreateRequest
-	UserCreateResponse = user_rpc.UserCreateResponse
+	GetUserBatchRequest  = user_rpc.GetUserBatchRequest
+	GetUserBatchResponse = user_rpc.GetUserBatchResponse
+	GetUserRequest       = user_rpc.GetUserRequest
+	GetUserResponse      = user_rpc.GetUserResponse
+	UserCreateRequest    = user_rpc.UserCreateRequest
+	UserCreateResponse   = user_rpc.UserCreateResponse
 
 	User interface {
 		CreateUser(ctx context.Context, in *UserCreateRequest, opts ...grpc.CallOption) (*UserCreateResponse, error)
 		GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*GetUserResponse, error)
+		GetUserBatch(ctx context.Context, in *GetUserBatchRequest, opts ...grpc.CallOption) (*GetUserBatchResponse, error)
 	}
 
 	defaultUser struct {
@@ -43,4 +46,9 @@ func (m *defaultUser) CreateUser(ctx context.Context, in *UserCreateRequest, opt
 func (m *defaultUser) GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*GetUserResponse, error) {
 	client := user_rpc.NewUserClient(m.cli.Conn())
 	return client.GetUser(ctx, in, opts...)
+}
+
+func (m *defaultUser) GetUserBatch(ctx context.Context, in *GetUserBatchRequest, opts ...grpc.CallOption) (*GetUserBatchResponse, error) {
+	client := user_rpc.NewUserClient(m.cli.Conn())
+	return client.GetUserBatch(ctx, in, opts...)
 }
