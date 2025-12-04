@@ -42,7 +42,6 @@ type MyChatHistoryResponse struct {
 }
 
 func (l *ChatHistoryLogic) ChatHistory(req *types.ChatHistoryRequest) (resp *MyChatHistoryResponse, err error) {
-	fmt.Printf("ChatHistory req: %v", req)
 	list, count, err := list_query.ListQuery(l.svcCtx.DB, chat_models.ChatModel{}, list_query.Option{
 		PageInfo: models.PageInfo{
 			Page:  req.Page,
@@ -50,26 +49,29 @@ func (l *ChatHistoryLogic) ChatHistory(req *types.ChatHistoryRequest) (resp *MyC
 		},
 		Where: l.svcCtx.DB.Where("sender_user_id = ? or recv_user_id = ?", req.UserId, req.UserId),
 	})
-	fmt.Printf("ChatHistory list: %v, count: %d, err: %v", list, count, err)
 	if count == 0 {
 		return nil, fmt.Errorf("no chat history found")
 	}
-	//根据uid去重
+
 	uids := make([]uint64, 0)
-	uids = append(uids, uint64(req.UserId))
+	for _, item := range list {
+		uids = append(uids, uint64(item.SenderUserId))
+		uids = append(uids, uint64(item.RecvUserId))
+	}
+	//根据uid去重
 	//批量uid查询用户的详情
 	getUserBatchRequest := &user_rpc.GetUserBatchRequest{
 		UserIds: uids,
 	}
 	userInfos, err := l.svcCtx.UserRpc.GetUserBatch(l.ctx, getUserBatchRequest)
 	if err != nil {
-		fmt.Printf("GetUserBatch 1 err: %v", err)
 		return
 	}
-	fmt.Printf("GetUserBatch  list : %v ,userInfos: %v", list, userInfos)
 	for _, item := range list {
 		userInfo := userInfos.Users[uint64(item.SenderUserId)]
-
+		if userInfo == nil {
+			continue
+		}
 		resp = &MyChatHistoryResponse{
 			ID:       item.ID,
 			UserID:   item.SenderUserId,
