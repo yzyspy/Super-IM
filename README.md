@@ -15,3 +15,8 @@ group_models 【群组表】
 group_member_models【群聊成员表】
 group_verify_models【加群申请表】
 
+
+查询最近的聊天记录：
+select least(sender_user_id, recv_user_id) as s_u, greatest(sender_user_id, recv_user_id) as r_u, count(id),max(created_at), max(msg_preview)
+from chat_models where sender_user_id = 1 or recv_user_id = 1
+group by least(sender_user_id, recv_user_id), greatest(sender_user_id, recv_user_id);

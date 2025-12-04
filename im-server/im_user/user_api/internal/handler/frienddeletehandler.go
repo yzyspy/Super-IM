@@ -5,6 +5,7 @@ package handler
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/zeromicro/go-zero/rest/httpx"
 	"im-server/im_user/user_api/internal/logic"
@@ -21,7 +22,11 @@ func friendDeleteHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := logic.NewFriendDeleteLogic(r.Context(), svcCtx)
-		resp, err := l.FriendDelete(&req)
+
+		uid := r.Header.Get("uid")
+		uidInt, _ := strconv.Atoi(uid)
+
+		resp, err := l.FriendDelete(&req, uidInt)
 		if err != nil {
 			httpx.OkJsonCtx(r.Context(), w, types.Response{Code: 400, Msg: err.Error()})
 		} else {
