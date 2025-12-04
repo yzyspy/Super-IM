@@ -80,6 +80,9 @@ func getNewAddr(path string) string {
 	} else if strings.Contains(path, "api/file") {
 		fileServerAddr := core.GetKv(etcd, "file_api")
 		newUrl = fileServerAddr + path
+	} else if strings.Contains(path, "api/chat") {
+		fileServerAddr := core.GetKv(etcd, "chat_api")
+		newUrl = fileServerAddr + path
 	}
 	return newUrl
 }

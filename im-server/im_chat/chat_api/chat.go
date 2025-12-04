@@ -6,6 +6,8 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/zeromicro/go-zero/core/netx"
+	"im-server/core"
 	"im-server/im_chat/chat_api/internal/config"
 	"im-server/im_chat/chat_api/internal/handler"
 	"im-server/im_chat/chat_api/internal/svc"
@@ -29,8 +31,8 @@ func main() {
 	handler.RegisterHandlers(server, ctx)
 
 	// http服务地址注册到etcd，网关服务服务发现，从etcd获取具体到服务地址和端口
-	//httpApiUrl := fmt.Sprintf("http://%s:%d", netx.InternalIp(), c.Port)
-	//core.PutKv(ctx.Etcd, "chat_api", httpApiUrl)
+	httpApiUrl := fmt.Sprintf("http://%s:%d", netx.InternalIp(), c.Port)
+	core.PutKv(ctx.Etcd, "chat_api", httpApiUrl)
 
 	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
 	server.Start()

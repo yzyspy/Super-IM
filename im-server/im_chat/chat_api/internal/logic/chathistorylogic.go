@@ -9,11 +9,10 @@ import (
 	"im-server/common/models"
 	"im-server/common/models/ctype"
 	"im-server/common/models/list_query"
-	"im-server/im_chat/chat_models"
-	"im-server/im_user/user_rpc/types/user_rpc"
-
 	"im-server/im_chat/chat_api/internal/svc"
 	"im-server/im_chat/chat_api/internal/types"
+	"im-server/im_chat/chat_models"
+	"im-server/im_user/user_rpc/types/user_rpc"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -57,23 +56,26 @@ func (l *ChatHistoryLogic) ChatHistory(req *types.ChatHistoryRequest) (resp *MyC
 	}
 	//根据uid去重
 	uids := make([]uint64, 0)
+	uids = append(uids, uint64(req.UserId))
 	//批量uid查询用户的详情
 	getUserBatchRequest := &user_rpc.GetUserBatchRequest{
 		UserIds: uids,
 	}
-	getUserBatchResponse, err := l.svcCtx.UserRpc.GetUserBatch(l.ctx, getUserBatchRequest)
+	userInfos, err := l.svcCtx.UserRpc.GetUserBatch(l.ctx, getUserBatchRequest)
 	if err != nil {
 		fmt.Printf("GetUserBatch 1 err: %v", err)
 		return
 	}
+	fmt.Printf("GetUserBatch  list : %v ,userInfos: %v", list, userInfos)
 	for _, item := range list {
-		userInfo := getUserBatchResponse.Users[uint64(item.ID)]
+		userInfo := userInfos.Users[uint64(item.SenderUserId)]
+
 		resp = &MyChatHistoryResponse{
-			ID:        item.ID,
-			UserID:    item.SenderUserId,
-			Avatar:    userInfo.Avator,
-			Nickname:  userInfo.NickName,
-			CreatedAt: item.CreatedAt.Format("2006-01-02 15:04:05"),
+			ID:       item.ID,
+			UserID:   item.SenderUserId,
+			Avatar:   userInfo.Avator,
+			Nickname: userInfo.NickName,
+			//CreatedAt: item.CreatedAt.Format("2006-01-02 15:04:05"),
 		}
 	}
 	return

@@ -35,6 +35,7 @@ func (l *GetUserBatchLogic) GetUserBatch(in *user_rpc.GetUserBatchRequest) (resp
 	if len(userList) == 0 {
 		return
 	}
+	resp = &user_rpc.GetUserBatchResponse{}
 	resp.Users = make(map[uint64]*user_rpc.GetUserResponse, 0)
 	for _, user := range userList {
 		resp.Users[uint64(user.ID)] = &user_rpc.GetUserResponse{
