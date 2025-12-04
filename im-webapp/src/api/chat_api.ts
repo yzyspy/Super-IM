@@ -1,7 +1,8 @@
 import {service} from "@/api/index";
 
 export interface QueryChatHistoryRequest {
-
+    page: number
+    limit: number
 }
 
 export interface QueryChatHistoryResponse {
