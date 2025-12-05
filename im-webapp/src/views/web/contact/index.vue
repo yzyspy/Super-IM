@@ -11,7 +11,7 @@
                @blur="handleSearch"
                />
            </div>
-           <span> <svg-icon iconName="icon-tianjiaqunliao"></svg-icon></span>
+           <span> <svg-icon iconName="icon-tianjiaqunliao1"></svg-icon></span>
         </div>
          <div class="content_menu">
            <el-scrollbar height="480px">
@@ -71,7 +71,7 @@
 }
 .contact_slide {
   height: 500px;
-  width: 140px;
+  width: 150px;
 }
 .user_item {
   display: flex;

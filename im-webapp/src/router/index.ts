@@ -18,6 +18,7 @@ const router = createRouter({
             path: '',
             name: 'web',
             component: () => import('@/views/web/index.vue'),
+            redirect: {name: 'contact'},//默认加载的子路由
             children: [
                 {
                     path: '/contact',

@@ -1,6 +1,6 @@
 <template>
   <svg :class="svgClass" aria-hidden="true">
-    <use :xlink:href="iconClassName" :fill="color" />
+    <use :xlink:href="iconClassName" />
   </svg>
 </template>
 <script setup lang="ts">
@@ -14,10 +14,6 @@ const props = defineProps({
     type: String,
     default: ''
   },
-  color: {
-    type: String,
-    default: '#409eff'
-  }
 });
 // 图标在 iconfont 中的名字
 const iconClassName = computed(()=>{
@@ -36,7 +32,7 @@ const svgClass = computed(() => {
   width: 2em;
   height: 2em;
   position: relative;
-  fill: currentColor;
   vertical-align: -2px;
+  fill: #969896;
 }
 </style>

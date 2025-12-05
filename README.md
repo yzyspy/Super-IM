@@ -1,6 +1,8 @@
 # Super-IM
 ## 启动过程
 1. 按照mysql、redis、etcd
+2. 启动各个rpc服务
+3. 启动各个api服务
 
 user_models 【用户表】
 user_conf_models 【用户配置表】

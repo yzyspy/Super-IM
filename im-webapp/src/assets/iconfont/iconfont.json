@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1302",
+      "name": "加",
+      "font_class": "jia",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "1683903",
+      "name": "添加群聊",
+      "font_class": "tianjiaqunliao1",
+      "unicode": "e681",
+      "unicode_decimal": 59009
+    },
+    {
       "icon_id": "5302982",
       "name": "发送",
       "font_class": "zhifeiji",
