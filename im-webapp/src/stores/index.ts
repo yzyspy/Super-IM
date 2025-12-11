@@ -16,6 +16,7 @@ export const useUserInfoStore = defineStore('userInfo', {
       abstract: '',
       token: '',
     },
+    ws : null,
   }),
   actions: {
     setUserInfo(userInfo: any) {
@@ -37,7 +38,10 @@ export const useUserInfoStore = defineStore('userInfo', {
       // 清除 localStorage
       localStorage.removeItem('user-info')
       this.userInfo.token = ''
-    }
+    },
+    setWebSocket(ws: any) {
+      this.ws = ws
+    },
   },
   getters: {
     isLogin: (state) => {

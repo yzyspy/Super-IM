@@ -72,8 +72,18 @@ async function login() {
     store.refreshUserInfo()
 
     //登录成功以后，创建websocket连接
-    initWebSocket()
+    const ws : WebSocket = initWebSocket();
+     store.setWebSocket(ws)
 
+    const ws2 : WebSocket | null= useUserInfoStore().ws
+    if (ws2) {
+      ws2.send(JSON.stringify({
+        "type": "login",
+        "data": {
+          "user_id": store.userInfo.user_id
+        }
+      }))
+    }
 
     ElMessage.info("登录成功")
     router.replace("/")

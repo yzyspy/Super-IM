@@ -4,8 +4,8 @@
 
 const ServerUrl = 'ws://localhost:9004/api/chat/ws/chat?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiOCIsInVzZXJuYW1lIjoieXp5IiwiZXhwIjoxNzY1NTMxODQzLCJpYXQiOjE3NjU0NDU0NDMsImlzcyI6InlvdXItYXBwLW5hbWUifQ.f4Z6q7-q0lSzZW1GOk8hC3zlqkxo9VXd1ViN5pahYvs'; // 对应 Go 服务器的地址和路径
 let ws : WebSocket | null = null;
-export function initWebSocket() {
-    if (ws && ws.readyState === WebSocket.OPEN) return;
+export function initWebSocket() : WebSocket {
+    if (ws && ws.readyState === WebSocket.OPEN) return ws;
 
     ws = new WebSocket(ServerUrl);
 
@@ -26,6 +26,7 @@ export function initWebSocket() {
     ws.onerror = (err) => {
         console.error("WebSocket 发生错误:", err);
     };
+    return ws;
 }
 
 /**
