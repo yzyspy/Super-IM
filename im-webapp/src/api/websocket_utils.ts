@@ -11,7 +11,7 @@ export function initWebSocket(token : string) : WebSocket {
 
     // 连接建立成功
     ws.onopen = () => {
-
+        console.log("WebSocket 已连接");
     };
 
     // 接收到消息
@@ -34,5 +34,6 @@ export function initWebSocket(token : string) : WebSocket {
  */
 function handleWebSocketMessage(event : MessageEvent) {
     const message = event.data;
+    console.log("收到消息:", message);
 }
 
