@@ -1,28 +1,22 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
+import type {UserInfo} from "@/utils/common";
 
 
 // 在ES6模块中：
 // 当导出的是默认导出（export default）时，导入时可以不加花括号，且可以任意命名。
 // 当导出的是命名导出（export）时，导入时必须加花括号，且名称必须与导出时一致（或者使用as重命名）
 
-interface UserInfoState {
-  user_id: number;
-  user_name: string;
-  avatar: string;
-  abstract: string;
-  token: string;
-}
 
 
 export const useUserInfoStore = defineStore('userInfo', {
   // 为了完整类型推理，推荐使用箭头函数
   state: () => ({
-    userInfo:  {} as UserInfoState,
+    userInfo:  {} as UserInfo,
     ws: {} as WebSocket,
   }),
   actions: {
-    setUserInfo(userInfo: UserInfoState) {
+    setUserInfo(userInfo: UserInfo) {
       this.userInfo = userInfo
       console.log('setUserInfo', userInfo)
       localStorage.setItem('user-info', JSON.stringify(userInfo))
