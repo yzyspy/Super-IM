@@ -45,6 +45,7 @@ import {ElMessage} from "element-plus";
 import {type AuthLoginRequest, doLogin} from "@/api/auth_api";
 import {parseToken} from "@/utils/common";
 import {queryUserInfo, type QueryUserInfoRequest} from "@/api/user_api";
+import {initWebSocket} from "@/api/websocket_utils";
 
 // 这个地方等语法要好好理解一下
 const form = reactive<AuthLoginRequest>({
@@ -70,10 +71,15 @@ async function login() {
     store.userInfo.avatar = userInfoExtra.data.avatar
     store.refreshUserInfo()
 
+    //登录成功以后，创建websocket连接
+    initWebSocket()
+
+
     ElMessage.info("登录成功")
     router.replace("/")
   }
 }
+
 </script>
 
 

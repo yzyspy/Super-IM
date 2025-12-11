@@ -37,7 +37,7 @@ func (l *OnLineLogic) OnLine(req *types.OnLineRequest, w http.ResponseWriter, r 
 	}
 	uid, _ := strconv.Atoi(payLoad.UserID)
 	fmt.Printf("uid=%d webocket 上线了\n", uid)
-
+	//http协议升级为websocket协议
 	var upgrader = websocket.Upgrader{
 		// 读缓冲区大小
 		ReadBufferSize: 1024,
@@ -50,8 +50,37 @@ func (l *OnLineLogic) OnLine(req *types.OnLineRequest, w http.ResponseWriter, r 
 			return true
 		},
 	}
-	upgrade, err := upgrader.Upgrade(w, r, nil)
-	upgrade.ReadMessage()
+	conn, err := upgrader.Upgrade(w, r, nil)
+	if err != nil {
+		fmt.Printf("Upgrade error:%v\n", err)
+		return
+	}
+	defer conn.Close() // 确保连接在函数退出时关闭
+
+	// 2. WebSocket 连接建立成功，开始处理消息
+	fmt.Println("WebSocket client connected.")
+
+	// 消息循环
+	for {
+		// 读取消息
+		// messageType (int): 消息类型 (Text=1, Binary=2)
+		// message ([]byte): 消息内容
+		messageType, message, err := conn.ReadMessage()
+		if err != nil {
+			// 客户端断开连接或读取错误
+			fmt.Printf("Read error:", err)
+			break
+		}
+
+		fmt.Printf("Received: %s (Type: %d)", message, messageType)
+
+		// 写入消息 (回复给客户端)
+		response := []byte("Server received your message: " + string(message))
+		if err := conn.WriteMessage(websocket.TextMessage, response); err != nil {
+			fmt.Println("Write error:", err)
+			break
+		}
+	}
 
 	resp = &types.OnLineResponse{
 		Status: true,
