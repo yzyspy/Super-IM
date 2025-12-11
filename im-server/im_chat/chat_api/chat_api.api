@@ -13,11 +13,11 @@ type ChatHistoryResponse {
 }
 
 type OnLineRequest {
-
+	token    uint   `json:"token"`
 }
 
 type OnLineResponse {
-
+   Status    bool   `json:"status"`
 }
 
 service chat {
