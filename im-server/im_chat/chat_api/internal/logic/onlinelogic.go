@@ -5,6 +5,9 @@ package logic
 
 import (
 	"context"
+	"fmt"
+	"im-server/utils/jwt"
+	"strconv"
 
 	"im-server/im_chat/chat_api/internal/svc"
 	"im-server/im_chat/chat_api/internal/types"
@@ -27,7 +30,14 @@ func NewOnLineLogic(ctx context.Context, svcCtx *svc.ServiceContext) *OnLineLogi
 }
 
 func (l *OnLineLogic) OnLine(req *types.OnLineRequest) (resp *types.OnLineResponse, err error) {
-	// todo: add your logic here and delete this line
-
+	payLoad, parseError := jwt.ParseJWT(req.Token)
+	if parseError != nil {
+		fmt.Println(parseError)
+	}
+	uid, _ := strconv.Atoi(payLoad.UserID)
+	fmt.Printf("uid=%d webocket 上线了\n", uid)
+	resp = &types.OnLineResponse{
+		Status: true,
+	}
 	return
 }

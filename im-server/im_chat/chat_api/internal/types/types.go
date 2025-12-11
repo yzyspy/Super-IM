@@ -25,7 +25,7 @@ type ChatHistoryResponse struct {
 }
 
 type OnLineRequest struct {
-	Token uint `json:"token"`
+	Token string `json:"token"`
 }
 
 type OnLineResponse struct {
