@@ -3,12 +3,12 @@
 
 package types
 
-
 type Response struct {
 	Code int    `json:"code"`
 	Msg  string `json:"msg"`
 	Data string `json:"data"`
 }
+
 
 type ChatHistoryRequest struct {
 	UserId uint `header:"uid"`
@@ -22,4 +22,12 @@ type ChatHistoryResponse struct {
 	Avatar    string `json:"avatar"`
 	Nickname  string `json:"nickname"`
 	CreatedAt string `json:"created_at"`
+}
+
+type OnLineRequest struct {
+	Token uint `json:"token"`
+}
+
+type OnLineResponse struct {
+	Status bool `json:"status"`
 }

@@ -13,11 +13,11 @@ type ChatHistoryResponse {
 }
 
 type OnLineRequest {
-	token    uint   `json:"token"`
+	token uint `json:"token"`
 }
 
 type OnLineResponse {
-   Status    bool   `json:"status"`
+	Status bool `json:"status"`
 }
 
 service chat {
@@ -25,11 +25,10 @@ service chat {
 	@handler chatHistory
 	get /api/chat/history (ChatHistoryRequest) returns (ChatHistoryResponse)
 
-    //左侧的最近联系人的会话列表
-
-   //无论好友是否上线，都可以给好友发送消息，区别就是，如果好友在线，server端把消息入库以后，还需要通过websocket转发该消息给好友
-    //web端，获得connection，connection对象保存到store中，后续给好友发消息直接调用send，服务端再onMessage里面进行消息的转发//
-    @handler onLine
-	get /api/chat/ws/chat (OnLineRequest) returns   (OnLineResponse)          //websocket创建连接 ，并开始监听服务端发过来的消息，
+	//左侧的最近联系人的会话列表
+	//无论好友是否上线，都可以给好友发送消息，区别就是，如果好友在线，server端把消息入库以后，还需要通过websocket转发该消息给好友
+	//web端，获得connection，connection对象保存到store中，后续给好友发消息直接调用send，服务端再onMessage里面进行消息的转发//
+	@handler onLine
+	get /api/chat/ws/chat (OnLineRequest) returns (OnLineResponse) //websocket创建连接 ，并开始监听服务端发过来的消息，
 } ///goctl api go -api chat_api.api -dir . --home  ../../my_template/
 
