@@ -38,25 +38,9 @@ func main() {
 	httpApiUrl := fmt.Sprintf("http://%s:%d", netx.InternalIp(), c.Port)
 	core.PutKv(ctx.Etcd, "chat_api", httpApiUrl)
 
-	go startWebSocketServer(ctx)
-
 	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
 	server.Start()
 	fmt.Printf("Starting server success %s:%d...\n", c.Host, c.Port)
-
-}
-
-func startWebSocketServer(ctx *svc.ServiceContext) {
-	wsHandlerImpl := websocket.Handler(wsHandler)
-	http.Handle("/chat", corsMiddleware(wsHandlerImpl)) // 路径设置为 /chat
-
-	port := ":7000"
-	log.Printf("Chat websocketserver starting on ws://localhost%s/chat", port)
-
-	if err := http.ListenAndServe(port, nil); err != nil {
-		log.Fatal("ListenAndServe:", err)
-	}
-	fmt.Println("Chat websocketserver started")
 }
 
 // CORS 中间件，允许客户端连接

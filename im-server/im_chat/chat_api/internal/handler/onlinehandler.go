@@ -21,7 +21,7 @@ func onLineHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := logic.NewOnLineLogic(r.Context(), svcCtx)
-		resp, err := l.OnLine(&req)
+		resp, err := l.OnLine(&req, w, r)
 		if err != nil {
 			httpx.OkJsonCtx(r.Context(), w, types.Response{Code: 400, Msg: err.Error()})
 		} else {

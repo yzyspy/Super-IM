@@ -3,13 +3,6 @@
 
 package types
 
-type Response struct {
-	Code int    `json:"code"`
-	Msg  string `json:"msg"`
-	Data string `json:"data"`
-}
-
-
 type ChatHistoryRequest struct {
 	UserId uint `header:"uid"`
 	Page   int  `form:"page"`
@@ -25,9 +18,15 @@ type ChatHistoryResponse struct {
 }
 
 type OnLineRequest struct {
-	Token string `json:"token"`
+	Token string `form:"token"`
 }
 
 type OnLineResponse struct {
 	Status bool `json:"status"`
+}
+
+type Response struct {
+	Code int    `json:"code"`
+	Msg  string `json:"msg"`
+	Data string `json:"data"`
 }

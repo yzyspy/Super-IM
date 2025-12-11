@@ -13,7 +13,7 @@ type ChatHistoryResponse {
 }
 
 type OnLineRequest {
-	token string `json:"token"`
+	token string `form:"token"`
 }
 
 type OnLineResponse {
