@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import {onMounted, ref} from "vue";
+import {onMounted, reactive, ref} from "vue";
 import {
   getFriendApplyList,
   type FriendApplyItem,
@@ -10,9 +10,11 @@ import {
 } from "@/api/user_api";
 import { ArrowDown } from '@element-plus/icons-vue';
 import {ElMessage} from "element-plus";
+import {useUserInfoStore} from "@/stores";
 
 
 const applyList = ref<FriendApplyItem[]>([])
+const userStore = useUserInfoStore();
 
 onMounted(() => {
   //获取我的好友申请验证列表
@@ -36,8 +38,19 @@ const handleCommand = async (command: Command) => {
 }
 
 function onItemClick(item : FriendApplyItem) {
-    console.log(item);
+
+ //   selectUserApplyItem = item  //不会触发视图更新，需要使用Object.assign方法
+    Object.assign(selectUserApplyItem, item)
 }
+
+let selectUserApplyItem = reactive<FriendApplyItem>({
+      friend_verify_model_id: 0,
+      uid: 0,
+      nickname: '',
+      avatar: '',
+      status: 0,
+    }
+)
 
 </script>
 <template>
@@ -50,7 +63,6 @@ function onItemClick(item : FriendApplyItem) {
           </template>
           <el-menu-item index="1-3" v-for="(item, index) in applyList" :key="index">
             <div @click="onItemClick(item)" class="apply-item">
-              <span>{{item.nickname}}</span>
               <el-avatar :src="item.avatar"></el-avatar>
               <div v-if="item.status === 0">
                 <el-dropdown @command=handleCommand>
@@ -76,7 +88,22 @@ function onItemClick(item : FriendApplyItem) {
       </el-menu>
     </div>
     <div>
-      xxx
+      <div v-if="selectUserApplyItem.uid !== 0">
+        <div>
+          {{selectUserApplyItem.nickname}}
+          <el-avatar :src="selectUserApplyItem.avatar"></el-avatar>
+          申请添加
+          <el-avatar :src="userStore.userInfo.avatar"></el-avatar>
+        </div>
+
+        <div>
+          申请时间：
+        </div>
+        <div>
+         申请验证消息：
+       </div>
+      </div>
+
     </div>
   </div>
 </template>
