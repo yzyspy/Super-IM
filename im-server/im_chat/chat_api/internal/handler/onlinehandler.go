@@ -4,7 +4,6 @@
 package handler
 
 import (
-	"github.com/gorilla/websocket"
 	"net/http"
 
 	"github.com/zeromicro/go-zero/rest/httpx"
@@ -12,20 +11,6 @@ import (
 	"im-server/im_chat/chat_api/internal/svc"
 	"im-server/im_chat/chat_api/internal/types"
 )
-
-type UserInfo struct {
-	UserId   int64  `json:"user_id"`
-	NickName string `json:"nick_name"`
-	Avatar   string `json:"avatar"`
-}
-
-type UserWsInfo struct {
-	UserInfo UserInfo
-	Conn     *websocket.Conn
-}
-
-// 保存所有的websocket连接，key为userId
-var UserWsMap = map[int64]*UserWsInfo{}
 
 func onLineHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {

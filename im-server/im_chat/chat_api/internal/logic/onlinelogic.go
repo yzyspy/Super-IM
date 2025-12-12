@@ -22,6 +22,20 @@ type OnLineLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
+type UserInfo struct {
+	UserId   int64  `json:"user_id"`
+	NickName string `json:"nick_name"`
+	Avatar   string `json:"avatar"`
+}
+
+type UserWsInfo struct {
+	UserInfo UserInfo
+	Conn     *websocket.Conn
+}
+
+// 保存所有的websocket连接，key为userId
+var UserWsMap = map[int64]*UserWsInfo{}
+
 func NewOnLineLogic(ctx context.Context, svcCtx *svc.ServiceContext) *OnLineLogic {
 	return &OnLineLogic{
 		Logger: logx.WithContext(ctx),
@@ -55,7 +69,22 @@ func (l *OnLineLogic) OnLine(req *types.OnLineRequest, w http.ResponseWriter, r 
 		fmt.Printf("Upgrade error:%v\n", err)
 		return
 	}
-	defer conn.Close() // 确保连接在函数退出时关闭
+
+	defer func() {
+		conn.Close() // 确保连接在函数退出时关闭
+		delete(UserWsMap, int64(uid))
+		fmt.Printf("uid=%d webocket 下线了\n", uid)
+	}
+
+	//l.svcCtx.UserRpc.
+	UserWsMap[int64(uid)] = &UserWsInfo{
+		UserInfo: UserInfo{
+			UserId:   int64(uid),
+			NickName: payLoad.NickName,
+			Avatar:   payLoad.Avatar,
+		},
+		Conn: conn,
+	}
 
 	// 2. WebSocket 连接建立成功，开始处理消息
 	fmt.Println("WebSocket client connected.")
