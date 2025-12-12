@@ -71,12 +71,12 @@ func (l *OnLineLogic) OnLine(req *types.OnLineRequest, w http.ResponseWriter, r 
 	}
 
 	defer func() {
-		conn.Close() // 确保连接在函数退出时关闭
+		conn.Close()
 		delete(UserWsMap, int64(uid))
 		fmt.Printf("uid=%d webocket 下线了\n", uid)
-	}
+	}()
 
-	//l.svcCtx.UserRpc.
+	//l.svcCtx.UserRpc.GetUser()
 	UserWsMap[int64(uid)] = &UserWsInfo{
 		UserInfo: UserInfo{
 			UserId:   int64(uid),
