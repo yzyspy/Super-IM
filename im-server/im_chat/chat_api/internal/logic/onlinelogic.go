@@ -5,6 +5,7 @@ package logic
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"im-server/im_user/user_rpc/types/user_rpc"
 	"im-server/utils/jwt"
@@ -105,19 +106,36 @@ func (l *OnLineLogic) OnLine(req *types.OnLineRequest, w http.ResponseWriter, r 
 			fmt.Printf("Read error:", err)
 			break
 		}
-
-		fmt.Printf("Received: %s (Type: %d)", message, messageType)
-
-		// 写入消息 (回复给客户端)
-		response := []byte("Server received your message: " + string(message))
-		if err := conn.WriteMessage(websocket.TextMessage, response); err != nil {
-			fmt.Println("Write error:", err)
-			break
-		}
+		handleMessage(message, messageType, conn)
 	}
 
 	resp = &types.OnLineResponse{
 		Status: true,
 	}
 	return
+}
+
+func handleMessage(message []byte, messageType int, conn *websocket.Conn) {
+	fmt.Printf("Received: %s (Type: %d)", message, messageType)
+
+	msgObj := MsgObj{}
+	json.Unmarshal(message, &msgObj)
+	fmt.Printf("Received msg: %s, to_uid: %s", msgObj.Data.Msg, msgObj.Data.To_uid)
+
+	// 写入消息 (回复给客户端)
+	response := []byte("Server received your message: " + string(message))
+	if err := conn.WriteMessage(websocket.TextMessage, response); err != nil {
+		fmt.Println("Write error:", err)
+		panic(err)
+	}
+}
+
+type MsgObj struct {
+	Type string  `json:"type"`
+	Data MsgData `json:"data"`
+}
+
+type MsgData struct {
+	To_uid string `json:"to_uid"`
+	Msg    string `json:"msg"`
 }
