@@ -2,6 +2,7 @@
 // 声明从路由接收的 props
 import {onActivated, onMounted, ref, watch} from "vue";
 import SvgIcon from "@/components/SvgIcon.vue";
+import {useUserInfoStore} from "@/stores";
 
 const props = defineProps({
   id: { // 对应路由配置中的 :id
@@ -9,8 +10,13 @@ const props = defineProps({
     required: true
   },
 });
+
+
+const store = useUserInfoStore()
+
 onMounted(() => {
   console.log("onMounted...." + props.id)
+  //TODO: 根据uid查询用户详细信息
 })
 
 // 2. 核心解决方案：监听 props.id 的变化
@@ -23,6 +29,17 @@ watch(
 );
 
 const inputText = ref(''); // 输入框内容
+
+function sendMsg() {
+  const webSocket : WebSocket = useUserInfoStore().ws
+  webSocket.send(JSON.stringify({
+    "type": "login",
+    "data": {
+      "to_uid" : props.id,
+      "msg": inputText.value
+    }
+  }))
+}
 
 </script>
 
@@ -38,7 +55,7 @@ const inputText = ref(''); // 输入框内容
 
   <div class="chat-input">
     <el-input  placeholder="请输入简介{{props.id}}"  v-model="inputText" />
-    <svg-icon icon-name="icon-zhifeiji"></svg-icon>
+    <svg-icon icon-name="icon-zhifeiji" @click="sendMsg"></svg-icon>
   </div>
 </div>
 

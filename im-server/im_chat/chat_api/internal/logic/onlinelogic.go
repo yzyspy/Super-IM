@@ -6,6 +6,7 @@ package logic
 import (
 	"context"
 	"fmt"
+	"im-server/im_user/user_rpc/types/user_rpc"
 	"im-server/utils/jwt"
 	"net/http"
 	"strconv"
@@ -76,24 +77,28 @@ func (l *OnLineLogic) OnLine(req *types.OnLineRequest, w http.ResponseWriter, r 
 		fmt.Printf("uid=%d webocket 下线了\n", uid)
 	}()
 
-	//l.svcCtx.UserRpc.GetUser()
+	// 1. 从数据库查询用户信息
+	userResp, err := l.svcCtx.UserRpc.GetUser(l.ctx, &user_rpc.GetUserRequest{
+		UserId: uint64(uid),
+	})
+	if err != nil {
+		fmt.Printf("GetUser error:%v\n", err)
+		return
+	}
 	UserWsMap[int64(uid)] = &UserWsInfo{
 		UserInfo: UserInfo{
 			UserId:   int64(uid),
-			NickName: payLoad.NickName,
-			Avatar:   payLoad.Avatar,
+			NickName: userResp.NickName,
+			Avatar:   userResp.Avator,
 		},
 		Conn: conn,
 	}
-
 	// 2. WebSocket 连接建立成功，开始处理消息
-	fmt.Println("WebSocket client connected.")
+	fmt.Printf("WebSocket client connected. uid=%s nick_name=%s", int64(uid), userResp.NickName)
 
 	// 消息循环
 	for {
 		// 读取消息
-		// messageType (int): 消息类型 (Text=1, Binary=2)
-		// message ([]byte): 消息内容
 		messageType, message, err := conn.ReadMessage()
 		if err != nil {
 			// 客户端断开连接或读取错误
