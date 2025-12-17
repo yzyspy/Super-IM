@@ -32,7 +32,7 @@ const router = createRouter({
                           component: () => import('@/views/web/contact/welcome.vue')
                         },
                         {
-                            path: 'user_detail/:id',//对话页面,path需要配置参数
+                            path: 'user_detail/:uid/:nick_name/:avatar',//对话页面,path需要配置参数
                             name: 'user_detail',
                             props: true,//需要设置为true
                             component: () => import('@/views/web/contact/user_detail.vue'),
