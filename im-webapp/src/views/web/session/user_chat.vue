@@ -4,9 +4,18 @@ import {onActivated, onMounted, ref, watch} from "vue";
 import SvgIcon from "@/components/SvgIcon.vue";
 import {useUserInfoStore} from "@/stores";
 
+
 const props = defineProps({
-  id: { // 对应路由配置中的 :id
-    type: [String, Number],
+  uid: { // 对应路由配置中的 :uid
+    type: [Number],
+    required: true
+  },
+  nick_name: { // 对应路由配置中的 :nick_name
+    type: [String],
+    required: true
+  },
+  avatar: { // 对应路由配置中的 :avatar
+    type: [String],
     required: true
   },
 });
@@ -15,14 +24,14 @@ const props = defineProps({
 const store = useUserInfoStore()
 
 onMounted(() => {
-  console.log("onMounted...." + props.id)
+  console.log("onMounted...." + props.uid)
   //TODO: 根据uid查询用户详细信息
 })
 
 // 2. 核心解决方案：监听 props.id 的变化
 // 当路由参数变化，导致 props.id 变化时，此 watch 钩子会触发
 watch(
-    () => props.id, // 监听的响应式源
+    () => props.uid, // 监听的响应式源
     (newId, oldId) => {
       console.log(`--- watch 触发: ID 从 ${oldId} 变为 ${newId} ---`);
     },
@@ -35,7 +44,7 @@ function sendMsg() {
   webSocket.send(JSON.stringify({
     "type": "login",
     "data": {
-      "to_uid" : props.id,
+      "to_uid" : props.uid,
       "msg": inputText.value
     }
   }))
@@ -46,7 +55,7 @@ function sendMsg() {
 <template>
 <div class="user-chat-container">
   <div class="chat-header">
-    与user_chat {{props.id}} 对话中
+    <el-avatar :src="props.avatar"/>{{props.nick_name}}
   </div>
 
   <div class="chat-history">
@@ -54,7 +63,7 @@ function sendMsg() {
   </div>
 
   <div class="chat-input">
-    <el-input  placeholder="请输入简介{{props.id}}"  v-model="inputText" />
+    <el-input  placeholder="发送消息"  v-model="inputText" />
     <svg-icon icon-name="icon-zhifeiji" @click="sendMsg"></svg-icon>
   </div>
 </div>

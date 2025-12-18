@@ -44,7 +44,8 @@ function handleSendMsg() {
 <template>
   <div class="user-chat-container">
     <div class="chat-header">
-      user_chat {{props.nick_name}} 的详情页面
+      {{props.nick_name}} 的详情页面
+      <el-avatar :src="props.avatar"/>
     </div>
     <el-button @click="handleSendMsg">发送消息</el-button>
   </div>

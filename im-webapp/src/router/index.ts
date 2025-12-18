@@ -93,7 +93,7 @@ const router = createRouter({
                     component: () => import('@/views/web/session/index.vue'),
                     children: [
                         {
-                            path: 'user_chat/:id',//对话页面,path需要配置参数
+                            path: 'user_chat/:uid/:nick_name/:avatar',//对话页面,path需要配置参数
                             name: 'user_chat',
                             props: true,//需要设置为true
                             component: () => import('@/views/web/session/user_chat.vue'),
