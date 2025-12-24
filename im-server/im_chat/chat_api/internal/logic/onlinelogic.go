@@ -98,18 +98,18 @@ func (l *OnLineLogic) OnLine(req *types.OnLineRequest, w http.ResponseWriter, r 
 	fmt.Printf("WebSocket client connected. uid=%s nick_name=%s", int64(uid), userResp.NickName)
 
 	// 消息循环
-	go func() {
-		for {
-			// 读取消息
-			messageType, message, err := conn.ReadMessage()
-			if err != nil {
-				// 客户端断开连接或读取错误
-				fmt.Printf("Read error:", err)
-				break
-			}
-			handleMessage(message, messageType, conn)
+	//go func() {
+	for {
+		// 读取消息
+		messageType, message, err := conn.ReadMessage()
+		if err != nil {
+			// 客户端断开连接或读取错误
+			fmt.Printf("Read error:", err)
+			break
 		}
-	}()
+		handleMessage(message, messageType, conn)
+	}
+	//}()
 
 	resp = &types.OnLineResponse{
 		Status: true,

@@ -40,8 +40,8 @@ watch(
 const inputText = ref(''); // 输入框内容
 
 function sendMsg() {
-  const webSocket : WebSocket = useUserInfoStore().ws
-  webSocket.send(JSON.stringify({
+  const w : WebSocket = useUserInfoStore().ws
+  w.send(JSON.stringify({
     "type": "login",
     "data": {
       "to_uid" : props.uid,
@@ -57,20 +57,36 @@ function sendMsg() {
   <div class="chat-header">
     <el-avatar :src="props.avatar"/>{{props.nick_name}}
   </div>
+  <div class="user_chat_inner_view">
+    <div class="user_chat_inner_head">
+      <el-scrollbar height="350px">
+         <div class="msg">
+            聊天记录
+         </div>
+      </el-scrollbar>
+    </div>
 
-  <div class="chat-history">
-    <el-input v-model="inputText" type="textarea" placeholder="请输入内容"  />
-  </div>
+    <div class="user_chat_inner_menu">
+      <svg-icon icon-name="icon-zhifeiji" @click="sendMsg"></svg-icon>
+      <svg-icon icon-name="icon-zhifeiji" @click="sendMsg"></svg-icon>
+      <svg-icon icon-name="icon-zhifeiji" @click="sendMsg"></svg-icon>
+      <svg-icon icon-name="icon-zhifeiji" @click="sendMsg"></svg-icon>
+      <svg-icon icon-name="icon-zhifeiji" @click="sendMsg"></svg-icon>
+    </div>
 
-  <div class="chat-input">
-    <el-input  placeholder="发送消息"  v-model="inputText" />
-    <svg-icon icon-name="icon-zhifeiji" @click="sendMsg"></svg-icon>
+    <div class="user_chat_inner_box">
+      <el-input  placeholder="发送消息"  v-model="inputText" />
+      <svg-icon icon-name="icon-zhifeiji" @click="sendMsg"></svg-icon>
+    </div>
   </div>
 </div>
 
 </template>
 
 <style scoped lang="scss">
+.msg {
+  font-size: 200px;
+}
 .user-chat-container {
   width: 600px;
   height: 100%;
@@ -79,12 +95,13 @@ function sendMsg() {
   .chat-header {
     flex-grow: 1;
     flex-basis: 0;
+    margin-top: 10px;
   }
   .chat-history {
     flex-grow: 12;
     flex-basis: 0;
   }
-  .chat-input {
+  .user_chat_inner_box {
     flex-grow: 1.5;
     flex-basis: 0;
     display: flex;
