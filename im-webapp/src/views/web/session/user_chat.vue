@@ -42,10 +42,10 @@ const inputText = ref(''); // 输入框内容
 function sendMsg() {
   const w : WebSocket = useUserInfoStore().ws
   w.send(JSON.stringify({
-    "type": "login",
-    "data": {
-      "to_uid" : props.uid,
-      "msg": inputText.value
+    "rev_user_id": props.uid,
+    "msg": {
+      "msg_type" : 1,
+      "content": inputText.value
     }
   }))
 }
