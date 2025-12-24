@@ -130,7 +130,8 @@ func handleMessage(message []byte, messageType int, senderUid int) {
 
 	//如果目标用户在线,转发该消息
 	sendUserWs, ok := UserWsMap[uint(senderUid)]
-	revUserWs, ok := UserWsMap[chatReq.RevUserID]
+	recvUid, _ := strconv.Atoi(chatReq.RevUserID)
+	revUserWs, ok := UserWsMap[uint(recvUid)]
 	if ok {
 		resp := ChatResponse{
 			RevUser:  revUserWs.UserInfo,
@@ -148,7 +149,7 @@ func handleMessage(message []byte, messageType int, senderUid int) {
 }
 
 type ChatRequest struct {
-	RevUserID uint      `json:"rev_user_id"`
+	RevUserID string    `json:"rev_user_id"`
 	Msg       ctype.Msg `json:"msg"`
 }
 
