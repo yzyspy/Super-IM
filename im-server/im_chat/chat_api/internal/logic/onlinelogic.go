@@ -7,10 +7,12 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"im-server/common/models/ctype"
 	"im-server/im_user/user_rpc/types/user_rpc"
 	"im-server/utils/jwt"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/gorilla/websocket"
 	"github.com/zeromicro/go-zero/core/logx"
@@ -36,7 +38,7 @@ type UserWsInfo struct {
 }
 
 // 保存所有的websocket连接，key为userId
-var UserWsMap = map[int64]*UserWsInfo{}
+var UserWsMap = map[uint]*UserWsInfo{}
 
 func NewOnLineLogic(ctx context.Context, svcCtx *svc.ServiceContext) *OnLineLogic {
 	return &OnLineLogic{
@@ -74,7 +76,7 @@ func (l *OnLineLogic) OnLine(req *types.OnLineRequest, w http.ResponseWriter, r 
 
 	defer func() {
 		conn.Close()
-		delete(UserWsMap, int64(uid))
+		delete(UserWsMap, uint(uid))
 		fmt.Printf("uid=%d webocket 下线了\n", uid)
 	}()
 
@@ -86,7 +88,8 @@ func (l *OnLineLogic) OnLine(req *types.OnLineRequest, w http.ResponseWriter, r 
 		fmt.Printf("GetUser error:%v\n", err)
 		return
 	}
-	UserWsMap[int64(uid)] = &UserWsInfo{
+	//保存当前用户的长链接
+	UserWsMap[uint(uid)] = &UserWsInfo{
 		UserInfo: UserInfo{
 			UserId:   int64(uid),
 			NickName: userResp.NickName,
@@ -107,7 +110,7 @@ func (l *OnLineLogic) OnLine(req *types.OnLineRequest, w http.ResponseWriter, r 
 			fmt.Printf("Read error:", err)
 			break
 		}
-		handleMessage(message, messageType, conn)
+		handleMessage(message, messageType, uid)
 	}
 	//}()
 
@@ -117,27 +120,41 @@ func (l *OnLineLogic) OnLine(req *types.OnLineRequest, w http.ResponseWriter, r 
 	return
 }
 
-func handleMessage(message []byte, messageType int, conn *websocket.Conn) {
+func handleMessage(message []byte, messageType int, senderUid int) {
 	fmt.Printf("Received: %s (Type: %d)", message, messageType)
 
-	msgObj := MsgObj{}
-	json.Unmarshal(message, &msgObj)
-	fmt.Printf("Received msg: %s, to_uid: %s", msgObj.Data.Msg, msgObj.Data.To_uid)
+	chatReq := ChatRequest{}
+	json.Unmarshal(message, &chatReq)
+	fmt.Printf("Received to_uid: %s, msg: %s", chatReq.RevUserID, chatReq.Msg.Content)
+	// 消息入库持久化
 
-	// 写入消息 (回复给客户端)
-	response := []byte("Server received your message: " + string(message))
-	if err := conn.WriteMessage(websocket.TextMessage, response); err != nil {
-		fmt.Println("Write error:", err)
-		panic(err)
+	//如果目标用户在线,转发该消息
+	sendUserWs, ok := UserWsMap[uint(senderUid)]
+	revUserWs, ok := UserWsMap[chatReq.RevUserID]
+	if ok {
+		resp := ChatResponse{
+			RevUser:  revUserWs.UserInfo,
+			SendUser: sendUserWs.UserInfo,
+			Msg:      chatReq.Msg,
+			CreateAt: time.Now(),
+		}
+		byteData, _ := json.Marshal(resp)
+		// 写入消息 (回复给客户端)
+		if err := revUserWs.Conn.WriteMessage(websocket.TextMessage, byteData); err != nil {
+			fmt.Println("Write error:", err)
+			panic(err)
+		}
 	}
 }
 
-type MsgObj struct {
-	Type string  `json:"type"`
-	Data MsgData `json:"data"`
+type ChatRequest struct {
+	RevUserID uint      `json:"rev_user_id"`
+	Msg       ctype.Msg `json:"msg"`
 }
 
-type MsgData struct {
-	To_uid string `json:"to_uid"`
-	Msg    string `json:"msg"`
+type ChatResponse struct {
+	RevUser  UserInfo  `json:"rev_user"`
+	SendUser UserInfo  `json:"send_user"`
+	Msg      ctype.Msg `json:"msg"`
+	CreateAt time.Time `json:"create_at"`
 }
