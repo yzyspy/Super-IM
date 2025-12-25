@@ -59,9 +59,10 @@ function sendMsg() {
   </div>
   <div class="user_chat_inner_view">
     <div class="user_chat_inner_head">
-      <el-scrollbar height="350px">
+      <el-scrollbar height="100%">
          <div class="msg">
             聊天记录
+           聊天记录
          </div>
       </el-scrollbar>
     </div>
@@ -84,11 +85,8 @@ function sendMsg() {
 </template>
 
 <style scoped lang="scss">
-.msg {
-  font-size: 200px;
-}
 .user-chat-container {
-  width: 600px;
+  width: 720px;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -101,10 +99,23 @@ function sendMsg() {
     flex-grow: 12;
     flex-basis: 0;
   }
-  .user_chat_inner_box {
-    flex-grow: 1.5;
-    flex-basis: 0;
-    display: flex;
+  .user_chat_inner_view {
+     height: 100%;
+    .user_chat_inner_box {
+      flex-grow: 2;
+      flex-basis: 0;
+      display: flex;
+    }
+    .user_chat_inner_head {
+       height: calc(100% - 75px);
+    }
+    .user_chat_inner_menu {
+       border-top: 1px solid #e2e2e2;
+       cursor: pointer;
+    }
+    .user_chat_inner_box {
+
+    }
   }
 }
 </style>

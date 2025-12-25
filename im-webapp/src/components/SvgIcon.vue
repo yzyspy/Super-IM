@@ -29,8 +29,8 @@ const svgClass = computed(() => {
 </script>
 <style scoped>
 .svg-icon {
-  width: 2em;
-  height: 2em;
+  width: 1.5em;
+  height: 1.5em;
   position: relative;
   vertical-align: -2px;
   fill: #969896;
