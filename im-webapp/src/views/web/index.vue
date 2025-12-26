@@ -64,6 +64,7 @@ function change(menu : string) {
 .fim_slide {
   background-color: #dededf;
   width: 60px;
+  flex-shrink: 0; /* 禁止压缩 */
 
   display: flex;
   flex-direction: column;
@@ -91,12 +92,12 @@ function change(menu : string) {
   cursor: pointer;
 }
 .caidan-container {
-   display: flex;
-   flex-direction: column;
-   justify-content: flex-end;
-   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 280px;
 }
 .caidan {
-   margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 </style>
