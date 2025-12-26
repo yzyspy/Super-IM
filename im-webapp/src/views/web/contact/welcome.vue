@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import SvgIcon from "@/components/SvgIcon.vue";
 </script>
 
 <template>
@@ -6,8 +7,9 @@
     <div class="title">欢迎使用FIM即时通讯</div>
     <div>
       <div>
+        <svg-icon icon-name="icon-shipintonghua-tianchong"></svg-icon>
         这是一款基于vue3+go-zero的前后端微服务项目
-        前端:vue3typescript acroDesgin WebRTC
+        前端:vue3 typescript elementUI-pluse WebRTC
         后端:go-zero gorm elasticsearch websocket
       </div>
       基本功能:

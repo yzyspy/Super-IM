@@ -69,7 +69,7 @@ function sendMsg() {
 
     <div class="user_chat_inner_menu">
       <svg-icon icon-name="icon-zhifeiji" @click="sendMsg"></svg-icon>
-      <svg-icon icon-name="icon-zhifeiji" @click="sendMsg"></svg-icon>
+      <svg-icon icon-name="icon-shipintonghua-tianchong" @click="sendMsg"></svg-icon>
       <svg-icon icon-name="icon-zhifeiji" @click="sendMsg"></svg-icon>
       <svg-icon icon-name="icon-zhifeiji" @click="sendMsg"></svg-icon>
       <svg-icon icon-name="icon-zhifeiji" @click="sendMsg"></svg-icon>

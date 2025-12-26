@@ -6,6 +6,55 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "4553734",
+      "name": "视频通话-填充",
+      "font_class": "shipintonghua-tianchong",
+      "unicode": "e7dd",
+      "unicode_decimal": 59357
+    },
+    {
+      "icon_id": "4890385",
+      "name": "图片",
+      "font_class": "shangchuantupian",
+      "unicode": "e6e9",
+      "unicode_decimal": 59113
+    },
+    {
+      "icon_id": "5387397",
+      "name": "文件夹",
+      "font_class": "wenjianjia",
+      "unicode": "eac6",
+      "unicode_decimal": 60102
+    },
+    {
+      "icon_id": "5387545",
+      "name": "视频",
+      "font_class": "shipin",
+      "unicode": "eafb",
+      "unicode_decimal": 60155
+    },
+    {
+      "icon_id": "5647922",
+      "name": "表情",
+      "font_class": "biaoqing",
+      "unicode": "e745",
+      "unicode_decimal": 59205
+    },
+    {
+      "icon_id": "7564701",
+      "name": "语音通话icon@2x",
+      "font_class": "yuyintonghuaiconx",
+      "unicode": "e649",
+      "unicode_decimal": 58953
+    },
+    {
+      "icon_id": "10549635",
+      "name": "视频通话",
+      "font_class": "shipintonghua",
+      "unicode": "e670",
+      "unicode_decimal": 58992
+    },
+    {
       "icon_id": "1302",
       "name": "加",
       "font_class": "jia",
