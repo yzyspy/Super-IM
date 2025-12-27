@@ -8,8 +8,8 @@ import SvgIcon from "@/components/SvgIcon.vue";
     <div>
       <div>
         这是一款基于vue3+go-zero的前后端微服务项目
-        前端:vue3 typescript elementUI-pluse WebRTC
-        后端:go-zero gorm elasticsearch websocket
+        <div>前端:vue3 typescript elementUI-pluse WebRTC</div>
+        <div>后端:go-zero gorm elasticsearch websocket</div>
       </div>
       基本功能:
       <ul>
@@ -24,8 +24,13 @@ import SvgIcon from "@/components/SvgIcon.vue";
 
 <style scoped lang="scss">
 .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
    .title {
      font-size: 40px;
+     color: #0086b3;
    }
 }
 </style>
