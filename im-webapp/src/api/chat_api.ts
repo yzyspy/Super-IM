@@ -13,3 +13,13 @@ export function queryChatHistory(req: QueryChatHistoryRequest) : Promise<QueryCh
         params: req
     })
 }
+
+export interface UserBaseType {
+    "id": number
+    "nickName": string
+    "avatar": string
+}
+
+export interface TextMsg {
+    "content": string
+}
