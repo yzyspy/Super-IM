@@ -1,7 +1,26 @@
 <script setup lang="ts">
 import SvgIcon from "@/components/SvgIcon.vue";
 import Fim_slide from "@/components/fim_slide.vue";
+import {reactive} from "vue";
 
+interface sessionType {
+  id: number
+  title: string
+  avatar: string
+  date: string
+  msgPreview: string
+  isTop: boolean
+  type: "user" | "group"
+}
+
+const data = reactive({
+  list: [
+    {
+      "userId": 4,
+      "avatar": ""
+    }
+  ]
+})
 
 </script>
 
