@@ -31,6 +31,7 @@ const data = reactive({
       <fim_slide></fim_slide>
       <!-- 最近参与单聊的列表 和 参与的群聊的列表 -->
       <div class="session_list">
+        session_list
       </div>
       <div class="session_main">
         <router-view></router-view>

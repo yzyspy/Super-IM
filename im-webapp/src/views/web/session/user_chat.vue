@@ -68,11 +68,12 @@ function sendMsg() {
     </div>
 
     <div class="user_chat_inner_menu">
-      <svg-icon icon-name="icon-zhifeiji" @click="sendMsg"></svg-icon>
+      <svg-icon icon-name="icon-shangchuantupian" @click="sendMsg"></svg-icon>
       <svg-icon icon-name="icon-shipintonghua-tianchong" @click="sendMsg"></svg-icon>
-      <svg-icon icon-name="icon-zhifeiji" @click="sendMsg"></svg-icon>
-      <svg-icon icon-name="icon-zhifeiji" @click="sendMsg"></svg-icon>
-      <svg-icon icon-name="icon-zhifeiji" @click="sendMsg"></svg-icon>
+      <svg-icon icon-name="icon-wenjianjia" @click="sendMsg"></svg-icon>
+      <svg-icon icon-name="icon-biaoqing" @click="sendMsg"></svg-icon>
+      <svg-icon icon-name="icon-yuyintonghuaiconx" @click="sendMsg"></svg-icon>
+      <svg-icon icon-name="icon-shipintonghua" @click="sendMsg"></svg-icon>
     </div>
 
     <div class="user_chat_inner_box">

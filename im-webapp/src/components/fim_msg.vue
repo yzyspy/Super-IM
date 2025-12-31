@@ -28,7 +28,9 @@ watch(
 </script>
 
 <template>
-
+<div>
+  this is fim_msg {{store.latestMsg.msg.content}}
+</div>
 </template>
 
 <style scoped>
