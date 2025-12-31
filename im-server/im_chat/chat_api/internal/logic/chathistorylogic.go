@@ -47,6 +47,7 @@ func (l *ChatHistoryLogic) ChatHistory(req *types.ChatHistoryRequest) (resp *MyC
 			Page:  req.Page,
 			Limit: req.Limit,
 		},
+		// 这个sql有问题吧，应该是 "sender_user_id = 我 or recv_user_id = 好友UID" || "sender_user_id = 好友UID or recv_user_id = 我"
 		Where: l.svcCtx.DB.Where("sender_user_id = ? or recv_user_id = ?", req.UserId, req.UserId),
 	})
 	if count == 0 {
