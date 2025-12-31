@@ -56,6 +56,17 @@ export interface MsgType {
     create_at: string;       // ISO 8601 时间格式
 }
 
+export interface Msg {
+    "id": number
+    "user": UserBaseType
+    "isMe": boolean
+    "createdAt": string
+    "msg": {
+        "type":number
+        "textMsg":TextMsg
+    }
+}
+
 /**
  * 消息体内容结构
  * 考虑到扩展性，将各类可选消息类型设为 null | any

@@ -1,20 +1,11 @@
 <script setup lang="ts">
-import type {MsgType, TextMsg, UserBaseType} from "@/api/chat_api";
+import type {Msg, MsgType, TextMsg, UserBaseType} from "@/api/chat_api";
 import {watch} from "vue";
 import {useUserInfoStore} from "@/stores";
 
-// interface MsgType {
-//   "id": number
-//   "user": UserBaseType
-//   "isMe": boolean
-//   "createdAt": string
-//   "msg": {
-//     "type":number
-//     "textMsg":TextMsg
-//   }
-// }
+
 interface Props {
-  data: MsgType
+  data: Msg
 }
 
 const props = defineProps<Props>()

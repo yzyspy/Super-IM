@@ -4,7 +4,7 @@ import {onActivated, onMounted, ref, watch} from "vue";
 import SvgIcon from "@/components/SvgIcon.vue";
 import {useUserInfoStore} from "@/stores";
 import Fim_msg from "@/components/fim_msg.vue";
-import type {MsgType} from "@/api/chat_api";
+import type {Msg, MsgType} from "@/api/chat_api";
 
 
 const props = defineProps({
@@ -62,6 +62,19 @@ function sendMsg() {
 }
  const msgList = ref<MsgType[]>( [])
 
+const convertMsg = (msg : MsgType) => {
+  const m : Msg = {
+    id: 0,
+    user: undefined,
+    isMe: false,
+    createdAt: '',
+    msg: {
+      type: 0,
+      textMsg: undefined
+    }
+  }
+  return m
+}
 </script>
 
 <template>
@@ -74,7 +87,7 @@ function sendMsg() {
       <el-scrollbar height="100%">
          <div class="msg">
              <template v-for="msg in msgList">
-               <fim_msg :data="msg"></fim_msg>
+               <fim_msg :data="convertMsg(msg)"></fim_msg>
              </template>
          </div>
       </el-scrollbar>
