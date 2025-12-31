@@ -1,35 +1,37 @@
 <script setup lang="ts">
-import type {TextMsg, UserBaseType} from "@/api/chat_api";
+import type {MsgType, TextMsg, UserBaseType} from "@/api/chat_api";
 import {watch} from "vue";
 import {useUserInfoStore} from "@/stores";
 
-interface MsgType {
-  "id": number
-  "user": UserBaseType
-  "isMe": boolean
-  "createdAt": string
-  "msg": {
-    "type":number
-    "textMsg":TextMsg
-  }
-}
+// interface MsgType {
+//   "id": number
+//   "user": UserBaseType
+//   "isMe": boolean
+//   "createdAt": string
+//   "msg": {
+//     "type":number
+//     "textMsg":TextMsg
+//   }
+// }
 interface Props {
   data: MsgType
 }
 
 const props = defineProps<Props>()
-const store = useUserInfoStore()
-watch(
-    () => store.latestMsg,
-    (newId, oldId) => {
-      console.log(`--- watch 触发: latestMsg 从 ${oldId} 变为 ${newId} ---`);
-    },
-);
+
 </script>
 
 <template>
-<div>
-  this is fim_msg {{store.latestMsg.msg.content}}
+<div class="fim_msg">
+   <el-avatar :src="props.data.user.avatar" size="small"></el-avatar>
+  <div class="info">
+    <el-text>{{ props.data.user.nickName }}</el-text>
+    <div class="msg">
+      <div class="text_msg" v-if="props.data.msg.type === 1">
+        {{props.data.msg.textMsg.content}}
+      </div>
+    </div>
+  </div>
 </div>
 </template>
 

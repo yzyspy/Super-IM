@@ -4,6 +4,7 @@ import {onActivated, onMounted, ref, watch} from "vue";
 import SvgIcon from "@/components/SvgIcon.vue";
 import {useUserInfoStore} from "@/stores";
 import Fim_msg from "@/components/fim_msg.vue";
+import type {MsgType} from "@/api/chat_api";
 
 
 const props = defineProps({
@@ -38,6 +39,15 @@ watch(
     },
 );
 
+watch(
+    () => store.latestMsg,
+    (newId, oldId) => {
+      console.log(`--- watch 触发: latestMsg 从 ${oldId} 变为 ${newId} ---`);
+      msgList.value.push(store.latestMsg)
+    },
+);
+
+
 const inputText = ref(''); // 输入框内容
 
 function sendMsg() {
@@ -50,6 +60,7 @@ function sendMsg() {
     }
   }))
 }
+ const msgList = ref<MsgType[]>( [])
 
 </script>
 
@@ -62,7 +73,9 @@ function sendMsg() {
     <div class="user_chat_inner_head">
       <el-scrollbar height="100%">
          <div class="msg">
-             <fim_msg data=""/>
+             <template v-for="msg in msgList">
+               <fim_msg :data="msg"></fim_msg>
+             </template>
          </div>
       </el-scrollbar>
     </div>
@@ -77,7 +90,7 @@ function sendMsg() {
     </div>
 
     <div class="user_chat_inner_box">
-      <el-input  placeholder="发送消息"  v-model="inputText" />
+      <el-input  placeholder="发送消息"  v-model="inputText" @keyup.enter="sendMsg"/>
       <svg-icon icon-name="icon-zhifeiji" @click="sendMsg"></svg-icon>
     </div>
   </div>
