@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import type {TextMsg, UserBaseType} from "@/api/chat_api";
+import {watch} from "vue";
+import {useUserInfoStore} from "@/stores";
 
 interface MsgType {
   "id": number
@@ -16,7 +18,13 @@ interface Props {
 }
 
 const props = defineProps<Props>()
-
+const store = useUserInfoStore()
+watch(
+    () => store.latestMsg,
+    (newId, oldId) => {
+      console.log(`--- watch 触发: latestMsg 从 ${oldId} 变为 ${newId} ---`);
+    },
+);
 </script>
 
 <template>

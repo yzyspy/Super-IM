@@ -1,6 +1,7 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import type {UserInfo} from "@/utils/common";
+import type {MsgType} from "@/api/chat_api";
 
 
 // 在ES6模块中：
@@ -14,6 +15,7 @@ export const useUserInfoStore = defineStore('userInfo', {
   state: () => ({
     userInfo:  {} as UserInfo,
     ws: {} as WebSocket,
+    latestMsg: {} as MsgType,//最新的发来的消息
   }),
   actions: {
     setUserInfo(userInfo: UserInfo) {
@@ -39,6 +41,9 @@ export const useUserInfoStore = defineStore('userInfo', {
     setWebSocket(ws : WebSocket) {
       this.ws = ws
     },
+    setLatestMsg(msg: MsgType) {
+      this.latestMsg = msg
+    }
   },
   getters: {
     isLogin: (state) => {

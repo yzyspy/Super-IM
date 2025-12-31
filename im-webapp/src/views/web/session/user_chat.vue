@@ -3,6 +3,7 @@
 import {onActivated, onMounted, ref, watch} from "vue";
 import SvgIcon from "@/components/SvgIcon.vue";
 import {useUserInfoStore} from "@/stores";
+import Fim_msg from "@/components/fim_msg.vue";
 
 
 const props = defineProps({
@@ -61,8 +62,7 @@ function sendMsg() {
     <div class="user_chat_inner_head">
       <el-scrollbar height="100%">
          <div class="msg">
-            聊天记录
-           聊天记录
+             <fim_msg data=""/>
          </div>
       </el-scrollbar>
     </div>

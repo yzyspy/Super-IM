@@ -1,5 +1,10 @@
 import {service} from "@/api/index";
 
+
+// export interface chatHistoryListParams extends paramsType {
+//     friendId: number
+// }
+
 export interface QueryChatHistoryRequest {
     page: number
     limit: number
