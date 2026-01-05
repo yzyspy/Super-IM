@@ -52,7 +52,7 @@ watch(
 const inputText = ref(''); // 输入框内容
 
 function sendMsg() {
-  const w : WebSocket = useUserInfoStore().ws
+  const w : WebSocket = store.ws
   w.send(JSON.stringify({
     "rev_user_id": props.uid,
     "msg": {
