@@ -42,6 +42,7 @@ function handleWebSocketMessage(event : MessageEvent) {
     const msg : MsgType = JSON.parse(message)
     //把这个消息放到 store里面，页面里面watch，实时添加到界面上
     console.log("收到消息:", msg);
+    msg.is_me = false;
     store.setLatestMsg(msg)
 }
 

@@ -62,22 +62,24 @@ function sendMsg() {
   }))
   console.log("sendMsg...." + inputText.value)
 
+  var userInfo = store.userInfo;
   const msg : MsgType = {
     rev_user: {
-      id:0,
+      id:props.uid,
       nickName: props.nick_name,
       avatar: props.avatar
     },
     send_user: {
-      id:0,
-      nickName: "",
-      avatar: ""
+      id:userInfo.user_id,
+      nickName: userInfo.user_name,
+      avatar: userInfo.avatar
     },
     msg: {
       msg_type: 0,
       content: inputText.value
     },
-    create_at: ""
+    create_at: "",
+    is_me: true
   }
   msgList.value.push(msg)
   inputText.value = ''
@@ -88,11 +90,11 @@ const convertMsg = (msg : MsgType) => {
   const m : Msg = {
     id: 0,
     user: {
-      id: msg.send_user.id,
-      nickName: msg.send_user.nickName,
-      avatar: msg.send_user.avatar
+      id: msg.is_me ? msg.rev_user.id : msg.send_user.id,
+      nickName: msg.is_me ? msg.rev_user.nickName : msg.send_user.nickName,
+      avatar:  msg.is_me ? msg.rev_user.avatar : msg.send_user.avatar,
     },
-    isMe: false,
+    isMe: msg.is_me,
     createdAt: '',
     msg: {
       type: 0,

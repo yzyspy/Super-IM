@@ -37,7 +37,7 @@ export interface ChatHistoryType {
 }
 
 export interface UserBaseType {
-    "id": number
+    "id": string
     "nickName": string
     "avatar": string
 }
@@ -54,6 +54,7 @@ export interface MsgType {
     send_user: UserBaseType;     // 发送者
     msg: MessageContent;     // 消息主体
     create_at: string;       // ISO 8601 时间格式
+    is_me: boolean;          // 是否是自己发送的
 }
 
 export interface Msg {
