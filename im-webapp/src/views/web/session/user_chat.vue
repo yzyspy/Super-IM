@@ -87,12 +87,13 @@ function sendMsg() {
  const msgList = ref<MsgType[]>( [])
 
 const convertMsg = (msg : MsgType) => {
+  var userInfo = store.userInfo;
   const m : Msg = {
     id: 0,
     user: {
-      id: msg.is_me ? msg.rev_user.id : msg.send_user.id,
-      nickName: msg.is_me ? msg.rev_user.nickName : msg.send_user.nickName,
-      avatar:  msg.is_me ? msg.rev_user.avatar : msg.send_user.avatar,
+      id: msg.is_me ? userInfo.user_id : msg.send_user.id,
+      nickName: msg.is_me ? userInfo.user_name : msg.send_user.nickName,
+      avatar:  msg.is_me ? userInfo.avatar : msg.send_user.avatar,
     },
     isMe: msg.is_me,
     createdAt: '',
