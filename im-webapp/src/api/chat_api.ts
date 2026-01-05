@@ -72,16 +72,16 @@ export interface Msg {
  * 考虑到扩展性，将各类可选消息类型设为 null | any
  */
 interface MessageContent {
-    msg_type: number;
+    msg_type: number | null;
     content: string;
-    image_msg: any | null;
-    video_msg: any | null;
-    file_msg: any | null;
-    voice_msg: any | null;
-    video_call_msg: any | null;
-    voice_call_msg: any | null;
-    witchdraw_msg: any | null; // 注意：JSON中为 witchdraw (可能为 withdraw 的拼写错误)
-    reply_msg: any | null;
-    quote_msg: any | null;
-    at_msg: any | null;
+    // image_msg: any | null;
+    // video_msg: any | null;
+    // file_msg: any | null;
+    // voice_msg: any | null;
+    // video_call_msg: any | null;
+    // voice_call_msg: any | null;
+    // witchdraw_msg: any | null; // 注意：JSON中为 witchdraw (可能为 withdraw 的拼写错误)
+    // reply_msg: any | null;
+    // quote_msg: any | null;
+    // at_msg: any | null;
 }

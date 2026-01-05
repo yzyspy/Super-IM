@@ -4,7 +4,7 @@ import {onActivated, onMounted, ref, watch} from "vue";
 import SvgIcon from "@/components/SvgIcon.vue";
 import {useUserInfoStore} from "@/stores";
 import Fim_msg from "@/components/fim_msg.vue";
-import type {Msg, MsgType} from "@/api/chat_api";
+import type {Msg, MsgType, UserBaseType} from "@/api/chat_api";
 
 
 const props = defineProps({
@@ -61,6 +61,26 @@ function sendMsg() {
     }
   }))
   console.log("sendMsg...." + inputText.value)
+
+  const msg : MsgType = {
+    rev_user: {
+      id:0,
+      nickName: props.nick_name,
+      avatar: props.avatar
+    },
+    send_user: {
+      id:0,
+      nickName: "",
+      avatar: ""
+    },
+    msg: {
+      msg_type: 0,
+      content: inputText.value
+    },
+    create_at: ""
+  }
+  msgList.value.push(msg)
+  inputText.value = ''
 }
  const msgList = ref<MsgType[]>( [])
 
