@@ -18,7 +18,7 @@ const props = defineProps<Props>()
   <div class="info">
     <el-text>{{ props.data.user.nickName }}</el-text>
     <div class="msg">
-      <div class="text_msg" v-if="props.data.msg.type === 1">
+      <div class="text_msg">
         {{props.data.msg.textMsg.content}}
       </div>
     </div>

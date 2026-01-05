@@ -9,7 +9,7 @@ import type {Msg, MsgType} from "@/api/chat_api";
 
 const props = defineProps({
   uid: { // 对应路由配置中的 :uid
-    type: [Number],
+    type: [String],
     required: true
   },
   nick_name: { // 对应路由配置中的 :nick_name
@@ -45,6 +45,7 @@ watch(
       console.log(`--- watch 触发: latestMsg 从 ${oldId} 变为 ${newId} ---`);
       msgList.value.push(store.latestMsg)
     },
+    { deep: true } // 如果不加这个，修改 userInfo.age 是监听不到的
 );
 
 
@@ -59,18 +60,25 @@ function sendMsg() {
       "content": inputText.value
     }
   }))
+  console.log("sendMsg...." + inputText.value)
 }
  const msgList = ref<MsgType[]>( [])
 
 const convertMsg = (msg : MsgType) => {
   const m : Msg = {
     id: 0,
-    user: undefined,
+    user: {
+      id: msg.send_user.id,
+      nickName: msg.send_user.nickName,
+      avatar: msg.send_user.avatar
+    },
     isMe: false,
     createdAt: '',
     msg: {
       type: 0,
-      textMsg: undefined
+      textMsg: {
+        content: msg.msg.content
+      }
     }
   }
   return m
