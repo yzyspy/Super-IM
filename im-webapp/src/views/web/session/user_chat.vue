@@ -50,7 +50,8 @@ watch(
 
 
 const inputText = ref(''); // 输入框内容
-
+const scrollBoxRef = ref()
+const msgBoxRef = ref()
 function sendMsg() {
   const w : WebSocket = store.ws
   w.send(JSON.stringify({
@@ -83,8 +84,11 @@ function sendMsg() {
   }
   msgList.value.push(msg)
   inputText.value = ''
+  //滑动到底部
+  scrollBoxRef.value.setScrollTop(msgBoxRef.value.clientHeight)
 }
- const msgList = ref<MsgType[]>( [])
+
+const msgList = ref<MsgType[]>( [])
 
 const convertMsg = (msg : MsgType) => {
   var userInfo = store.userInfo;
@@ -115,8 +119,8 @@ const convertMsg = (msg : MsgType) => {
   </div>
   <div class="user_chat_inner_view">
     <div class="user_chat_inner_head">
-      <el-scrollbar height="100%">
-         <div class="msg">
+      <el-scrollbar height="100%" ref="scrollBoxRef">
+         <div class="msg" ref="msgBoxRef">
              <template v-for="msg in msgList">
                <fim_msg :data="convertMsg(msg)"></fim_msg>
              </template>
@@ -144,8 +148,8 @@ const convertMsg = (msg : MsgType) => {
 
 <style scoped lang="scss">
 .user-chat-container {
-  width: 720px;
-  height: 100%;
+  width: 650px;
+  height: 450px;
   display: flex;
   flex-direction: column;
   .chat-header {
@@ -170,9 +174,6 @@ const convertMsg = (msg : MsgType) => {
     .user_chat_inner_menu {
        border-top: 1px solid #e2e2e2;
        cursor: pointer;
-    }
-    .user_chat_inner_box {
-
     }
   }
 }
