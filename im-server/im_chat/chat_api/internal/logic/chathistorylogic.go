@@ -39,6 +39,7 @@ type ChatHistory struct {
 	CreatedAt string           `json:"created_at"`
 	Msg       *ctype.Msg       `json:"msg"`
 	SystemMsg *ctype.SystemMsg `json:"system_msg"`
+	IsMe      bool             `json:"is_me"`
 }
 
 type MyChatHistoryResponse struct {
@@ -88,6 +89,11 @@ func (l *ChatHistoryLogic) ChatHistory(req *types.ChatHistoryRequest) (resp *MyC
 			Nickname: userInfo.NickName,
 			//CreatedAt: item.CreatedAt.Format("2006-01-02 15:04:05"),
 		}
+
+		//if chatHistory.SendUser.ID == req.UserId {
+		//	chatHistory.IsMe = true
+		//}
+
 		chatHistoryList = append(chatHistoryList, chatHistory)
 	}
 	resp = &MyChatHistoryResponse{
