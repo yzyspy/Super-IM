@@ -32,7 +32,10 @@ const props = defineProps<Props>()
   margin-top: 20px;
 }
 .text_msg {
-  background-color: #D5E2FC;
+  background-color: #51B1F4;
   margin-left: 10px;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
 }
 </style>
