@@ -31,7 +31,7 @@ func NewChatHistoryLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ChatH
 	}
 }
 
-type MyChatHistoryResponse struct {
+type ChatHistory struct {
 	ID        uint             `json:"id"`
 	UserID    uint             `json:"user_id"`
 	Avatar    string           `json:"avatar"`
@@ -39,6 +39,11 @@ type MyChatHistoryResponse struct {
 	CreatedAt string           `json:"created_at"`
 	Msg       *ctype.Msg       `json:"msg"`
 	SystemMsg *ctype.SystemMsg `json:"system_msg"`
+}
+
+type MyChatHistoryResponse struct {
+	List  []*ChatHistory `json:"list"`
+	Count int            `json:"count"`
 }
 
 func (l *ChatHistoryLogic) ChatHistory(req *types.ChatHistoryRequest) (resp *MyChatHistoryResponse, err error) {
@@ -68,18 +73,26 @@ func (l *ChatHistoryLogic) ChatHistory(req *types.ChatHistoryRequest) (resp *MyC
 	if err != nil {
 		return
 	}
+
+	chatHistoryList := make([]*ChatHistory, 0)
 	for _, item := range list {
 		userInfo := userInfos.Users[uint64(item.SenderUserId)]
 		if userInfo == nil {
 			continue
 		}
-		resp = &MyChatHistoryResponse{
+
+		chatHistory := &ChatHistory{
 			ID:       item.ID,
 			UserID:   item.SenderUserId,
 			Avatar:   userInfo.Avator,
 			Nickname: userInfo.NickName,
 			//CreatedAt: item.CreatedAt.Format("2006-01-02 15:04:05"),
 		}
+		chatHistoryList = append(chatHistoryList, chatHistory)
+	}
+	resp = &MyChatHistoryResponse{
+		List:  chatHistoryList,
+		Count: int(count),
 	}
 	return
 }

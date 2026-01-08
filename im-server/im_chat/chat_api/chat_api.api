@@ -12,6 +12,7 @@ type ChatHistoryResponse {
 	CreatedAt string `json:"created_at"`
 }
 
+
 type OnLineRequest {
 	token string `form:"token"`
 }
@@ -20,6 +21,33 @@ type OnLineResponse {
 	Status bool `json:"status"`
 }
 
+type ChatSessionRequest {
+	UserId uint `header:"uid"`
+	Page   int  `form:"page"`
+	Limit  int  `form:"limit"`
+}
+
+type ChatSessionResponse {
+	UserID    uint   `json:"user_id"`
+	Avatar    string `json:"avatar"`
+	Nickname  string `json:"nickname"`
+	CreatedAt string `json:"created_at"`
+}
+
+type GroupSessionRequest {
+	UserId uint `header:"uid"`
+	Page   int  `form:"page"`
+	Limit  int  `form:"limit"`
+}
+
+type GroupSessionResponse {
+	UserID    uint   `json:"user_id"`
+	Avatar    string `json:"avatar"`
+	Nickname  string `json:"nickname"`
+	CreatedAt string `json:"created_at"`
+}
+
+
 service chat {
 	// 与某一个人的对话记录
 	@handler chatHistory
@@ -27,11 +55,11 @@ service chat {
 
 	//左侧的最近联系人的会话列表（单人）
 	 @handler chatSession
-     get /api/chat/session
+     get /api/chat/session (ChatSessionRequest) returns (ChatSessionResponse)
 
 	//左侧的最近联系人的会话列表（群会话列表）
 	 @handler groupSession
-     get /api/group/session
+     get /api/group/session (GroupSessionRequest) returns (GroupSessionResponse)
 
 
 	//无论好友是否上线，都可以给好友发送消息，区别就是，如果好友在线，server端把消息入库以后，还需要通过websocket转发该消息给好友
