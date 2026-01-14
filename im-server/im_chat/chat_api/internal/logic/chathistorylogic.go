@@ -96,7 +96,7 @@ func (l *ChatHistoryLogic) ChatHistory(req *types.ChatHistoryRequest) (resp *Cha
 
 		chatHistoryList = append(chatHistoryList, chatHistory)
 	}
-	resp = &MyChatHistoryResponse{
+	resp = &ChatHistoryResponseList{
 		List:  chatHistoryList,
 		Count: int(count),
 	}
