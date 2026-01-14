@@ -21,8 +21,18 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 			{
 				Method:  http.MethodGet,
+				Path:    "/api/chat/session",
+				Handler: chatSessionHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
 				Path:    "/api/chat/ws/chat",
 				Handler: onLineHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/api/group/session",
+				Handler: groupSessionHandler(serverCtx),
 			},
 		},
 	)

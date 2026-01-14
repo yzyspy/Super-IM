@@ -42,12 +42,12 @@ type ChatHistory struct {
 	IsMe      bool             `json:"is_me"`
 }
 
-type MyChatHistoryResponse struct {
+type ChatHistoryResponseList struct {
 	List  []*ChatHistory `json:"list"`
 	Count int            `json:"count"`
 }
 
-func (l *ChatHistoryLogic) ChatHistory(req *types.ChatHistoryRequest) (resp *MyChatHistoryResponse, err error) {
+func (l *ChatHistoryLogic) ChatHistory(req *types.ChatHistoryRequest) (resp *ChatHistoryResponseList, err error) {
 	list, count, err := list_query.ListQuery(l.svcCtx.DB, chat_models.ChatModel{}, list_query.Option{
 		PageInfo: models.PageInfo{
 			Page:  req.Page,

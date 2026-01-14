@@ -17,6 +17,34 @@ type ChatHistoryResponse struct {
 	CreatedAt string `json:"created_at"`
 }
 
+type ChatSessionRequest struct {
+	UserId uint `header:"uid"`
+	Page   int  `form:"page"`
+	Limit  int  `form:"limit"`
+	Key    int  `form:"key"`
+}
+
+type ChatSessionResponse struct {
+	UserID     uint   `json:"user_id"`
+	Avatar     string `json:"avatar"`
+	Nickname   string `json:"nickname"`
+	CreatedAt  string `json:"created_at"`  //消息时间
+	MsgPreview string `json:"msg_preview"` //消息预览
+}
+
+type GroupSessionRequest struct {
+	UserId uint `header:"uid"`
+	Page   int  `form:"page"`
+	Limit  int  `form:"limit"`
+}
+
+type GroupSessionResponse struct {
+	UserID    uint   `json:"user_id"`
+	Avatar    string `json:"avatar"`
+	Nickname  string `json:"nickname"`
+	CreatedAt string `json:"created_at"`
+}
+
 type OnLineRequest struct {
 	Token string `form:"token"`
 }
@@ -30,3 +58,4 @@ type Response struct {
 	Msg  string `json:"msg"`
 	Data string `json:"data"`
 }
+
