@@ -46,7 +46,26 @@ type ChatSessionResponseList struct {
 // order by max_date
 // limit 10 offset 0;
 func (l *ChatSessionLogic) ChatSession(req *types.ChatSessionRequest) (resp *types.ChatSessionResponse, err error) {
-	// todo: add your logic here and delete this line
+	db := l.svcCtx.DB
+	userID := req.UserId
 
-	return
+	// *“最近聊天列表”**查询逻辑。它的核心目的是将“我发给 A”和“A 发给我”的记录合并为同一条会话，并按最后一条消息的时间排序。
+	subQuery := db.Table("chat_models").
+		Select("LEAST(sender_user_id, recv_user_id) AS s_u, "+
+			"GREATEST(sender_user_id, recv_user_id) AS r_u, "+
+			"COUNT(id) AS count, "+
+			"MAX(created_at) AS max_created_at, "+
+			"MAX(msg_preview) AS max_date").
+		Where("sender_user_id = ? OR recv_user_id = ?", userID, userID).
+		Group("LEAST(sender_user_id, recv_user_id), GREATEST(sender_user_id, recv_user_id)")
+
+	// 执行完整查询
+	errdb := db.Table("(?) as subquery", subQuery).
+		Order("max_date DESC"). // 通常最近聊天应是倒序
+		Limit(10).
+		Offset(0).
+		Find(&results).Error
+	if errdb != nil {
+		err = errdb
+	}
 }
