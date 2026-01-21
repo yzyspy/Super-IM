@@ -7,7 +7,9 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"gorm.io/gorm"
 	"im-server/common/models/ctype"
+	"im-server/im_chat/chat_models"
 	"im-server/im_user/user_rpc/types/user_rpc"
 	"im-server/utils/jwt"
 	"net/http"
@@ -110,7 +112,7 @@ func (l *OnLineLogic) OnLine(req *types.OnLineRequest, w http.ResponseWriter, r 
 			fmt.Printf("Read error:", err)
 			break
 		}
-		handleMessage(message, messageType, uid)
+		handleMessage(message, messageType, uid, l.svcCtx.DB)
 	}
 	//}()
 
@@ -120,17 +122,20 @@ func (l *OnLineLogic) OnLine(req *types.OnLineRequest, w http.ResponseWriter, r 
 	return
 }
 
-func handleMessage(message []byte, messageType int, senderUid int) {
+func handleMessage(message []byte, messageType int, senderUid int, db *gorm.DB) {
 	fmt.Printf("Received: %s (Type: %d)", message, messageType)
 
 	chatReq := ChatRequest{}
 	json.Unmarshal(message, &chatReq)
 	fmt.Printf("Received to_uid: %s, msg: %s", chatReq.RevUserID, chatReq.Msg.Content)
-	// 消息入库持久化
-
 	//如果目标用户在线,转发该消息
 	sendUserWs, ok := UserWsMap[uint(senderUid)]
 	recvUid, _ := strconv.Atoi(chatReq.RevUserID)
+
+	// 消息入库持久化
+	saveMsg(senderUid, recvUid, chatReq.Msg, db)
+
+	//找到收消息的人的ws
 	revUserWs, ok := UserWsMap[uint(recvUid)]
 	if ok {
 		resp := ChatResponse{
@@ -146,6 +151,15 @@ func handleMessage(message []byte, messageType int, senderUid int) {
 			panic(err)
 		}
 	}
+}
+
+func saveMsg(uid int, uid2 int, msg ctype.Msg, db *gorm.DB) {
+	db.Save(&chat_models.ChatModel{
+		SenderUserId: uint(uid),
+		RecvUserId:   uint(uid2),
+		Msg:          msg,
+	})
+	fmt.Println("Save Msg success")
 }
 
 type ChatRequest struct {

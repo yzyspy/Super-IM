@@ -45,7 +45,7 @@ type ChatSessionResponseList struct {
 // as subquery
 // order by max_date
 // limit 10 offset 0;
-func (l *ChatSessionLogic) ChatSession(req *types.ChatSessionRequest) (resp *types.ChatSessionResponse, err error) {
+func (l *ChatSessionLogic) ChatSession(req *types.ChatSessionRequest) (resp *ChatSessionResponseList, err error) {
 	db := l.svcCtx.DB
 	userID := req.UserId
 
@@ -59,13 +59,19 @@ func (l *ChatSessionLogic) ChatSession(req *types.ChatSessionRequest) (resp *typ
 		Where("sender_user_id = ? OR recv_user_id = ?", userID, userID).
 		Group("LEAST(sender_user_id, recv_user_id), GREATEST(sender_user_id, recv_user_id)")
 
+	results := make([]*types.ChatSessionResponse, 0)
 	// 执行完整查询
 	errdb := db.Table("(?) as subquery", subQuery).
 		Order("max_date DESC"). // 通常最近聊天应是倒序
 		Limit(10).
 		Offset(0).
 		Find(&results).Error
+	resp = &ChatSessionResponseList{
+		List:  results,
+		Count: len(results),
+	}
 	if errdb != nil {
 		err = errdb
 	}
+	return
 }
