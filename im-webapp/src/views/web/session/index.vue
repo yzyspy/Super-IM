@@ -1,5 +1,17 @@
 <script lang="ts">
+import {onMounted} from "vue";
+import {type QueryChatHistoryRequest, queryChatSession} from "@/api/chat_api";
 
+ onMounted(()=> {
+  const req : QueryChatHistoryRequest = {
+    page: 0,
+    limit: 0
+  }
+  var response = queryChatSession(req).then((data)=>{
+    console.log("queryChatSession.....")
+    console.log(data)
+  })
+})
 </script>
 
 <template>

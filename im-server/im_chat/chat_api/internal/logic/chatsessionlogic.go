@@ -31,16 +31,22 @@ type ChatSessionResponseList struct {
 	Count int                          `json:"count"`
 }
 
+type SessionResult struct {
+	S_u uint
+	R_u uint
+}
+
 // select * from (select least(sender_user_id, recv_user_id) as s_u,
 //
-//	greatest(sender_user_id, recv_user_id) as r_u,
-//	count(id),
-//	max(created_at),
-//	max(msg_preview)  as max_date
-//	from chat_models
-//	where sender_user_id = 8
-//	or recv_user_id = 8
-//	group by least(sender_user_id, recv_user_id),greatest(sender_user_id,recv_user_id))
+// greatest(sender_user_id, recv_user_id) as r_u,
+// count(id),
+// max(created_at) as max_date,
+// max(msg_preview)  as msg_preview,
+// max(msg)  as msg
+// from chat_models
+// where sender_user_id = 8
+// or recv_user_id = 8
+// group by least(sender_user_id, recv_user_id),greatest(sender_user_id,recv_user_id))
 //
 // as subquery
 // order by max_date
@@ -54,21 +60,35 @@ func (l *ChatSessionLogic) ChatSession(req *types.ChatSessionRequest) (resp *Cha
 		Select("LEAST(sender_user_id, recv_user_id) AS s_u, "+
 			"GREATEST(sender_user_id, recv_user_id) AS r_u, "+
 			"COUNT(id) AS count, "+
-			"MAX(created_at) AS max_created_at, "+
-			"MAX(msg_preview) AS max_date").
+			"MAX(created_at) AS max_date, "+
+			"max(msg)  as msg, "+
+			"MAX(msg_preview)  as msg_preview").
 		Where("sender_user_id = ? OR recv_user_id = ?", userID, userID).
 		Group("LEAST(sender_user_id, recv_user_id), GREATEST(sender_user_id, recv_user_id)")
 
-	results := make([]*types.ChatSessionResponse, 0)
+	session := make([]*SessionResult, 0)
 	// 执行完整查询
 	errdb := db.Table("(?) as subquery", subQuery).
 		Order("max_date DESC"). // 通常最近聊天应是倒序
 		Limit(10).
 		Offset(0).
-		Find(&results).Error
-	resp = &ChatSessionResponseList{
-		List:  results,
-		Count: len(results),
+		Find(&session).Error
+
+	list := make([]*types.ChatSessionResponse, 0)
+	if len(session) > 0 {
+		for _, s := range session {
+			//senderUid := userID
+			//if s.S_u == userID {
+			//	senderUid = s.S_u
+			//}
+			list = append(list, &types.ChatSessionResponse{
+				UserID: s.R_u,
+			})
+		}
+		resp = &ChatSessionResponseList{
+			List:  list,
+			Count: len(list),
+		}
 	}
 	if errdb != nil {
 		err = errdb
