@@ -33,8 +33,8 @@ type ChatSessionResponseList struct {
 }
 
 type SessionResult struct {
-	S_u uint64
-	R_u uint64
+	Least_uid    uint64
+	Greatest_uid uint64
 }
 
 // select * from (select least(sender_user_id, recv_user_id) as s_u,
@@ -58,8 +58,8 @@ func (l *ChatSessionLogic) ChatSession(req *types.ChatSessionRequest) (resp *Cha
 
 	// *“最近聊天列表”**查询逻辑。它的核心目的是将“我发给 A”和“A 发给我”的记录合并为同一条会话，并按最后一条消息的时间排序。
 	subQuery := db.Table("chat_models").
-		Select("LEAST(sender_user_id, recv_user_id) AS s_u, "+
-			"GREATEST(sender_user_id, recv_user_id) AS r_u, "+
+		Select("LEAST(sender_user_id, recv_user_id) AS least_uid, "+
+			"GREATEST(sender_user_id, recv_user_id) AS greatest_uid, "+
 			"COUNT(id) AS count, "+
 			"MAX(created_at) AS max_date, "+
 			"max(msg)  as msg, "+
@@ -80,10 +80,10 @@ func (l *ChatSessionLogic) ChatSession(req *types.ChatSessionRequest) (resp *Cha
 		for _, s := range session {
 
 			oppositeUid := uint64(0)
-			if s.S_u == userID {
-				oppositeUid = s.R_u
-			} else if s.R_u == userID {
-				oppositeUid = s.S_u
+			if s.Greatest_uid == userID {
+				oppositeUid = s.Least_uid
+			} else if s.Least_uid == userID {
+				oppositeUid = s.Greatest_uid
 			}
 			oppositeUids := make([]uint64, 0)
 			oppositeUids = append(oppositeUids, oppositeUid)
@@ -91,10 +91,10 @@ func (l *ChatSessionLogic) ChatSession(req *types.ChatSessionRequest) (resp *Cha
 				UserIds: oppositeUids,
 			}
 			userInfos, _ := l.svcCtx.UserRpc.GetUserBatch(l.ctx, getUserBatchRequest)
-			userInfo := userInfos.Users[uint64(oppositeUid)]
 			list = append(list, &types.ChatSessionResponse{
 				UserID:   uint(oppositeUid),
-				Nickname: userInfo.NickName,
+				Nickname: userInfos.Users[oppositeUid].NickName,
+				Avatar:   userInfos.Users[oppositeUid].Avator,
 			})
 		}
 		resp = &ChatSessionResponseList{
