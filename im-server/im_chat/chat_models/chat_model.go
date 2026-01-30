@@ -15,3 +15,26 @@ type ChatModel struct {
 	Msg          ctype.Msg        `gorm:"column:msg" json:"msg"`                          //消息内容
 	SystemMsg    *ctype.SystemMsg `gorm:"column:system_msg" json:"system_msg"`            //系统消息
 }
+
+func (chat ChatModel) MsgPreviewMethod() string {
+	if chat.SystemMsg != nil {
+		switch chat.SystemMsg.Type {
+		case 1:
+			return "系统消息"
+		case 2:
+			return "系统消息"
+		}
+	}
+
+	switch chat.Msg.MsgType {
+	case 1:
+		return *chat.Msg.Content
+	case 2:
+		return "[图片消息]-" + chat.Msg.ImageMsg.Title
+	case 3:
+		return "[视频消息]" + chat.Msg.ImageMsg.Title
+	case 4:
+		return "[文件消息]" + chat.Msg.FileMsg.Title
+	}
+	return ""
+}
