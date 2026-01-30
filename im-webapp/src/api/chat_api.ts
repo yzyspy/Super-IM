@@ -8,10 +8,18 @@ import {service} from "@/api/index";
 export interface QueryChatHistoryRequest {
     page: number
     limit: number
+    key: string
+}
+
+export interface SessionUserInfo
+{
+    user_id : number;
+    nickname? : string;
+    avatar? : string ;
 }
 
 export interface QueryChatHistoryResponse {
-
+    list: SessionUserInfo[]
 }
 
 //与某一个人的对话记录
@@ -22,14 +30,13 @@ export function queryChatHistory(req: QueryChatHistoryRequest) : Promise<QueryCh
 }
 
 //左侧的最近联系人的会话列表（单人）
-
-export function queryChatSession(req: QueryChatHistoryRequest) : Promise<QueryChatHistoryResponse> {
+export function chatSessionListApi(req: QueryChatHistoryRequest) : Promise<QueryChatHistoryResponse> {
     return service.get('/api/chat/session', {
         params: req
     })
 }
 //左侧的最近联系人的会话列表（群会话列表）
-export function queryGroupHistory(req: QueryChatHistoryRequest) : Promise<QueryChatHistoryResponse> {
+export function groupSessionListApi(req: QueryChatHistoryRequest) : Promise<QueryChatHistoryResponse> {
     return service.get('/api/group/session', {
         params: req
     })
