@@ -93,7 +93,34 @@ const msgList = ref<MsgType[]>( [])
 async function getChatHistory() {
   let res = await queryChatHistory({page:1, limit:100, friend_id:parseInt(props.uid)});
   console.log("getChatHistory " + res)
+  if (res.list.length > 0) {
+    res.list.forEach(item => {
+
+      const msg : MsgType = {
+        rev_user: {
+          id:props.uid,
+          nickName: props.nick_name,
+          avatar: props.avatar
+        },
+        send_user: {
+          id:String(item.user_id),
+          nickName: item.nickname,
+          avatar: item.avatar
+        },
+        msg: {
+          msg_type: 0,
+          content: item.msg.content
+        },
+        create_at: "",
+        is_me: true
+      }
+
+      msgList.value.push(msg)
+    })
+  }
 }
+
+getChatHistory()
 
 const convertMsg = (msg : MsgType) => {
   var userInfo = store.userInfo;

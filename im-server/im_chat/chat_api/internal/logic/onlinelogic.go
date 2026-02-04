@@ -149,7 +149,11 @@ func handleMessage(message []byte, messageType int, senderUid int, db *gorm.DB) 
 		if err := revUserWs.Conn.WriteMessage(websocket.TextMessage, byteData); err != nil {
 			fmt.Println("Write error:", err)
 			panic(err)
+		} else {
+			fmt.Printf("消息转发成功")
 		}
+	} else {
+		fmt.Printf("消息接收方用户不在线 %s", recvUid)
 	}
 }
 

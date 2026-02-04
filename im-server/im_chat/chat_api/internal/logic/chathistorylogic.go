@@ -84,11 +84,12 @@ func (l *ChatHistoryLogic) ChatHistory(req *types.ChatHistoryRequest) (resp *Cha
 		}
 
 		chatHistory := &ChatHistory{
-			ID:       item.ID,
-			UserID:   item.SenderUserId,
-			Avatar:   userInfo.Avator,
-			Nickname: userInfo.NickName,
-			//CreatedAt: item.CreatedAt.Format("2006-01-02 15:04:05"),
+			ID:        item.ID,
+			UserID:    item.SenderUserId,
+			Avatar:    userInfo.Avator,
+			Nickname:  userInfo.NickName,
+			Msg:       &item.Msg,
+			CreatedAt: item.CreatedAt.Format("2006-01-02 15:04:05"),
 		}
 
 		//if chatHistory.SendUser.ID == req.UserId {

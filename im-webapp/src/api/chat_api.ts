@@ -20,8 +20,14 @@ export interface ChatSessionRequest {
 export interface SessionUserInfo
 {
     user_id : number;
-    nickname? : string;
-    avatar? : string ;
+    nickname : string;
+    avatar : string ;
+    msg : Msg;
+}
+
+export interface Msg {
+    content:string
+    msg_type:number
 }
 
 export interface QueryChatHistoryResponse {
