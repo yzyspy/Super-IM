@@ -1,9 +1,14 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
-import {type QueryChatHistoryRequest, chatSessionListApi, type SessionUserInfo} from "@/api/chat_api";
+import {
+  type QueryChatHistoryRequest,
+  chatSessionListApi,
+  type SessionUserInfo,
+  type ChatSessionRequest
+} from "@/api/chat_api";
 import type {UserInfo} from "@/api/user_api";
 
-const req : QueryChatHistoryRequest = {
+const req : ChatSessionRequest = {
   page: 0,
   limit: 0,
   key: "1"

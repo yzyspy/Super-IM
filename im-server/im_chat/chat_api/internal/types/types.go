@@ -4,9 +4,10 @@
 package types
 
 type ChatHistoryRequest struct {
-	UserId uint `header:"uid"`
-	Page   int  `form:"page"`
-	Limit  int  `form:"limit"`
+	UserId   uint `header:"uid"`
+	Page     int  `form:"page"`
+	Limit    int  `form:"limit"`
+	FriendId uint `friend_id:"limit"`
 }
 
 type ChatHistoryResponse struct {
@@ -58,4 +59,3 @@ type Response struct {
 	Msg  string `json:"msg"`
 	Data string `json:"data"`
 }
-

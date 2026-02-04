@@ -57,6 +57,9 @@ func (l *ChatSessionLogic) ChatSession(req *types.ChatSessionRequest) (resp *Cha
 	userID := uint64(req.UserId)
 
 	// *“最近聊天列表”**查询逻辑。它的核心目的是将“我发给 A”和“A 发给我”的记录合并为同一条会话，并按最后一条消息的时间排序。
+	// 还需要展示两个人对话的最后一条消息的预览，这里的MAX(msg_preview)有问题，应该是最大的created_at的那个消息
+	// select msg from chat_models where ((sender_user_id = ? OR recv_user_id = ?) or (sender_user_id = ? OR recv_user_id = ?))
+	// order by created_at limit 1
 	subQuery := db.Table("chat_models").
 		Select("LEAST(sender_user_id, recv_user_id) AS least_uid, "+
 			"GREATEST(sender_user_id, recv_user_id) AS greatest_uid, "+

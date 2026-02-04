@@ -4,7 +4,7 @@ import {onActivated, onMounted, ref, watch} from "vue";
 import SvgIcon from "@/components/SvgIcon.vue";
 import {useUserInfoStore} from "@/stores";
 import Fim_msg from "@/components/fim_msg.vue";
-import type {Msg, MsgType, UserBaseType} from "@/api/chat_api";
+import {type Msg, type MsgType, queryChatHistory, type UserBaseType} from "@/api/chat_api";
 
 
 const props = defineProps({
@@ -89,6 +89,11 @@ function sendMsg() {
 }
 
 const msgList = ref<MsgType[]>( [])
+
+async function getChatHistory() {
+  let res = await queryChatHistory({page:1, limit:100, friend_id:parseInt(props.uid)});
+  console.log("getChatHistory " + res)
+}
 
 const convertMsg = (msg : MsgType) => {
   var userInfo = store.userInfo;
