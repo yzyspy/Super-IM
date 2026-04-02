@@ -44,6 +44,7 @@ func (l *FriendListLogic) FriendList(req *types.FriendListRequest) (resp *types.
 				Nickname: friend.RecvUserModel.Nickname,
 				Avatar:   friend.RecvUserModel.Avatar,
 				Abstract: friend.RecvUserModel.Abstract,
+				OnLine:   true,
 			}
 			list = append(list, item)
 		} else if friend.RecvUserId == currentUserID { // 如果当前用户是好友的结束者，则查询发送者的信息
@@ -52,6 +53,7 @@ func (l *FriendListLogic) FriendList(req *types.FriendListRequest) (resp *types.
 				Nickname: friend.SendUserModel.Nickname,
 				Avatar:   friend.SendUserModel.Avatar,
 				Abstract: friend.SendUserModel.Abstract,
+				OnLine:   true,
 			}
 			list = append(list, item)
 		}

@@ -88,6 +88,7 @@ type UserInfoData struct {
 	Role         int8   `json:"role"`
 	Abstract     string `json:"abstract"`
 	Verification int    `json:"verification"`
+	OnLine       bool   `json:"on_line"` // 是否在线
 }
 
 type UserInfoRequest struct {
